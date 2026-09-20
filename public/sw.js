@@ -1,0 +1,1 @@
+self.addEventListener("install",e=>e.waitUntil(caches.open("sm-v4-final").then(c=>c.addAll(["/","/index.html","/style.css","/app.js","/kundli.html","/dashboard.html"]))));self.addEventListener("fetch",e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
