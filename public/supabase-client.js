@@ -37,6 +37,12 @@ window.SM_SUPABASE = {
     const session=await this.getSession();
     return session?.access_token || null;
   },
+  async setRealtimeAuth(){
+    const s=await this.init();
+    const t=await this.getAccessToken();
+    if(s && t && s.realtime?.setAuth) await s.realtime.setAuth(t);
+    return s;
+  },
   async signOut(){
     try{const s=await this.init(); if(s) await s.auth.signOut()}catch(e){}
     try{localStorage.removeItem('studyMantraToken')}catch(e){}
