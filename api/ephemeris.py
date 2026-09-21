@@ -13,7 +13,7 @@ def calc(inp):
         xx,_=swe.calc_ut(jd,pid,flags); planets[name]={"longitude":norm(xx[0]),"latitude":float(xx[1]),"speed":float(xx[3])}
     xx,_=swe.calc_ut(jd,swe.MEAN_NODE,flags); planets["Rahu"]={"longitude":norm(xx[0]),"latitude":float(xx[1]),"speed":float(xx[3])}; planets["Ketu"]={"longitude":norm(xx[0]+180),"latitude":float(-xx[1]),"speed":float(xx[3])}
     cusps,ascmc=swe.houses_ex(jd,float(inp["latitude"]),float(inp["longitude"]),b"P",swe.FLG_SIDEREAL)
-    return {"julianDay":jd,"ayanamsa":float(swe.get_ayanamsa_ut(jd)),"nodeMode":"mean","planets":planets,"houses":{"ascendant":norm(ascmc[0]),"mc":norm(ascmc[1]),"cusps":[norm(x) for x in cusps]},"provider":"swiss-ephemeris","fallback":False}
+    return {"julianDay":jd,"ayanamsa":float(swe.get_ayanamsa_ut(jd)),"nodeMode":"mean","planets":planets,"houses":{"ascendant":norm(ascmc[0]),"mc":norm(ascmc[1]),"cusps":[norm(x) for x in (cusps[1:] if len(cusps) in (13,37) else cusps[:12])]},"provider":"swiss-ephemeris","fallback":False}
 class handler(BaseHTTPRequestHandler):
     def _send(self,status,data):
         raw=json.dumps(data,separators=(",",":" )).encode(); self.send_response(status); self.send_header("Content-Type","application/json"); self.send_header("Cache-Control","no-store"); self.end_headers(); self.wfile.write(raw)
@@ -23,5 +23,5 @@ class handler(BaseHTTPRequestHandler):
         try:
             n=int(self.headers.get("content-length","0")); inp=json.loads(self.rfile.read(n).decode() or "{}")
             return self._send(200,calc(inp))
-        except Exception as e:return self._send(500,{"error":str(e)})
+        except Exception as e:return self._send(500,{"error":str(e),"type":e.__class__.__name__})
     def do_GET(self): return self._send(405,{"error":"Method not allowed"})

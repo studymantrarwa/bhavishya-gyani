@@ -1,17 +1,4 @@
-<!doctype html><html lang="hi"><head>
-<script id="bg-auth-guard">
-(function(){
-  var token=null;
-  try{token=localStorage.getItem('bhavishyaGyaniToken')||localStorage.getItem('studyMantraToken')}catch(e){}
-  if(!token){location.replace('/?next='+encodeURIComponent(location.pathname+location.search));return;}
-  fetch('/api/me',{headers:{Authorization:'Bearer '+token},cache:'no-store'}).then(function(r){
-    if(!r.ok)throw new Error('unauthorized');
-  }).catch(function(){
-    try{localStorage.removeItem('bhavishyaGyaniToken');localStorage.removeItem('studyMantraToken')}catch(e){}
-    location.replace('/?next='+encodeURIComponent(location.pathname+location.search));
-  });
-})();
-</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bhavishya Gyani Kundli PDF</title><style>
+<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bhavishya Gyani Kundli PDF</title><style>
 body{font-family:Arial,"Noto Sans Devanagari",sans-serif;color:#111;background:#fff;margin:0}.wrap{max-width:900px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid #111;padding-bottom:12px}.btn{padding:10px 14px;border:1px solid #111;background:#fff;border-radius:8px}.card{border:1px solid #ccc;border-radius:10px;padding:14px;margin:14px 0;break-inside:avoid}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.item{padding:8px;border-bottom:1px solid #eee}.muted{color:#666;font-size:12px}.table{width:100%;border-collapse:collapse}.table th,.table td{border:1px solid #ccc;padding:6px;text-align:left;font-size:12px}.chart{width:min(520px,100%);margin:10px auto}.chart svg{width:100%;height:auto;border:1px solid #111}.note{font-size:11px;color:#666;line-height:1.5}@media print{.no-print{display:none!important}.wrap{padding:8px}body{font-size:11px}.card{margin:8px 0}}
 </style></head><body><div class="wrap"><div class="top"><div><h1 style="margin:0">Bhavishya Gyani</h1><div class="muted">Vedic Kundli Report • Swiss Ephemeris • Lahiri</div></div><button class="btn no-print" onclick="window.print()">🖨️ Save / Print PDF</button></div><div id="out">Loading…</div></div><script>
 const d=JSON.parse(localStorage.getItem('studyMantraLastKundli')||'null');const e=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

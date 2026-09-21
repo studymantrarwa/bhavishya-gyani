@@ -71,7 +71,7 @@ def main(inp):
         "ayanamsa":swe.get_ayanamsa_ut(jd),
         "nodeMode":"mean",
         "planets":planets,
-        "houses":{"ascendant":asc, "mc":norm(ascmc[1]), "cusps":[norm(x) for x in cusps]}
+        "houses":{"ascendant":asc, "mc":norm(ascmc[1]), "cusps":[norm(x) for x in (cusps[1:] if len(cusps) in (13,37) else cusps[:12])]}
     }
 
 for line in sys.stdin:
