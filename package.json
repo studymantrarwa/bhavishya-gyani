@@ -1,0 +1,18 @@
+{
+  "name": "bhavishya-gyani-astrology",
+  "version": "25.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/test-engine.js",
+    "vercel-build": "echo Vercel build skipped: static site plus Vercel Functions"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "devDependencies": {
+    "@vercel/node": "latest"
+  },
+  "dependencies": {
+    "@vercel/blob": "latest"
+  }
+}
