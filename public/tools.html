@@ -1,4 +1,17 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bhavishya Gyani Astrology Tools</title><link rel="stylesheet" href="/style.css"><style>
+<!doctype html><html lang="hi"><head>
+<script id="bg-auth-guard">
+(function(){
+  var token=null;
+  try{token=localStorage.getItem('bhavishyaGyaniToken')||localStorage.getItem('studyMantraToken')}catch(e){}
+  if(!token){location.replace('/?next='+encodeURIComponent(location.pathname+location.search));return;}
+  fetch('/api/me',{headers:{Authorization:'Bearer '+token},cache:'no-store'}).then(function(r){
+    if(!r.ok)throw new Error('unauthorized');
+  }).catch(function(){
+    try{localStorage.removeItem('bhavishyaGyaniToken');localStorage.removeItem('studyMantraToken')}catch(e){}
+    location.replace('/?next='+encodeURIComponent(location.pathname+location.search));
+  });
+})();
+</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bhavishya Gyani Astrology Tools</title><link rel="stylesheet" href="/style.css"><style>
 .num-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:14px}.num-box{padding:12px;border:1px solid #ddd;border-radius:12px;background:#fafafa}.num-box b{display:block;font-size:20px;margin-top:4px}.num-muted{color:#666;font-size:13px}.num-section{margin-top:14px}.num-table{width:100%;border-collapse:collapse}.num-table td,.num-table th{padding:9px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}.num-table th{font-weight:700}.num-actions{display:flex;gap:8px;flex-wrap:wrap}.num-actions input{flex:1;min-width:150px}.num-error{color:#b00020}.num-note{font-size:12px;color:#666;line-height:1.5}
 
 .p-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.p-actions button{grid-column:1/-1}.p-head{font-size:16px;font-weight:800;margin:14px 0 8px}.p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.p-box{border:1px solid #ddd;border-radius:12px;padding:10px;background:#fff}.p-box b{display:block;font-size:16px;margin-top:3px}.p-muted{font-size:12px;color:#666}.p-list{margin:6px 0;padding-left:20px}.p-table{width:100%;border-collapse:collapse}.p-table td,.p-table th{padding:8px;border-bottom:1px solid #ddd;text-align:left}.p-note{font-size:12px;color:#666;line-height:1.5;margin-top:12px}
@@ -26,7 +39,7 @@
 </div>
 <p class="num-note">मुहूर्त की वास्तविक तारीख/समय गणना को इसी section में अलग रखा जाएगा; दूसरे tools का output यहाँ नहीं दिखेगा।</p>
 </div>
-<div class="card tool-section" id="chat" data-section="chat"><h2>💬 Chat with Astrologer</h2><p>Live Chat, chat requests, messages and saved Kundli sharing are available in the dashboard.</p><a href="/dashboard.html">Open Dashboard</a></div>
+<div class="card tool-section" id="chat" data-section="chat"><h2>💬 Chat with Astrologer</h2><p>Live Chat, chat requests, messages and saved Kundli sharing are available in the dashboard.</p><a href="/">Open Dashboard</a></div>
 <script>
 const sectionMeta={
   numerology:{title:'अंक ज्योतिष — Numerology'},

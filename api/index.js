@@ -8,8 +8,8 @@ const handlers = {
   "astrologer/settings": require("../lib/api/astrologer-settings"),
   "astrologer/status": require("../lib/api/astrologer-settings"),
   "astrologer-panel": require("../lib/api/astrologer-panel"),
-  "astrologer-profile": require("../lib/api/astrologer-profile"),
   "astrologer-register": require("../lib/api/astrologer-register"),
+  "astrologer-profile": require("../lib/api/astrologer-profile"),
   "astrologer-requests": require("../lib/api/astrologer-requests"),
   "astrologer-users": require("../lib/api/astrologer-users"),
   "astrologers": require("../lib/api/astrologers"),
@@ -27,7 +27,11 @@ const handlers = {
   "places": require("../lib/api/places"),
   "profile": require("../lib/api/profile"),
   "register": require("../lib/api/register"),
-  "reviews": require("../lib/api/reviews")
+  "reviews": require("../lib/api/reviews"),
+  "referral": require("../lib/api/referral"),
+  "feedback": require("../lib/api/feedback"),
+  "follow": require("../lib/api/follow"),
+  "notifications": require("../lib/api/notifications")
 };
 
 module.exports = async (req, res) => {
