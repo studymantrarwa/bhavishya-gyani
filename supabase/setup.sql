@@ -427,3 +427,74 @@ drop policy if exists "app feedback own insert" on public.app_feedback;
 create policy "app feedback own insert" on public.app_feedback for insert with check(user_id=auth.uid());
 drop policy if exists "app feedback own read" on public.app_feedback;
 create policy "app feedback own read" on public.app_feedback for select using(user_id=auth.uid() or public.is_admin());
+
+
+-- V19 role-separated profiles and profile photos
+alter table public.astrologers add column if not exists avatar_url text;
+alter table public.astrologers add column if not exists last_seen timestamptz;
+
+create table if not exists public.user_profiles (
+  id uuid primary key references public.profiles(id) on delete cascade,
+  gender text default '',
+  language text default 'Hindi',
+  city text default '',
+  preferences jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.admin_profiles (
+  id uuid primary key references public.profiles(id) on delete cascade,
+  bio text default '',
+  department text default 'Administration',
+  updated_at timestamptz not null default now()
+);
+
+alter table public.user_profiles enable row level security;
+alter table public.admin_profiles enable row level security;
+
+drop policy if exists "user profile own" on public.user_profiles;
+create policy "user profile own" on public.user_profiles for all using (id=auth.uid() or public.is_admin()) with check (id=auth.uid() or public.is_admin());
+
+drop policy if exists "admin profile own" on public.admin_profiles;
+create policy "admin profile own" on public.admin_profiles for all using (id=auth.uid() or public.is_admin()) with check (id=auth.uid() or public.is_admin());
+
+insert into public.user_profiles(id)
+select id from public.profiles where role='user'
+on conflict(id) do nothing;
+
+insert into public.admin_profiles(id)
+select id from public.profiles where role='admin'
+on conflict(id) do nothing;
+
+insert into public.user_profiles(id)
+select id from public.profiles where role='user'
+on conflict(id) do nothing;
+
+-- Keep role-specific rows in sync for new accounts.
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path=public
+as $$
+declare
+ v_phone text := nullif(new.raw_user_meta_data->>'phone','');
+ v_type text := coalesce(new.raw_user_meta_data->>'account_type','user');
+begin
+ insert into public.profiles(id,full_name,email,phone)
+ values(new.id,coalesce(new.raw_user_meta_data->>'full_name',''),new.email,v_phone)
+ on conflict(id) do update set full_name=excluded.full_name,email=excluded.email,phone=coalesce(excluded.phone,public.profiles.phone),updated_at=now();
+ if v_type='astrologer' then
+   insert into public.astrologer_applications(user_id) values(new.id) on conflict(user_id) do nothing;
+ elsif v_type='admin' then
+   update public.profiles set role='admin',updated_at=now() where id=new.id;
+   insert into public.admin_profiles(id) values(new.id) on conflict(id) do nothing;
+ else
+   insert into public.user_profiles(id) values(new.id) on conflict(id) do nothing;
+ end if;
+ return new;
+end;
+$$;
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();
+
+create index if not exists idx_user_profiles_id on public.user_profiles(id);
+create index if not exists idx_admin_profiles_id on public.admin_profiles(id);
+

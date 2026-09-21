@@ -25,6 +25,7 @@ const handlers = {
   "panchang": require("../lib/api/panchang"),
   "places": require("../lib/api/places"),
   "profile": require("../lib/api/profile"),
+  "role-profile": require("../lib/api/role-profile"),
   "register": require("../lib/api/register"),
   "reviews": require("../lib/api/reviews"),
   "referral": require("../lib/api/referral"),
