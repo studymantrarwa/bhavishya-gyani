@@ -13,13 +13,13 @@ window.SM_SUPABASE = {
       });
       this.client.auth.onAuthStateChange((event,session)=>{
         try{
-          if(session?.access_token) localStorage.setItem('studyMantraToken',session.access_token);
-          else if(event==='SIGNED_OUT') localStorage.removeItem('studyMantraToken');
+          if(session?.access_token) localStorage.setItem('bhavishyaGyaniToken',session.access_token);localStorage.setItem('studyMantraToken',session.access_token);
+          else if(event==='SIGNED_OUT') localStorage.removeItem('bhavishyaGyaniToken');localStorage.removeItem('studyMantraToken');
         }catch(e){}
       });
       try{
         const {data}=await this.client.auth.getSession();
-        if(data?.session?.access_token) localStorage.setItem('studyMantraToken',data.session.access_token);
+        if(data?.session?.access_token) localStorage.setItem('bhavishyaGyaniToken',data.session.access_token);localStorage.setItem('studyMantraToken',data.session.access_token);
       }catch(e){}
       return this.client;
     })();
@@ -30,22 +30,16 @@ window.SM_SUPABASE = {
     if(!s) return null;
     const {data,error}=await s.auth.getSession();
     if(error) throw error;
-    if(data?.session?.access_token) localStorage.setItem('studyMantraToken',data.session.access_token);
+    if(data?.session?.access_token) localStorage.setItem('bhavishyaGyaniToken',data.session.access_token);localStorage.setItem('studyMantraToken',data.session.access_token);
     return data?.session||null;
   },
   async getAccessToken(){
     const session=await this.getSession();
     return session?.access_token || null;
   },
-  async setRealtimeAuth(){
-    const s=await this.init();
-    const t=await this.getAccessToken();
-    if(s && t && s.realtime?.setAuth) await s.realtime.setAuth(t);
-    return s;
-  },
   async signOut(){
     try{const s=await this.init(); if(s) await s.auth.signOut()}catch(e){}
-    try{localStorage.removeItem('studyMantraToken')}catch(e){}
+    try{localStorage.removeItem('bhavishyaGyaniToken');localStorage.removeItem('studyMantraToken')}catch(e){}
   }
 };
 // Start session restoration immediately so pages never use an expired access token on first load.

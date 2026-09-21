@@ -11,5 +11,10 @@
   },
   "devDependencies": {
     "@vercel/node": "latest"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.1",
+    "@socket.io/redis-adapter": "^8.3.0",
+    "redis": "^5.0.0"
   }
 }
