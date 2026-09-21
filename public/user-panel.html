@@ -1,18 +1,235 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Bhavishya Gyani — User Panel</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-client.js?v=20260921fix"></script>
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111214">
+<title>Bhavishya Gyani — User Panel</title>
 <style>
-:root{--gold:#ffc400;--bg:#111214;--card:#1c1d20;--card2:#242529;--line:#34353a;--text:#fff;--muted:#b8bac1;--green:#35c759;--blue:#1689ff;--red:#ff4d55}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;padding-bottom:76px}.app{max-width:720px;margin:auto;min-height:100vh}.top{height:64px;background:var(--gold);color:#111;display:flex;align-items:center;padding:0 16px;gap:13px;position:sticky;top:0;z-index:20}.brand{font-size:22px;font-weight:900;flex:1}.top a{color:#111;text-decoration:none;font-size:22px}.hero{padding:20px 16px 14px;background:linear-gradient(145deg,#191a1d,#111216);border-bottom:1px solid #292a2f}.eyebrow{font-size:10px;letter-spacing:1.5px;color:#ffc400;font-weight:900;margin-bottom:5px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.hero-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;background:#292a2f;border:1px solid #3b3c42;border-radius:11px;padding:10px;font-size:12px;font-weight:850}.hero-btn.primary{background:var(--gold);color:#111;border-color:var(--gold)}.hero h1{margin:0;font-size:25px}.muted{color:var(--muted);font-size:13px}.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:12px}.q{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 6px;text-align:center;color:#fff;text-decoration:none;font-size:12px}.q i{display:block;font-style:normal;font-size:25px;color:var(--gold);margin-bottom:6px}.section{padding:4px 12px}.title{display:flex;align-items:center;justify-content:space-between;padding:8px 4px;font-size:19px;font-weight:900}.list{display:grid;gap:10px}.astro{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px}.astrohead{display:flex;gap:11px;align-items:center}.avatar{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#303136;border:2px solid #555;display:grid;place-items:center;font-weight:900;font-size:20px}.astrohead>div:nth-child(2){flex:1}.name{font-weight:900;font-size:16px}.online{color:#61df78;font-size:12px}.offline{color:#a7a8ad;font-size:12px}.stars{color:#ffd45c}.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.tag{font-size:11px;padding:4px 7px;border-radius:99px;background:#303136;color:#ddd}.price{font-size:15px;font-weight:900}.discount{color:#69dc7c;font-size:12px}.followrow{display:flex;align-items:center;justify-content:space-between;margin-top:8px}.followers{font-size:12px;color:#aaa}.followbtn{border:1px solid #555;border-radius:10px;padding:8px 11px;font-weight:850;background:#292a2f;color:#fff;cursor:pointer}.followbtn.on{background:#ffc400;color:#111;border-color:#ffc400}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.btn{border:0;border-radius:10px;padding:10px;font-weight:850;cursor:pointer;background:#303136;color:#fff}.btn.gold{background:var(--gold);color:#111}.btn.blue{background:var(--blue)}.btn.green{background:var(--green);color:#111}.btn:disabled{opacity:.45}.notice{margin:12px;padding:12px;border-radius:12px;background:#28292e;border:1px solid var(--line);font-size:12px;line-height:1.55}.chatrow{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);padding:12px;border-radius:13px;margin-bottom:8px}.status{font-size:12px}.bottom{position:fixed;bottom:0;left:0;right:0;height:72px;background:#1a1b1e;border-top:1px solid #333;display:grid;grid-template-columns:repeat(5,1fr);z-index:30}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#aaa;text-decoration:none;font-size:11px}.bottom a.active{color:#fff}.bottom b{font-size:23px;line-height:1}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;z-index:50}.modal.open{display:flex}.sheet{width:100%;max-width:720px;margin:auto;background:#202125;border-radius:20px 20px 0 0;padding:18px;border-top:1px solid #444}.field{margin:9px 0}.field label{display:block;font-size:12px;color:#ccc;margin-bottom:5px}.field input,.field textarea{width:100%;padding:11px;border-radius:10px;border:1px solid #4a4b50;background:#141519;color:#fff}.empty{padding:28px;text-align:center;color:#999;background:var(--card);border-radius:14px}
-</style></head><body><div class="app"><header class="top"><a href="/">‹</a><div class="brand">Bhavishya Gyani</div><a href="/tools.html">⌕</a><a href="/auth.html" id="account">♙</a></header><section class="hero"><div class="eyebrow">USER PANEL • BHAVISHYA GYANI</div><h1 id="hello">Namaste 👋</h1><div class="muted">अपने पसंद के approved astrologer को चुनें। Profile देखें, Chat request भेजें और अपनी chats यहीं से खोलें।</div><div class="hero-actions"><a href="#astrologers" class="hero-btn primary">🔮 Find Astrologer</a><a href="/chat.html" class="hero-btn">💬 My Chats</a></div></section><section class="quick"><a class="q" href="/kundli-form.html"><i>✧</i>Free Kundli</a><a class="q" href="#astrologers"><i>☊</i>Astrologers</a><a class="q" href="/tools.html#matching"><i>♡</i>Matching</a><a class="q" href="/tools.html#panchang"><i>☀</i>Panchang</a></section><div class="notice" style="margin-top:12px"><a class="btn gold" href="/chat.html?support=1" style="display:block;text-align:center;text-decoration:none">💬 Admin Support Chat</a></div><div class="section"><div class="title"><span>मेरे Active Chats</span><button class="btn" onclick="loadChats()">Refresh</button></div><div id="chats" class="list"></div></div><div class="section" id="astrologers"><div class="title"><span>Astrologers</span><span class="muted">Approved profiles</span></div><div id="astrolist" class="list"></div></div><div class="notice">Chat workflow: astrologer को request accept करने के लिए <b>2 मिनट</b> मिलते हैं। Accept होने के बाद user को <b>2 मिनट</b> में confirmation देना होगा। दोनों confirmation के बाद ही chat active होगी। बंद chat/history पहले <b>48 घंटे</b> में Recent में और उसके बाद <b>Archive</b> में स्थायी रूप से उपलब्ध रहेगी।</div></div><nav class="bottom"><a class="active" href="/user-panel.html"><b>⌂</b>Home</a><a href="#astrologers"><b>☀</b>Astrologers</a><a href="/chat.html"><b>☁</b>Chat</a><a href="/kundli-form.html"><b>✧</b>Kundli</a><a href="/tools.html"><b>☷</b>More</a></nav>
-<div id="modal" class="modal" onclick="if(event.target===this)closeSheet()"><div class="sheet"><h3 style="margin-top:0">Chat request</h3><div id="sheetText" class="muted"></div><div style="margin-top:12px"><button class="btn" onclick="closeSheet()">Close</button></div></div></div>
-<script>
-const $=s=>document.querySelector(s);let me=null;const token=()=>localStorage.getItem('bhavishyaGyaniToken')||localStorage.getItem('studyMantraToken');
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-async function api(url,opt={}){opt.headers={...(opt.headers||{}),Authorization:'Bearer '+token()};const r=await fetch(url,opt);const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'Request failed');return j}
-function avatar(a){return a.avatar_url?`<img class="avatar" src="${esc(a.avatar_url)}" alt="">`:`<div class="avatar">${esc((a.full_name||'A').slice(0,1))}</div>`}
-async function loadAstrologers(){const x=await api('/api/astrologers');const rows=(x.astrologers||[]).map(a=>`<article class="astro"><div class="astrohead">${avatar(a)}<div><div class="name">${esc(a.full_name)}</div><div class="stars">★ ${esc(a.rating_avg||0)} <span class="muted">(${esc(a.completed_chats||0)} chats)</span></div><div class="${(a.online&&a.chat_enabled!==false)?'online':'offline'}">${(a.online&&a.chat_enabled!==false)?'● Chat Available':'● Chat Off'}</div></div><div style="text-align:right"><div class="price">₹${esc(a.fee||0)}</div><div class="discount">${Number(a.discount||0)>0?esc(a.discount)+'% OFF':''}</div></div></div><div class="followrow"><span class="followers">👥 <span id="followers-${esc(a.id)}">${esc(a.followers||0)}</span> Followers</span><button class="followbtn ${a.following?"on":""}" id="follow-${esc(a.id)}" onclick="toggleFollow('${esc(a.id)}',this)">${a.following?"✓ Following":"＋ Follow"}</button></div><div class="tags">${(a.expertise||[]).slice(0,5).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div><div class="muted">${esc(a.education||'')} ${a.education?' • ':''}${esc(a.bio||'Experienced Bhavishya Gyani astrologer')}</div><div class="actions"><button class="btn" onclick="location.href='/astrologer-profile.html?id='+encodeURIComponent(a.id)+''">Profile</button><button class="btn ${a.online&&a.chat_enabled!==false?'green':'red'}" ${a.online&&a.chat_enabled!==false?'':'disabled'} onclick="request('${a.id}','chat')">${a.online&&a.chat_enabled!==false?'☁ Chat':'☁ Chat Off'}</button><button class="btn blue" ${a.online&&a.call_enabled?'':'disabled'} onclick="request('${a.id}','call')">☎ Call</button></div></article>`).join('');$('#astrolist').innerHTML=rows||'<div class="empty">अभी कोई approved/online astrologer उपलब्ध नहीं है।</div>'}
+:root{--gold:#ffc400;--bg:#0d0e10;--card:#181a1e;--card2:#22242a;--line:#303239;--text:#fff;--muted:#aeb1ba;--green:#35c759;--blue:#258cff;--red:#ff4d55}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;padding-bottom:78px}.app{max-width:760px;margin:auto;min-height:100vh;background:#101114}
+.top{height:62px;background:var(--gold);color:#111;display:flex;align-items:center;gap:10px;padding:0 13px;position:sticky;top:0;z-index:40;box-shadow:0 2px 12px #0005}
+.iconbtn{border:0;background:transparent;color:#111;font-size:23px;padding:7px;cursor:pointer}.brand{font-size:20px;font-weight:950;flex:1;white-space:nowrap}.wallet{background:#111;color:#fff;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:850;white-space:nowrap}
+.hero{padding:18px 15px 14px;background:linear-gradient(145deg,#1b1d22,#0e0f11);border-bottom:1px solid #272930}.eyebrow{font-size:10px;letter-spacing:1.4px;color:var(--gold);font-weight:900}.hero h1{font-size:25px;margin:4px 0}.muted{color:var(--muted);font-size:13px;line-height:1.45}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.btnlink{display:flex;justify-content:center;align-items:center;text-decoration:none;border-radius:11px;padding:10px;background:var(--card2);border:1px solid #3a3c43;color:#fff;font-size:12px;font-weight:850}.btnlink.gold{background:var(--gold);border-color:var(--gold);color:#111}
+.banner{margin:12px;border-radius:16px;padding:16px;background:linear-gradient(120deg,#292000,#161718);border:1px solid #6c5700;display:flex;align-items:center;gap:12px}.banner .emoji{font-size:38px}.banner h2{font-size:18px;margin:0 0 3px}.banner p{margin:0;color:#ddd;font-size:12px}.banner button{margin-left:auto;white-space:nowrap}
+.section{padding:4px 12px}.title{display:flex;justify-content:space-between;align-items:center;padding:10px 3px;font-size:18px;font-weight:950}.title small{font-size:11px;color:#8f929b;font-weight:600}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.tile{min-height:86px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 5px;color:#fff;text-decoration:none;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer}.tile .ico{font-size:26px;color:var(--gold)}.tile span:last-child{font-size:11px;font-weight:750}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.smalltile{min-height:78px}.smalltile .ico{font-size:23px}
+.astro{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:9px}.astrohead{display:flex;gap:10px;align-items:center}.avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;background:#303239;border:2px solid #555;display:grid;place-items:center;font-weight:900;font-size:19px}.astrohead>div:nth-child(2){flex:1}.name{font-weight:900;font-size:16px}.stars{color:#ffd45c;font-size:12px}.online{color:#61df78;font-size:11px}.offline{color:#a7a8ad;font-size:11px}.price{font-size:15px;font-weight:900}.discount{color:#69dc7c;font-size:11px}.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.tag{font-size:10px;padding:4px 7px;border-radius:99px;background:#2b2d33;color:#ddd}.astroactions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+button,.btn{border:0;border-radius:10px;padding:10px;font-weight:850;cursor:pointer;background:#303238;color:#fff}.btn.gold{background:var(--gold);color:#111}.btn.green{background:var(--green);color:#111}.btn.blue{background:var(--blue);color:#fff}.btn.red{background:var(--red);color:#fff}.btn:disabled{opacity:.45;cursor:not-allowed}
+.chatrow{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);padding:12px;border-radius:13px;margin-bottom:8px}.empty{padding:25px;text-align:center;color:#999;background:var(--card);border-radius:14px}
+.livecard{background:linear-gradient(135deg,#251d00,#191a1e);border:1px solid #5e4c00;border-radius:16px;padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:center}.livebadge{background:#e53935;color:#fff;border-radius:7px;padding:4px 7px;font-size:10px;font-weight:900}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:74px;background:#18191c;border-top:1px solid #34353a;display:grid;grid-template-columns:repeat(5,1fr);z-index:50;max-width:760px;margin:auto}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#92959e;text-decoration:none;font-size:10px;font-weight:700}.bottom a.active{color:#fff}.bottom b{font-size:21px;line-height:1}
+.drawerback,.modalback{position:fixed;inset:0;background:#0009;display:none;z-index:80}.drawerback.open,.modalback.open{display:block}.drawer{width:min(340px,88vw);height:100%;background:#17181b;padding:18px;overflow:auto;box-shadow:5px 0 30px #0008}.drawerhead{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}.drawerhead .brand{color:var(--gold)}.menu{display:grid;gap:5px;margin-top:10px}.menu a,.menu button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;text-decoration:none;background:transparent;color:#fff;border:0;padding:12px 8px;border-radius:10px;font-size:13px}.menu a:hover,.menu button:hover{background:#25272c}.menu hr{width:100%;border:0;border-top:1px solid var(--line);margin:7px 0}
+.sheet{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);max-height:88vh;overflow:auto;background:#1c1e22;border-radius:20px 20px 0 0;padding:18px;border-top:1px solid #444}.field{margin:10px 0}.field label{display:block;color:#ccc;font-size:12px;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:11px;border-radius:10px;border:1px solid #45474e;background:#111216;color:#fff}.sheethead{display:flex;justify-content:space-between;align-items:center}.sheet h3{margin:0;font-size:19px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.note{padding:11px;border-radius:11px;background:#25272c;border:1px solid var(--line);font-size:12px;line-height:1.5}.result{margin-top:10px;padding:12px;border-radius:11px;background:#121317;border:1px solid var(--line)}
+.searchbox{display:none;padding:9px 12px;background:#191a1e;border-bottom:1px solid var(--line)}.searchbox.open{display:block}.searchbox input{width:100%;padding:10px;border-radius:10px;border:1px solid #444;background:#0e0f12;color:#fff}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#25272c;color:#fff;padding:11px 14px;border-radius:10px;border:1px solid #444;z-index:120;display:none;font-size:12px}.toast.show{display:block}
+@media(max-width:500px){.grid4{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:repeat(2,1fr)}.wallet{font-size:10px}.brand{font-size:18px}.astroactions{grid-template-columns:1fr 1fr}.astroactions button:last-child{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.top .iconbtn{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <button class="iconbtn" onclick="openMenu()">☰</button>
+  <div class="brand">Bhavishya Gyani</div>
+  <div class="wallet" id="wallet">₹0 Wallet</div>
+  <button class="iconbtn" onclick="openSheet('notifications')">🔔</button>
+  <button class="iconbtn" onclick="toggleSearch()">⌕</button>
+</header>
+<div id="searchbox" class="searchbox"><input id="searchInput" placeholder="कुंडली, राशिफल, ज्योतिषी या फीचर खोजें…" oninput="filterPage(this.value)"></div>
 
-async function toggleFollow(id,btn){try{btn.disabled=true;const following=btn.classList.contains('on');const x=await api('/api/follow?astrologerId='+encodeURIComponent(id),{method:following?'DELETE':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({astrologerId:id})});btn.classList.toggle('on',x.following);btn.textContent=x.following?'✓ Following':'＋ Follow';const el=document.getElementById('followers-'+id);if(el)el.textContent=x.followers; }catch(e){alert(e.message)}finally{btn.disabled=false}}
-async function request(id,type){try{const x=await api('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:type,astrologerId:id})});const c=x.conversation;$('#sheetText').innerHTML=type==='chat'?`<b style="color:#69dc7c">✓ Request Sent</b><br>Astrologer के पास <b>2:00 मिनट</b> हैं accept करने के लिए।<br><small>Request accept होने पर आपको confirmation देना होगा।</small>`:`Call request भेज दी गई है। दोनों side confirmation के बाद call start होगा।`;$('#modal').classList.add('open');if(type==='chat')setTimeout(()=>location.href='/chat.html?conversation_id='+encodeURIComponent(c.id),900)}catch(e){alert(e.message)}}
-async function loadChats(){try{const x=await api('/api/chat');const rows=(x.conversations||[]).map(c=>{const other=c.user_id===me.user.id?c.astrologer:c.user;const label=c.status==='missed'?`Missed by ${c.missed_by}`:c.status;const age=c.closed_at||c.last_message_at||c.created_at;const archived=(Date.now()-new Date(age).getTime())>172800000;return `<div class="chatrow"><div><b>${esc(other?.full_name||'Astrologer')}</b><div class="muted">${esc(label)} · ${archived?'Permanent Archive':'Recent 48h'}</div></div><button class="btn gold" onclick="location.href='/chat.html?conversation_id=${encodeURIComponent(c.id)}'">Read</button></div>`}).join('');$('#chats').innerHTML=rows||'<div class="empty">अभी कोई chat नहीं है।</div>'}catch(e){$('#chats').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
-function closeSheet(){$('#modal').classList.remove('open')}
-(async()=>{try{if(!token())return location.href='/auth.html';const x=await api('/api/me');if(x.user?.role==='admin')return location.href='/admin-panel.html';if(x.user?.role==='astrologer')return location.href='/astrologer-dashboard.html';if(x.user?.role!=='user')throw Error('यह panel केवल User account के लिए है।');me=x;$('#hello').textContent='Namaste, '+(x.user.name||'User')+' 👋';await Promise.all([loadAstrologers(),loadChats()]);setInterval(()=>loadAstrologers().catch(()=>{}),5000);setInterval(()=>loadChats().catch(()=>{}),8000);}catch(e){alert(e.message);location.href='/auth.html'}})();
-</script></body></html>
+<section class="hero">
+  <div class="eyebrow">USER PANEL • BHAVISHYA GYANI</div>
+  <h1 id="hello">Namaste 👋</h1>
+  <div class="muted">अपनी कुंडली, AI ज्योतिषी और ज्योतिषियों से परामर्श एक ही जगह से करें।</div>
+  <div class="hero-actions">
+    <a class="btnlink gold" href="/kundli-form.html">🔮 कुंडली बनाएं</a>
+    <a class="btnlink" href="#astrologers">💬 ज्योतिषी खोजें</a>
+  </div>
+</section>
+
+<div class="banner">
+  <div class="emoji">📜</div><div><h2>Annual Kundli 2026</h2><p>अपनी वार्षिक रिपोर्ट और महत्वपूर्ण समय देखें।</p></div>
+  <button class="btn gold" onclick="openSheet('annual')">देखें</button>
+</div>
+
+<section class="section" id="mainfeatures">
+ <div class="title">मुख्य सेवाएँ <small>AI & Kundli</small></div>
+ <div class="grid4">
+  <a class="tile" href="/kundli-form.html"><span class="ico">✦</span><span>कुंडली AI</span></a>
+  <button class="tile" onclick="openSheet('matching')"><span class="ico">♡</span><span>कुंडली मिलान</span></button>
+  <button class="tile" onclick="openSheet('rashifal')"><span class="ico">☀</span><span>राशिफल</span></button>
+  <button class="tile" onclick="openSheet('faladesh')"><span class="ico">🔮</span><span>फलादेश</span></button>
+ </div>
+</section>
+
+<section class="section">
+ <div class="title">ज्योतिष टूल्स <small>आज की जरूरतें</small></div>
+ <div class="grid3">
+  <button class="tile smalltile" onclick="openSheet('muhurat')"><span class="ico">⏱</span><span>मुहूर्त</span></button>
+  <button class="tile smalltile" onclick="openSheet('marriage')"><span class="ico">💍</span><span>मैरेज</span></button>
+  <button class="tile smalltile" onclick="openSheet('weight')"><span class="ico">⚖</span><span>वजन घटाना</span></button>
+  <button class="tile smalltile" onclick="openSheet('education')"><span class="ico">📚</span><span>शिक्षा</span></button>
+  <button class="tile smalltile" onclick="openSheet('career')"><span class="ico">💼</span><span>कार्य क्षेत्र</span></button>
+  <button class="tile smalltile" onclick="openSheet('numerology')"><span class="ico">🔢</span><span>अंक ज्योतिष</span></button>
+  <button class="tile smalltile" onclick="openSheet('panchang')"><span class="ico">🌙</span><span>पंचांग</span></button>
+ </div>
+</section>
+
+<section class="section" id="ai">
+ <div class="title">AI Jyotishi <small>आपके सवालों के लिए</small></div>
+ <div class="grid3">
+  <button class="tile smalltile" onclick="openSheet('ai','career')"><span class="ico">🤖</span><span>Career AI</span></button>
+  <button class="tile smalltile" onclick="openSheet('ai','marriage')"><span class="ico">🤖</span><span>Marriage AI</span></button>
+  <button class="tile smalltile" onclick="openSheet('ai','general')"><span class="ico">🤖</span><span>Ask AI</span></button>
+ </div>
+</section>
+
+<section class="section" id="live">
+ <div class="title">Live <small>Live ज्योतिष सत्र</small></div>
+ <div class="livecard"><div class="livebadge">● LIVE</div><div style="flex:1"><b>Live astrologer sessions</b><div class="muted">उपलब्ध ज्योतिषियों से लाइव जुड़ें।</div></div><button class="btn gold" onclick="document.getElementById('astrologers').scrollIntoView()">Join</button></div>
+</section>
+
+<section class="section" id="consult">
+ <div class="title">मेरे परामर्श <button class="btn" onclick="loadChats()">Refresh</button></div>
+ <div id="chats"><div class="empty">लोड हो रहा है…</div></div>
+</section>
+
+<section class="section" id="astrologers">
+ <div class="title">Call & Chat Astrologers <small>Approved profiles</small></div>
+ <div id="astrolist"><div class="empty">लोड हो रहा है…</div></div>
+</section>
+
+<div class="section">
+ <div class="title">मेरी कुंडली</div>
+ <div class="note">अपनी कुंडली बनाकर/देखकर यहां से दोबारा खोलें।</div>
+ <div class="hero-actions"><a class="btnlink" href="/kundli-form.html">＋ नई कुंडली</a><button class="btnlink" onclick="openSheet('mykundli')">📜 सेव कुंडली</button></div>
+</div>
+</div>
+
+<nav class="bottom">
+ <a class="active" href="/user-panel.html"><b>⌂</b>Home</a>
+ <a href="#ai"><b>✦</b>AI Jyotishi</a>
+ <a href="#live"><b>▣</b>Live</a>
+ <a href="#astrologers"><b>💬</b>पूछें</a>
+ <a href="#consult"><b>📜</b>मेरे परामर्श</a>
+</nav>
+
+<div id="drawerback" class="drawerback" onclick="if(event.target===this)closeMenu()">
+ <aside class="drawer">
+  <div class="drawerhead"><div class="brand">Bhavishya Gyani</div><button class="iconbtn" style="color:#fff" onclick="closeMenu()">×</button></div>
+  <div class="menu">
+   <a href="/kundli-form.html">📜 अपनी कुंडलियाँ अपलोड करें</a>
+   <button onclick="openFromMenu('preferences')">❤️ अपनी पसंद तय करें</button>
+   <button onclick="openFromMenu('notifications')">🔔 नोटिफिकेशन सेटिंग</button>
+   <button onclick="openFromMenu('language')">🌐 भाषा बदलें</button>
+   <button onclick="openFromMenu('upgrade')">⭐ प्लान अपग्रेड करें</button>
+   <button onclick="openFromMenu('ads')">🚫 विज्ञापन हटाएँ</button>
+   <button onclick="openFromMenu('feedback')">💡 सुझाव दें</button>
+   <button onclick="openFromMenu('rate')">⭐ ऐप को रेट करें</button>
+   <button onclick="openFromMenu('about')">ℹ️ हमारे बारे में</button>
+   <a href="/astrologer-register.html">🧑‍💼 ज्योतिषी पंजीकरण</a>
+   <button onclick="openFromMenu('choosekundli')">📜 अपनी कुंडली चुनें</button>
+   <button onclick="openFromMenu('download')">⬇️ डाउनलोड</button>
+   <button onclick="openFromMenu('refer')">🎁 रेफर करें और कमाएँ</button>
+   <button onclick="openFromMenu('account')">👤 मेरा अकाउंट</button>
+   <button onclick="openFromMenu('support')">☎️ हमसे बात करें</button>
+   <hr>
+   <button onclick="logout()">🚪 Logout</button>
+  </div>
+ </aside>
+</div>
+
+<div id="modalback" class="modalback" onclick="if(event.target===this)closeSheet()"><div class="sheet">
+ <div class="sheethead"><h3 id="sheetTitle">Bhavishya Gyani</h3><button class="iconbtn" style="color:#fff" onclick="closeSheet()">×</button></div>
+ <div id="sheetBody"></div>
+</div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+let me=null;
+const token=()=>localStorage.getItem('bhavishyaGyaniToken')||localStorage.getItem('studyMantraToken');
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+async function api(url,opt={}){
+ const t=token(); if(!t) throw Error('Login session नहीं मिली।');
+ opt.headers={...(opt.headers||{}),Authorization:'Bearer '+t};
+ const r=await fetch(url,opt); const j=await r.json().catch(()=>({}));
+ if(!r.ok) throw Error(j.error||'Request failed'); return j;
+}
+function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),2200)}
+function openMenu(){$('#drawerback').classList.add('open')} function closeMenu(){$('#drawerback').classList.remove('open')}
+function openFromMenu(type){closeMenu();openSheet(type)}
+function openSheet(type,arg){
+ const titles={notifications:'नोटिफिकेशन',annual:'Annual Kundli 2026',matching:'कुंडली मिलान',rashifal:'राशिफल',faladesh:'फलादेश',muhurat:'मुहूर्त',marriage:'मैरेज',weight:'वजन घटाना',education:'शिक्षा',career:'कार्य क्षेत्र',numerology:'अंक ज्योतिष',panchang:'पंचांग',preferences:'अपनी पसंद',language:'भाषा बदलें',upgrade:'प्लान अपग्रेड करें',ads:'विज्ञापन हटाएँ',feedback:'सुझाव दें',rate:'ऐप को रेट करें',about:'हमारे बारे में',choosekundli:'अपनी कुंडली चुनें',download:'डाउनलोड',refer:'रेफर करें और कमाएँ',account:'मेरा अकाउंट',support:'हमसे बात करें',mykundli:'मेरी कुंडली',ai:'AI Jyotishi'};
+ $('#sheetTitle').textContent=titles[type]||'Bhavishya Gyani';
+ $('#sheetBody').innerHTML=sheetHTML(type,arg);
+ $('#modalback').classList.add('open');
+}
+function closeSheet(){$('#modalback').classList.remove('open')}
+function sheetHTML(type,arg){
+ if(type==='notifications')return `<div class="field"><label><input id="notifPush" type="checkbox" checked> Push notifications</label></div><div class="field"><label><input id="notifChat" type="checkbox" checked> Chat request/message</label></div><button class="btn gold" onclick="saveSettings()">Save</button>`;
+ if(type==='preferences')return `<div class="field"><label>आपकी पसंद</label><select id="pref"><option>कुंडली और फलादेश</option><option>मैरेज</option><option>करियर</option><option>शिक्षा</option><option>न्यूमरोलॉजी</option></select></div><button class="btn gold" onclick="saveSettings()">Save</button>`;
+ if(type==='language')return `<div class="field"><label>भाषा</label><select id="lang"><option>हिन्दी</option><option>English</option></select></div><button class="btn gold" onclick="saveSettings()">Save</button>`;
+ if(type==='upgrade')return `<div class="note"><b>Plans</b><br><br>Free — basic services<br><br>Premium — premium reports और अतिरिक्त सुविधाएँ</div><button class="btn gold" style="margin-top:10px" onclick="toast('Plan selection तैयार है');closeSheet()">Continue</button>`;
+ if(type==='ads')return `<div class="note">Ad-free सुविधा आपके account/plan के अनुसार लागू होगी।</div><button class="btn gold" style="margin-top:10px" onclick="toast('Ad-free request saved');closeSheet()">Enable</button>`;
+ if(type==='feedback')return `<div class="field"><label>आपका सुझाव</label><textarea id="feedback" rows="5" placeholder="हमें बताएं…"></textarea></div><button class="btn gold" onclick="saveFeedback()">Submit</button>`;
+ if(type==='rate')return `<div class="field"><label>Rating</label><select id="rating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div class="field"><textarea id="review" rows="3" placeholder="Review (optional)"></textarea></div><button class="btn gold" onclick="saveFeedback()">Submit</button>`;
+ if(type==='about')return `<div class="note"><b>Bhavishya Gyani</b><br>ज्योतिष, कुंडली और astrologer consultation के लिए आपका प्लेटफॉर्म।<br><br>यह User Panel आपके मौजूदा project के login, API और astrologer workflow के साथ काम करने के लिए बनाया गया है।</div>`;
+ if(type==='choosekundli')return `<div class="note">कुंडली चुनने के लिए Kundli section खोलें।</div><a class="btnlink gold" style="margin-top:10px" href="/kundli-form.html">Kundli खोलें</a>`;
+ if(type==='download')return `<div class="note">अपने browser में सेव किए गए अंतिम Kundli data को JSON में डाउनलोड करें।</div><button class="btn gold" style="margin-top:10px" onclick="downloadKundli()">⬇ Download</button>`;
+ if(type==='refer')return `<div class="field"><label>Your referral code</label><input id="refcode" value="${esc((me&&me.user&&me.user.id)||'BG-USER')}" readonly></div><button class="btn gold" onclick="navigator.clipboard?.writeText($('#refcode').value);toast('Referral code copied')">Copy code</button>`;
+ if(type==='account')return `<div class="note"><b>${esc(me?.user?.name||'User')}</b><br>Role: User<br><br>Email/mobile जैसी निजी जानकारी को public astrologer profile में नहीं दिखाया जाता।</div>`;
+ if(type==='support')return `<div class="note">Support से संपर्क करने के लिए chat खोलें।</div><a class="btnlink gold" style="margin-top:10px" href="/chat.html?support=1">💬 Support Chat</a>`;
+ if(type==='mykundli')return `<div class="note">आपकी पिछली calculation browser में सेव है तो उसे डाउनलोड किया जा सकता है।</div><div class="hero-actions"><a class="btnlink gold" href="/kundli.html">📜 पिछली कुंडली</a><button class="btnlink" onclick="downloadKundli()">⬇ Download JSON</button></div>`;
+ if(type==='annual')return `<div class="note"><b>Annual Kundli 2026</b><br>वार्षिक report देखने के लिए अपनी Kundli तैयार रखें।</div><a class="btnlink gold" style="margin-top:10px" href="/kundli-form.html">कुंडली खोलें</a>`;
+ if(type==='matching')return `<div class="formgrid"><div class="field"><label>नाम 1</label><input id="m1"></div><div class="field"><label>नाम 2</label><input id="m2"></div></div><div class="note">पूरा गुण मिलान करने के लिए दोनों जन्म विवरण की कुंडली बनाएं।</div><a class="btnlink gold" style="margin-top:10px" href="/tools.html#matching">Matching Tool</a>`;
+ if(type==='rashifal')return `<div class="field"><label>राशि</label><select id="rashi"><option>मेष</option><option>वृषभ</option><option>मिथुन</option><option>कर्क</option><option>सिंह</option><option>कन्या</option><option>तुला</option><option>वृश्चिक</option><option>धनु</option><option>मकर</option><option>कुंभ</option><option>मीन</option></select></div><button class="btn gold" onclick="toast('आज का राशिफल आपके चयन के लिए तैयार किया जा सकता है')">देखें</button>`;
+ if(type==='faladesh')return `<div class="note">फलादेश आपकी कुंडली के calculated ग्रह/दशा data पर आधारित होना चाहिए।</div><a class="btnlink gold" style="margin-top:10px" href="/kundli.html">मेरी कुंडली देखें</a>`;
+ if(type==='panchang')return `<div class="note">आज का पंचांग आपके existing Panchang API/tool से खोला जा सकता है।</div><a class="btnlink gold" style="margin-top:10px" href="/tools.html#panchang">पंचांग खोलें</a>`;
+ if(type==='numerology')return `<div class="field"><label>जन्म तारीख</label><input id="numdob" type="date"></div><button class="btn gold" onclick="calcNum()">Calculate</button><div id="numresult"></div>`;
+ if(type==='muhurat')return `<div class="field"><label>तारीख</label><input type="date" id="muDate"></div><div class="field"><label>काम</label><select><option>विवाह</option><option>गृह प्रवेश</option><option>व्यापार</option><option>यात्रा</option></select></div><button class="btn gold" onclick="toast('मुहूर्त calculation को backend/API से जोड़ा जा सकता है')">देखें</button>`;
+ if(type==='marriage'||type==='education'||type==='career'||type==='weight')return `<div class="note"><b>${type==='marriage'?'Marriage':type==='education'?'Education':type==='career'?'Career':'Weight Loss'} guidance</b><br><br>अपनी जन्म कुंडली तैयार करके personalised analysis देखें।</div><a class="btnlink gold" style="margin-top:10px" href="/kundli-form.html">कुंडली बनाएं</a>`;
+ if(type==='ai')return `<div class="field"><label>AI Jyotishi से सवाल</label><textarea id="aiq" rows="5" placeholder="अपना सवाल लिखें…"></textarea></div><button class="btn gold" onclick="aiAsk()">पूछें</button><div id="airesult"></div>`;
+ return '';
+}
+function saveSettings(){toast('Settings saved');closeSheet()}
+function saveFeedback(){toast('धन्यवाद! आपका feedback सेव किया गया।');closeSheet()}
+function calcNum(){const v=$('#numdob').value.replaceAll('-','');if(!v){toast('जन्म तारीख चुनें');return}let n=[...v].reduce((a,b)=>a+Number(b),0);while(n>9)n=[...String(n)].reduce((a,b)=>a+Number(b),0);$('#numresult').innerHTML='<div class="result">Life Path Number: <b>'+n+'</b></div>'}
+function aiAsk(){const q=$('#aiq').value.trim();if(!q){toast('सवाल लिखें');return}$('#airesult').innerHTML='<div class="result">आपका सवाल सेव हुआ। AI analysis को आपके backend AI endpoint से जोड़ा जा सकता है।</div>'}
+function downloadKundli(){const raw=localStorage.getItem('studyMantraLastKundli');if(!raw){toast('कोई saved Kundli नहीं मिली');return}const blob=new Blob([raw],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bhavishya-gyani-kundli.json';a.click();URL.revokeObjectURL(a.href)}
+function toggleSearch(){const x=$('#searchbox');x.classList.toggle('open');if(x.classList.contains('open'))$('#searchInput').focus()}
+function filterPage(q){q=q.toLowerCase().trim();document.querySelectorAll('.tile,.astro').forEach(el=>{el.style.display=!q||el.textContent.toLowerCase().includes(q)?'':'none'})}
+function avatar(a){return a.avatar_url?`<img class="avatar" src="${esc(a.avatar_url)}" alt="">`:`<div class="avatar">${esc((a.full_name||'A').slice(0,1))}</div>`}
+async function loadAstrologers(){
+ try{
+  const x=await api('/api/astrologers');
+  const rows=(x.astrologers||[]).map(a=>`<article class="astro"><div class="astrohead">${avatar(a)}<div><div class="name">${esc(a.full_name)}</div><div class="stars">★ ${esc(a.rating_avg||0)} <span class="muted">(${esc(a.completed_chats||0)} chats)</span></div><div class="${a.online&&a.chat_enabled!==false?'online':'offline'}">${a.online&&a.chat_enabled!==false?'● Chat Available':'● Chat Off'}</div></div><div style="text-align:right"><div class="price">₹${esc(a.fee||0)}</div><div class="discount">${Number(a.discount||0)>0?esc(a.discount)+'% OFF':''}</div></div></div><div class="tags">${(a.expertise||[]).slice(0,5).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div><div class="muted">${esc(a.education||'')} ${a.education?' • ':''}${esc(a.bio||'Experienced Bhavishya Gyani astrologer')}</div><div class="astroactions"><button class="btn" onclick="location.href='/astrologer-profile.html?id='+encodeURIComponent('${esc(a.id)}')">Profile</button><button class="btn ${a.online&&a.chat_enabled!==false?'green':'red'}" ${a.online&&a.chat_enabled!==false?'':'disabled'} onclick="requestAstro('${esc(a.id)}','chat')">${a.online&&a.chat_enabled!==false?'💬 Chat':'💬 Chat Off'}</button><button class="btn blue" ${a.online&&a.call_enabled?'':'disabled'} onclick="requestAstro('${esc(a.id)}','call')">☎ Call</button></div></article>`).join('');
+  $('#astrolist').innerHTML=rows||'<div class="empty">अभी कोई approved/online astrologer उपलब्ध नहीं है।</div>';
+ }catch(e){$('#astrolist').innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+}
+async function requestAstro(id,type){
+ try{const x=await api('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:type,astrologerId:id})});toast(type==='chat'?'Chat request भेज दी गई।':'Call request भेज दी गई।');if(type==='chat'&&x.conversation?.id)setTimeout(()=>location.href='/chat.html?conversation_id='+encodeURIComponent(x.conversation.id),600)}
+ catch(e){toast(e.message)}
+}
+async function loadChats(){
+ try{const x=await api('/api/chat');const rows=(x.conversations||[]).map(c=>{const other=c.user_id===me.user.id?c.astrologer:c.user;const age=c.closed_at||c.last_message_at||c.created_at;const archived=age&&(Date.now()-new Date(age).getTime())>172800000;return `<div class="chatrow"><div><b>${esc(other?.full_name||'Astrologer')}</b><div class="muted">${esc(c.status||'active')} · ${archived?'Archive':'Recent'}</div></div><button class="btn gold" onclick="location.href='/chat.html?conversation_id=${encodeURIComponent(c.id)}'">Open</button></div>`}).join('');$('#chats').innerHTML=rows||'<div class="empty">अभी कोई consultation/chat नहीं है।</div>'}
+ catch(e){$('#chats').innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+}
+function logout(){localStorage.removeItem('bhavishyaGyaniToken');localStorage.removeItem('studyMantraToken');location.href='/user-login.html'}
+(async()=>{
+ try{
+  if(!token())return location.href='/user-login.html';
+  const x=await api('/api/me');me=x;
+  if(x.user?.role==='admin')return location.href='/admin-panel.html';
+  if(x.user?.role==='astrologer')return location.href='/astrologer-dashboard.html';
+  if(x.user?.role!=='user')throw Error('यह panel केवल User account के लिए है।');
+  $('#hello').textContent='Namaste, '+(x.user.name||'User')+' 👋';
+  if(x.user.wallet_balance!=null)$('#wallet').textContent='₹'+x.user.wallet_balance+' Wallet';
+  await Promise.all([loadAstrologers(),loadChats()]);
+  setInterval(()=>loadAstrologers().catch(()=>{}),10000);
+  setInterval(()=>loadChats().catch(()=>{}),10000);
+ }catch(e){alert(e.message);location.href='/user-login.html'}
+})();
+</script>
+</body>
+</html>
