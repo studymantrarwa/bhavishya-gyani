@@ -4,6 +4,8 @@ const handlers = {
   "admin-register": require("../lib/api/admin-register"),
   "admin-astrologer": require("../lib/api/admin-astrologer"),
   "astrologer-settings": require("../lib/api/astrologer-settings"),
+  "astrologer/settings": require("../lib/api/astrologer-settings"),
+  "astrologer/status": require("../lib/api/astrologer-settings"),
   "astrologer-panel": require("../lib/api/astrologer-panel"),
   "astrologer-profile": require("../lib/api/astrologer-profile"),
   "astrologer-requests": require("../lib/api/astrologer-requests"),

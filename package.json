@@ -1,6 +1,6 @@
 {
-  "name": "study-mantra-astrology-v9",
-  "version": "9.0.1",
+  "name": "bhavishya-gyani-astrology",
+  "version": "10.0.0",
   "private": true,
   "scripts": {
     "start": "node server.js",
