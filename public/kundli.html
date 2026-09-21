@@ -34,6 +34,9 @@ button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
 </div>
 <div class="card"><h2>Planetary positions</h2><div class="scroll"><table class="table"><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Degree (Rashi)</th><th>Nakshatra</th><th>Pada</th><th>R</th></tr></thead><tbody id="planets"></tbody></table></div></div>
 <div class="card"><h2>Vimshottari Dasha</h2><div id="dasha"></div></div>
+<div class="card"><h2>Gochar / Transit</h2><div id="transit"></div></div>
+<div class="grid"><div class="card"><h2>साढ़ेसाती</h2><div id="sadeSati"></div></div><div class="card"><h2>अष्टकवर्ग</h2><div id="ashtakavarga"></div></div></div>
+<div class="card no-print"><button onclick="location.href='/pdf-kundli.html'">🖨️ Kundli PDF / Print Report</button></div>
 <div class="grid"><div class="card"><h2>Shubh Yog</h2><div id="yogas"></div></div><div class="card"><h2>Ashubh Yog / Dosha</h2><div id="doshas"></div></div></div>
 </div>
 <script>
@@ -214,4 +217,5 @@ function renderMD(x){
   return `<details class="dasha-md"><summary><span>MD: ${esc(x.lord||"—")}</span><span class="dasha-dates">${esc(x.start||"—")} → ${esc(x.end||"—")}</span></summary><div class="dasha-body">${ads.length?ads.map(a=>renderAD(a,x.lord)).join(""):`<div class="dasha-empty">इस महादशा के लिए अंतर्दशा उपलब्ध नहीं है।</div>`}</div></details>`;
 }
 document.getElementById("dasha").innerHTML=`<div class="dasha-tree"><p class="dasha-help">किसी <b>महादशा</b> पर टैप करें → उसकी <b>अंतर्दशा</b> खुलेगी। फिर किसी <b>अंतर्दशा</b> पर टैप करें → उसकी <b>प्रत्यंतर दशाएं</b> दिखाई देंगी।</p>${m.map(renderMD).join("")}</div>`;
+function renderAdvanced(){const a=data.advanced||{};const t=a.transits||{};document.getElementById("transit").innerHTML=`<div class="grid">${Object.entries(t).filter(([k])=>k!=="sadeSati").map(([k,v])=>`<div class="badge"><b>${esc(k)}</b><br>${esc(v.signName)} · ${Number(v.longitude||0).toFixed(2)}° ${v.retrograde?'· वक्री':''}</div>`).join("")}</div><p class="note">Transit date: ${esc(a.date||new Date().toISOString().slice(0,10))}. गोचर के लिए वही sidereal/Lahiri Swiss Ephemeris provider उपयोग हुआ है।</p>`;const ss=a.sadeSati||{};document.getElementById("sadeSati").innerHTML=`<b>${ss.active?'साढ़ेसाती सक्रिय — '+esc(ss.phase):'वर्तमान Saturn transit के अनुसार साढ़ेसाती सक्रिय नहीं है।'}</b><p class="note">जन्म चंद्र राशि: ${esc(ss.natalMoonSign)} · वर्तमान शनि राशि: ${esc(ss.saturnSign)}<br>4th से ढैय्या: ${ss.dhaiya?.from4th?'हाँ':'नहीं'} · 8th से ढैय्या: ${ss.dhaiya?.from8th?'हाँ':'नहीं'}</p>`;const av=a.ashtakavarga||{};const rows=(av.sarva||[]).map((v,i)=>`<tr><td>${i+1}</td><td>${esc(data.charts?.D1?.[i]?.signName||'')}</td><td>${v}</td></tr>`).join('');document.getElementById("ashtakavarga").innerHTML=`<div class="scroll"><table class="table"><tr><th>राशि</th><th>Sign</th><th>SAV</th></tr>${rows}</table></div><p class="note">कुल SAV: ${esc(av.total)} / 337. Bhinnashtakavarga में Sun 48, Moon 49, Mars 39, Mercury 54, Jupiter 56, Venus 52, Saturn 39 के classical fixed totals की जाँच की जाती है।</p>`}renderAdvanced();
 </script></body></html>

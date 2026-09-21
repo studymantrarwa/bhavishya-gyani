@@ -30,11 +30,20 @@ function swId(key){return key==='online'?'onlineSw':key==='call_enabled'?'callSw
 async function toggle(key){
   const old=!!a[key];a[key]=!old;sw(swId(key),a[key]);
   try{
+    if(key==='online'){
+      const x=await api('/api/astrologer-settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({online:a[key]})});
+      a={...a,...(x.astrologer||{}),online:a[key]}; if(a.online) startHeartbeat(); else stopHeartbeat(); status(a.online?'आप ONLINE हैं — requests receive होंगी।':'आप OFFLINE हैं।',true,true); return;
+    }
     const sb=await window.SM_SUPABASE.init();
     if(sb){const patch={[key]:a[key]};const r=await sb.from('astrologers').update(patch).eq('id',me.user.id).select('*').maybeSingle();if(r.error)throw r.error;if(r.data)a=r.data;status('Profile settings saved.',true,true);return}
     await api('/api/astrologer-profile',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({[key]:a[key]})});
-  }catch(e){a[key]=old;sw(swId(key),old);status('Setting save नहीं हुआ: '+e.message)}
+  }catch(e){a[key]=old;sw(swId(key),old);if(key==='online'&&!old)stopHeartbeat();status('Setting save नहीं हुआ: '+e.message)}
 }
+let heartbeatTimer=null;
+function stopHeartbeat(){if(heartbeatTimer){clearInterval(heartbeatTimer);heartbeatTimer=null}}
+function startHeartbeat(){stopHeartbeat();heartbeat();heartbeatTimer=setInterval(heartbeat,20000)}
+async function heartbeat(){if(!a?.online)return;try{const x=await api('/api/astrologer-settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'heartbeat'})});if(x?.last_seen)a.last_seen=x.last_seen}catch(e){}}
+
 async function loadProfile(){
   // Render the panel first. Profile data must never block the whole dashboard.
   const n=me.user.name||'Astrologer';
@@ -59,7 +68,7 @@ async function loadProfile(){
     }
     if(data){a={...a,...data};
       $('#avatar').innerHTML=a.avatar_url?`<img class="avatar" src="${esc(a.avatar_url)}" alt="">`:`<div class="avatar">${esc(n.slice(0,1))}</div>`;
-      sw('onlineSw',a.online);sw('callSw',a.call_enabled);sw('chatSw',a.chat_enabled!==false);sw('videoSw',a.video_enabled);sw('boostSw',a.boosted);
+      sw('onlineSw',a.online);sw('callSw',a.call_enabled);sw('chatSw',a.chat_enabled!==false);sw('videoSw',a.video_enabled);sw('boostSw',a.boosted);if(a.online)startHeartbeat();else stopHeartbeat();
       $('#rating').textContent=a.rating_avg||0;$('#followers').textContent=a.followers||0;fillProfile();status('Astrologer profile loaded.',true,true);
     }else status('Profile data नहीं मिली, लेकिन panel चालू है। My Profile में details भरकर Save करें।');
   }catch(e){status('Profile server अभी उपलब्ध नहीं है, इसलिए panel default settings के साथ खुला है। '+e.message)}
