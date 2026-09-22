@@ -1,0 +1,11 @@
+V44 — GLOBAL ASTROLOGER CHAT REQUEST ALERT
+
+- Added public/astrologer-global-chat.js.
+- When an astrologer is logged in, pending chat requests are monitored on every page.
+- Shows global Accept/Reject popup with 2-minute timer.
+- Shows a persistent in-page bell while a request is pending.
+- Uses browser notification when permission is available and a sound alert when allowed.
+- Accept immediately opens the existing chat conversation.
+- Reject updates the existing request and removes the popup.
+- Does not modify the database schema or reset Supabase.
+- Existing user/admin systems are left unchanged.
