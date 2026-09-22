@@ -1,0 +1,48 @@
+BHAVISHYA GYANI V34 — FULL READY KUNDLI PRODUCTION FIX
+
+IMPORTANT:
+V34 fixes the production Kundli error shown as:
+"Swiss Ephemeris unavailable in production: [object Object]"
+
+The V30 Kundli path used a Node → internal HTTP → Python Swiss Ephemeris round-trip. V34 removes that production dependency and runs Swiss Ephemeris directly in the Node.js Vercel function using @swisseph/node.
+
+1) GitHub: replace the old project files with ALL files from this ZIP.
+2) Supabase: DO NOT rerun supabase/setup.sql for this V34 code-only fix. Keep the existing database/data.
+3) Vercel Environment Variables remain:
+   SUPABASE_URL = your Supabase project URL
+   SUPABASE_SERVICE_ROLE_KEY = your Supabase service-role key
+   BLOB_READ_WRITE_TOKEN = your Vercel Blob read-write token
+   APP_AUTH_SECRET = your long random secret
+4) EPHEMERIS_SECRET is no longer required for the production Kundli calculation. It can remain in Vercel unused.
+5) Redeploy Vercel after replacing the project.
+6) Node.js remains 22.x. Swiss Ephemeris is now loaded through @swisseph/node with bundled ephemeris data.
+7) Passwords remain stored only as salted hashes.
+8) User / Astrologer / Admin account systems remain independent.
+
+V34 KUNDLI FIX:
+- Removed production Python Swiss Ephemeris route.
+- Removed internal Node → /api/ephemeris HTTP dependency.
+- Added @swisseph/node 1.3.1.
+- Lahiri sidereal mode retained.
+- Mean Rahu / Ketu retained.
+- Placidus houses retained and converted to Lahiri sidereal.
+- Existing D1, D9, Nakshatra, Vimshottari Dasha and astrology engine remain in place.
+- Improved production error serialization so an actual error message is shown instead of [object Object].
+
+V34 CHAT FIX PRESERVED:
+- Astrologer can Accept/Reject chat requests.
+- User confirmation is required after astrologer acceptance before messages are enabled.
+
+
+V34 fixes: astrologer chat opening/role guard, persistent login until manual logout, safer session validation, and browser back/page-by-page navigation. Do not rerun Supabase setup.sql for this code-only update.
+
+
+V34 CHAT SECURITY/REALTIME:
+- User <-> Astrologer chat uses Supabase Realtime Broadcast with an opaque server-derived room topic.
+- Messages remain persisted in public.messages through the existing server API.
+- Admin can monitor/read chat but cannot send messages.
+- New chat messages are server-side checked for phone numbers, email, URLs, social/contact handles, UPI/payment contact details and contact keywords.
+- No Supabase setup.sql rerun is required for this code update.
+- SUPABASE_URL, SUPABASE_ANON_KEY and SUPABASE_SERVICE_ROLE_KEY must remain configured in Vercel.
+
+V34 chat room behavior: one persistent chat conversation is reused for each User + Astrologer pair; later requests reopen the same room and preserve its message history.
