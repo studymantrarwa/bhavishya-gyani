@@ -21,15 +21,20 @@ function addMessage(m){
   if(document.querySelector('[data-kshare="'+CSS.escape(String(m.id))+'"]'))return;
   const lines=body.split('\n'),vals={};
   lines.slice(1).forEach(x=>{const i=x.indexOf(':');if(i>0)vals[x.slice(0,i).trim()]=x.slice(i+1).trim()});
-  const kid=m.kundali_id||vals.kundali_id||'';
+  const kid=String(m.kundali_id||vals.kundali_id||'');
+  const href='/shared-kundli.html?conversation_id='+encodeURIComponent(current.id)+'&kundali_id='+encodeURIComponent(kid);
   const d=document.createElement('div');d.className='bubble '+(m.sender_id===me.id?'mine':'');d.dataset.kshare=m.id;
-  d.innerHTML='<b>📜 Kundli Shared</b><div style="margin-top:6px;font-size:12px">'+esc(vals.name||'Kundli')+'<br>'+esc(vals.dob||'—')+' · '+esc(vals.birth_time||'—')+'<br>'+esc(vals.place||'—')+'</div><button style="margin-top:8px;border:0;border-radius:8px;padding:7px 10px;background:#ffc400;color:#111;font-weight:900" onclick="location.href=\'/shared-kundli.html?conversation_id='+encodeURIComponent(current.id)+'&kundali_id='+encodeURIComponent(kid)+'\'">📖 Kundli खोलें</button><div class="meta">'+fmt(m.created_at)+'</div>';
+  d.innerHTML='<b>📜 Kundli Shared</b><div style="margin-top:6px;font-size:12px">'+esc(vals.name||'Kundli')+'<br>'+esc(vals.dob||'—')+' · '+esc(vals.birth_time||'—')+'<br>'+esc(vals.place||'—')+'</div><button class="open-shared-kundli" type="button" style="margin-top:8px;border:0;border-radius:8px;padding:7px 10px;background:#ffc400;color:#111;font-weight:900">📖 Kundli खोलें</button><div class="meta">'+fmt(m.created_at)+'</div>';
+  const openBtn=d.querySelector('.open-shared-kundli');openBtn.onclick=()=>{location.href=href};
   $('#messages').appendChild(d);$('#messages').scrollTop=$('#messages').scrollHeight;return;
  }
  if(body.startsWith('__BG_CHAT_INTAKE__')){
   if(document.querySelector('[data-intake="'+CSS.escape(String(m.id))+'"]'))return;
   const lines=body.split('\n'),vals={};lines.slice(1).forEach(x=>{const i=x.indexOf(':');if(i>0)vals[x.slice(0,i).trim()]=x.slice(i+1).trim()});
-  const d=document.createElement('div');d.className='bubble';d.dataset.intake=m.id;d.innerHTML='<b>📜 Kundli / Birth Details</b><div style="margin-top:6px;font-size:12px">नाम: '+esc(vals['नाम']||'—')+'<br>जन्म तारीख: '+esc(vals['जन्म तारीख']||'—')+'<br>जन्म समय: '+esc(vals['जन्म समय']||'—')+'<br>जन्म स्थान: '+esc(vals['जन्म स्थान']||'—')+'</div><button style="margin-top:8px;border:0;border-radius:8px;padding:7px 9px;background:#ffc400;font-weight:900" onclick="location.href=\'/shared-kundli.html?conversation_id='+encodeURIComponent(current.id)+'&kundali_id='+encodeURIComponent(kid)+'\'">📜 Open Kundli</button>';
+  const kid=String(m.kundali_id||vals.kundali_id||'');
+  const href='/shared-kundli.html?conversation_id='+encodeURIComponent(current.id)+'&kundali_id='+encodeURIComponent(kid);
+  const d=document.createElement('div');d.className='bubble';d.dataset.intake=m.id;d.innerHTML='<b>📜 Kundli / Birth Details</b><div style="margin-top:6px;font-size:12px">नाम: '+esc(vals['नाम']||'—')+'<br>जन्म तारीख: '+esc(vals['जन्म तारीख']||'—')+'<br>जन्म समय: '+esc(vals['जन्म समय']||'—')+'<br>जन्म स्थान: '+esc(vals['जन्म स्थान']||'—')+'</div><button class="open-intake-kundli" type="button" style="margin-top:8px;border:0;border-radius:8px;padding:7px 9px;background:#ffc400;font-weight:900">📜 Open Kundli</button>';
+  d.querySelector('.open-intake-kundli').onclick=()=>{location.href=href};
   $('#messages').appendChild(d);$('#messages').scrollTop=$('#messages').scrollHeight;return;
  }
  if(document.querySelector('[data-message="'+CSS.escape(String(m.id))+'"]'))return;
