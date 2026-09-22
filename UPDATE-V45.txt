@@ -1,0 +1,21 @@
+V45 — Chat pre-start birth-details intake + instant astrologer alert
+
+Apply on top of V44. Do not run supabase/setup.sql.
+
+Changed:
+- public/chat.html
+  - User Chat start now requires birth details before request.
+  - User can select an existing saved Kundli or enter Name, DOB, birth time and birth place.
+  - New birth details are saved as a Kundli before the chat request is created.
+- lib/api/chat.js
+  - Validates the selected Kundli belongs to the logged-in user.
+  - Saves a pre-chat birth-details record linked to the conversation.
+  - Returns pre-chat details to authorized participants before chat acceptance.
+- public/astrologer-global-chat.js
+  - Global request popup now shows birth details before Accept/Reject.
+  - Shows Open Kundli before chat starts.
+  - Accept/Reject popup hides immediately when tapped; it reappears only if the server action fails.
+- lib/api/shared-kundli.js
+  - Authorized astrologer can open the selected Kundli while the request is pending or accepted.
+
+No database reset or setup SQL is required.
