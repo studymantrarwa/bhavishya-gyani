@@ -1,0 +1,19 @@
+Bhavishya Gyani V52 — FAST REALTIME CHAT PATCH
+
+Apply this patch on top of V51/current project.
+
+Changes:
+- Optimistic message rendering: message appears immediately without waiting for database POST.
+- Supabase Realtime Broadcast carries messages instantly between user and astrologer.
+- Delivery acknowledgement: sender gets ✓✓ when recipient receives the live broadcast.
+- Read acknowledgement: blue ✓✓ after recipient marks the message read.
+- Typing indicator uses realtime broadcast on input.
+- Database POST continues in the background with the normal server/database timing.
+- Client-generated UUID prevents duplicate messages when realtime + database INSERT both arrive.
+- Realtime is primary transport. If realtime disconnects, a 200ms fallback resync runs only while the chat is open and disconnected.
+- Removed the old 5-second conversation polling from the chat page.
+
+Important:
+- 0.2 milliseconds is not physically achievable over a network/browser. This patch uses realtime broadcast for immediate delivery and 200ms only as a disconnected fallback; it does not hammer the database every 0.2ms.
+- No database schema change is required.
+- Do NOT run supabase/setup.sql.
