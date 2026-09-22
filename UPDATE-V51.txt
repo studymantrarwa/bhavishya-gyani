@@ -1,0 +1,10 @@
+V51 Direct Chat Request
+
+- User taps an astrologer's Chat button -> request is sent directly.
+- Birth-details / Saved Kundli intake screen is bypassed for normal Chat-button requests.
+- Backend no longer requires kundaliId for a normal chat request.
+- If another flow explicitly sends a kundaliId, it is still validated and can be linked.
+- Existing accept/reject, user-confirm, realtime chat, end-chat and history systems are preserved.
+
+Apply on top of the current FULL FIXED project that includes V50.
+Do NOT run supabase/setup.sql.
