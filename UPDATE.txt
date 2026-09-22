@@ -1,22 +1,19 @@
-Bhavishya Gyani V37 — Astrologer Chat List Order Fix
+Bhavishya Gyani V38 — User Dashboard Astrologers Relationship Fix
 
 Problem fixed:
-The Astrologer Panel was showing:
-"failed to parse order (coalesce(last_message_at,created_at).desc)"
+Could not find a relationship between 'astrologers' and 'profiles' in the schema cache.
 
 Cause:
-Supabase PostgREST does not accept coalesce(...) inside the order parameter.
+The User Dashboard astrologer API was trying to use a PostgREST relationship join:
+profiles!astrologers_id_fkey
+The current project stores astrologer profile fields directly in public.astrologers,
+so this relationship is not required and may not exist in Supabase's schema cache.
 
-This patch changes only:
-lib/api/chat.js
+Changed file:
+lib/api/astrologers.js
 
-It uses supported last_message_at / created_at ordering with a safe fallback.
+The patch now reads approved/unblocked astrologers directly from public.astrologers.
+It does NOT change the database schema and does NOT reset/delete any data.
 
-Apply:
-1. Keep your current Bhavishya Gyani project.
-2. Replace only lib/api/chat.js with the file from this ZIP.
-3. Deploy to Vercel again.
-4. Do NOT run supabase/setup.sql.
-5. No database reset is required.
-
-This is a code-only patch; existing login, Kundli, chats, accounts and data are preserved.
+Apply this patch on top of the current Bhavishya Gyani project.
+Do NOT run supabase/setup.sql for this code-only fix.
