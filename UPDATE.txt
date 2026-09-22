@@ -1,16 +1,22 @@
-Bhavishya Gyani V34 PATCH — Follow + Followers
+Bhavishya Gyani V36 PATCH — Chat Request Countdown + Start Gate
 
-Replace/add ONLY these files in the existing project:
-- public/astrologer-profile.html
-- public/index.html
-- lib/api/follow.js
+Apply this patch ON TOP OF V35.
 
-What this patch does:
-- Adds Follow / Following button to the public Astrologer Profile.
-- Shows live follower count on the profile.
-- Shows follower count on Astrologer cards on the home page.
-- Keeps the existing Astrologer Dashboard follower statistic.
-- Makes follower count safer by recounting actual follow rows after follow/unfollow.
+Changed files:
+- public/chat.html
+- public/astrologer-dashboard.html
 
-Do NOT run supabase/setup.sql for this patch.
-Do NOT delete the existing project.
+Behavior:
+1. User taps Chat: stays on chat.html and sees 2-minute countdown.
+2. Until astrologer accepts, messages are hidden and composer is disabled.
+3. Astrologer accepts: astrologer is taken directly to chat.html and waits for user confirmation.
+4. User sees Start Chat button after astrologer acceptance.
+5. User taps Start Chat: conversation becomes accepted.
+6. Only after accepted do messages/history/realtime messaging become visible and enabled.
+7. Astrologer receives the accepted state automatically and can chat immediately.
+8. Existing server-side messages.js already rejects message POST unless conversation status is accepted.
+9. Pending-state polling is 1 second so acceptance/confirmation appears quickly.
+10. Existing persistent room, realtime chat, ticks, contact filtering, login/session and Kundli systems are not intentionally changed.
+
+Do NOT run supabase/setup.sql.
+Do NOT delete/replace the whole project.
