@@ -1,0 +1,16 @@
+Bhavishya Gyani V34 PATCH — Follow + Followers
+
+Replace/add ONLY these files in the existing project:
+- public/astrologer-profile.html
+- public/index.html
+- lib/api/follow.js
+
+What this patch does:
+- Adds Follow / Following button to the public Astrologer Profile.
+- Shows live follower count on the profile.
+- Shows follower count on Astrologer cards on the home page.
+- Keeps the existing Astrologer Dashboard follower statistic.
+- Makes follower count safer by recounting actual follow rows after follow/unfollow.
+
+Do NOT run supabase/setup.sql for this patch.
+Do NOT delete the existing project.
