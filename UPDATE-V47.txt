@@ -1,0 +1,20 @@
+Bhavishya Gyani V46 — User Permanent Chat History Patch
+
+Apply this patch on top of the currently deployed Bhavishya Gyani project.
+
+Changes:
+1. When a user/astrologer ends a live chat, the conversation is marked closed but its retention_until is cleared, so the user-side history is not treated as a 48-hour-only record.
+2. User can continue opening the closed conversation from Chat > Chat History.
+3. All stored messages of a closed conversation remain viewable.
+4. Chat page label changed from Closed to Chat History and clearly says the ended chat history remains available.
+5. User home panel shows up to 8 recent chat records instead of 5; the Chat page remains the place to access the complete history.
+
+No Supabase setup/reset SQL is included. DO NOT run setup.sql for this patch.
+
+Files changed:
+- lib/api/chat.js
+- public/chat.html
+- public/index.html
+
+
+V47 hotfix: Supabase/PostgREST does not accept coalesce(...) in order=. Replaced it with last_message_at.desc.nullslast,created_at.desc to remove the parse-order error. No DB reset/setup SQL required.
