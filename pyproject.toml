@@ -1,0 +1,8 @@
+[project]
+name = "bhavishya-gyani-astrology"
+version = "25.0.0"
+description = "Bhavishya Gyani astrology web application"
+requires-python = "~=3.12.0"
+dependencies = [
+  "pysweph==2.10.3.6"
+]
