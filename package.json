@@ -1,6 +1,6 @@
 {
   "name": "bhavishya-gyani-astrology",
-  "version": "25.0.0",
+  "version": "29.0.0",
   "private": true,
   "scripts": {
     "test": "node scripts/test-engine.js",

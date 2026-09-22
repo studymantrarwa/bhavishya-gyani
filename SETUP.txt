@@ -13,3 +13,6 @@ BHAVISHYA GYANI V25 — FRESH INSTALL
 6) Admin registration code starts at 1234 and can be changed in public.system_settings.
 7) Passwords are stored only as salted hashes. The database never stores readable passwords.
 8) The same email/mobile can be used once in each account type: User + Astrologer + Admin.
+
+
+V29 CHAT FIX: Replaced invalid PostgREST coalesce() ordering with supported nullslast field ordering plus a created_at fallback. No Supabase SQL change required.
