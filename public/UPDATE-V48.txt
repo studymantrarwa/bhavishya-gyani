@@ -1,0 +1,19 @@
+Bhavishya Gyani V48 — USER CHAT SECTION / SESSION REDIRECT FIX
+
+Apply this patch on top of the current project (V47 or later).
+
+FIXED:
+- User Panel bottom "Chat" button no longer uses the old legacy localStorage token guard.
+- /chat.html now uses the current bgToken_user session through public/supabase-client.js.
+- Tapping User Panel -> Chat opens the chat section instead of redirecting to the login page.
+- All conversations returned by /api/chat are shown in the Chat page's All tab.
+- Chat History tab continues to show closed chats and their saved messages.
+- If a chat API request fails, the page now shows the error inside Chat instead of blindly redirecting to the login page.
+- Existing Active / Requests / Chat History tabs are preserved.
+- No database reset or setup.sql is required.
+
+CHANGED FILE:
+- public/chat.html
+
+IMPORTANT:
+Do NOT run supabase/setup.sql for this patch.
