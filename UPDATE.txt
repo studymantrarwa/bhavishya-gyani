@@ -1,22 +1,22 @@
-Bhavishya Gyani V36 PATCH — Chat Request Countdown + Start Gate
+Bhavishya Gyani V37 — Astrologer Chat List Order Fix
 
-Apply this patch ON TOP OF V35.
+Problem fixed:
+The Astrologer Panel was showing:
+"failed to parse order (coalesce(last_message_at,created_at).desc)"
 
-Changed files:
-- public/chat.html
-- public/astrologer-dashboard.html
+Cause:
+Supabase PostgREST does not accept coalesce(...) inside the order parameter.
 
-Behavior:
-1. User taps Chat: stays on chat.html and sees 2-minute countdown.
-2. Until astrologer accepts, messages are hidden and composer is disabled.
-3. Astrologer accepts: astrologer is taken directly to chat.html and waits for user confirmation.
-4. User sees Start Chat button after astrologer acceptance.
-5. User taps Start Chat: conversation becomes accepted.
-6. Only after accepted do messages/history/realtime messaging become visible and enabled.
-7. Astrologer receives the accepted state automatically and can chat immediately.
-8. Existing server-side messages.js already rejects message POST unless conversation status is accepted.
-9. Pending-state polling is 1 second so acceptance/confirmation appears quickly.
-10. Existing persistent room, realtime chat, ticks, contact filtering, login/session and Kundli systems are not intentionally changed.
+This patch changes only:
+lib/api/chat.js
 
-Do NOT run supabase/setup.sql.
-Do NOT delete/replace the whole project.
+It uses supported last_message_at / created_at ordering with a safe fallback.
+
+Apply:
+1. Keep your current Bhavishya Gyani project.
+2. Replace only lib/api/chat.js with the file from this ZIP.
+3. Deploy to Vercel again.
+4. Do NOT run supabase/setup.sql.
+5. No database reset is required.
+
+This is a code-only patch; existing login, Kundli, chats, accounts and data are preserved.
