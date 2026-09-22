@@ -1,0 +1,10 @@
+V58 - Instant Kundli Share Selection
+
+Changes:
+- Tapping any Kundli in the Share Kundli list now immediately sends that Kundli.
+- The Kundli list closes immediately after the tap/send starts.
+- No separate Share/Continue button is required.
+- The existing 📜 Kundli button can be tapped again any time to reopen the list.
+- Birth details on each Kundli card are sent together with the selected Kundli.
+- Existing realtime chat, read/delivery ticks, history and End Chat behavior are unchanged.
+- No database/schema/setup SQL changes.
