@@ -1,11 +1,11 @@
-Bhavishya Gyani V39 PATCH — Chat button conversationId error fix
+V44 — GLOBAL ASTROLOGER CHAT REQUEST ALERT
 
-Fixes the "conversationId required" error when a user taps Chat from an astrologer profile.
-
-Cause: chat.html was sending action="chat", while /api/chat expects action="request" for a new chat request. The API then fell through to the action handlers that require conversationId.
-
-Changes:
-- public/chat.html: maps new=chat to action=request before POST.
-- lib/api/chat.js: accepts legacy action=chat as an alias for request, while preserving V37 chat-list ordering fix.
-
-Apply on top of V38. Do NOT run supabase/setup.sql. Do NOT replace the whole project.
+- Added public/astrologer-global-chat.js.
+- When an astrologer is logged in, pending chat requests are monitored on every page.
+- Shows global Accept/Reject popup with 2-minute timer.
+- Shows a persistent in-page bell while a request is pending.
+- Uses browser notification when permission is available and a sound alert when allowed.
+- Accept immediately opens the existing chat conversation.
+- Reject updates the existing request and removes the popup.
+- Does not modify the database schema or reset Supabase.
+- Existing user/admin systems are left unchanged.

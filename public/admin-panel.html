@@ -63,4 +63,4 @@ async function audit(){const x=await api('/api/admin?action=audit'),rows=(x.logs
 async function logout(){try{if(window.SM_SUPABASE?.signOut)await window.SM_SUPABASE.signOut()}catch(e){}localStorage.removeItem('bgToken_admin');location.replace('/')}
 (async()=>{try{const x=await api('/api/me');if(x.user?.role!=='admin')throw Error('Admin only');$('#identity').textContent=x.user.name||x.user.email||'Admin';await show('overview')}catch(e){$('#content').innerHTML=`<div class="panel"><div class="empty"><h3>Access denied</h3><p>${esc(e.message)}</p><a class="btn btn-primary" href="/admin-login.html">Admin Login</a></div></div>`}})();
 </script>
-</body></html>
+<script src="/astrologer-global-chat.js"></script></body></html>

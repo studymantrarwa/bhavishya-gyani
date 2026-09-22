@@ -38,4 +38,4 @@ function openKundli(id){location.href='/shared-kundli.html?conversation_id='+enc
 function startTimer(){clearInterval(timer);timer=setInterval(()=>document.querySelectorAll('[data-deadline]').forEach(el=>{const ms=new Date(el.dataset.deadline).getTime()-Date.now();if(ms<=0){el.textContent='00:00';loadRequests()}else{const sec=Math.floor(ms/1000);el.textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')}}),500)}
 async function logout(){stopHeartbeat();await window.SM_SUPABASE.signOut();location.replace('/astrologer-login.html')}
 (async()=>{try{const t=token();if(!t)return location.replace('/astrologer-login.html');const x=await api('/api/me');if(x.user?.role!=='astrologer')return location.replace('/astrologer-login.html');me=x;await loadProfile();await loadRequests();await loadChats();}catch(e){status('Astrologer Panel नहीं खुल पाया: '+e.message,true);setTimeout(()=>location.replace('/astrologer-login.html'),1500)}})();
-</script></body></html>
+</script><script src="/astrologer-global-chat.js"></script></body></html>

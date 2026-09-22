@@ -8,4 +8,4 @@ async function ensurePeer(initiator){if(pc)return;pc=new RTCPeerConnection({iceS
 async function startOffer(){const offer=await pc.createOffer();await pc.setLocalDescription(offer);await ch.send({type:'broadcast',event:'offer',payload:{offer}});status('Calling… waiting for astrologer')}
 function finish(send=true){try{if(send&&ch)ch.send({type:'broadcast',event:'hangup',payload:{}})}catch(e){}if(local)local.getTracks().forEach(t=>t.stop());if(pc)pc.close();location.href='/chat.html?conversation_id='+encodeURIComponent(cid)}
 $('#mute').onclick=()=>{if(!local)return;muted=!muted;local.getAudioTracks().forEach(t=>t.enabled=!muted);$('#mute').textContent=muted?'🔇':'🎙'};$('#end').onclick=()=>finish(true);setup().catch(e=>{alert(e.message);location.href='/chat.html?conversation_id='+encodeURIComponent(cid)});
-</script></body></html>
+</script><script src="/astrologer-global-chat.js"></script></body></html>
