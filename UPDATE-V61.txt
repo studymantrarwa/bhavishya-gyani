@@ -1,0 +1,11 @@
+V61 ROLLBACK – restore pre-V59 chat/navigation behavior.
+
+This patch restores the V58 chat.html and the pre-V59 index.html/supabase-client.js.
+It removes the V59 performance navigation layer and cleans old bg-v* service-worker caches.
+
+IMPORTANT:
+- Apply on top of the current V60 deployment.
+- Replace the files in this ZIP.
+- Delete public/performance-boost.js if it exists (V59 file; it is no longer used).
+- Do NOT run supabase/setup.sql.
+- After deployment, open the site once and reload once so the old service-worker registration can clean itself up.
