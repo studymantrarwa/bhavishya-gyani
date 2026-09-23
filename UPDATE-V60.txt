@@ -1,5 +1,0 @@
-V60 — Chat loading/error hotfix
-
-Apply on top of V59. Disables the V59 service-worker/page-cache layer because it can serve stale chat pages and cause repeated loading/errors. Existing V59 service-worker registrations and bg-v caches are removed. Chat opening/rendering is restored to a single awaited request flow; new chat requests no longer race conversation-list loading with chat opening.
-
-No database schema changes. Do NOT run supabase/setup.sql.
