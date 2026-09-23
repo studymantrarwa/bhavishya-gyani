@@ -2,7 +2,7 @@
    User, Astrologer and Admin have separate local session slots while the server
    keeps the three account systems in separate Supabase tables. */
 (function(){
-  try{ if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}),{once:true}); } }catch(e){}
+  try{ if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ try{ navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{}); caches.keys().then(keys=>Promise.all(keys.filter(k=>String(k).startsWith('bg-v')).map(k=>caches.delete(k)))).catch(()=>{}); }catch(e){} },{once:true}); } }catch(e){}
   const PREFIX='bgToken_';
   const ACTIVE='bgActiveAccountType';
   const valid=t=>['user','astrologer','admin'].includes(t)?t:null;
