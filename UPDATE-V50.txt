@@ -1,7 +1,0 @@
-Bhavishya Gyani V50 — Fix New Birth Details -> Chat Request
-
-Fixes the error: "Kundli save हुई लेकिन उसका record नहीं मिला".
-The Kundli API now returns the newly inserted Kundli ID directly, so Chat no longer tries to match a DB time like 18:18:00 against the form value 18:18. A normalized fallback is also included.
-
-Apply on top of V49/current project. No supabase/setup.sql run is required.
-Changed files: lib/api/kundli.js, public/chat.html
