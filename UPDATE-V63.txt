@@ -1,0 +1,14 @@
+V63 - VOICE CALL SYSTEM
+
+- Uses existing conversations table with channel=call; no new database table required.
+- User starts Call from astrologer profile.
+- Astrologer receives a dedicated incoming-call request popup.
+- Astrologer Accept -> call.html immediately.
+- User receives an in-app/browser notification when the call is accepted and can Start Call.
+- User confirmation is supported for call requests; after confirmation the user opens call.html.
+- Voice is WebRTC peer-to-peer with a public STUN server.
+- Mute and End Call included.
+- ICE candidates are queued until remote description is set to reduce connection failures.
+- Existing chat system is not replaced.
+- No setup.sql required.
+- For production reliability across restrictive NAT/firewalls, add a self-hosted TURN (coturn) server later.
