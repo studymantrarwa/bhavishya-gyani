@@ -1,9 +1,0 @@
-V54 — KUNDLI SHARE SELECTION FIX
-
-- Fixed Kundli selection in the chat share dialog on mobile/desktop.
-- Uses an explicit selected Kundli ID instead of relying only on parent dataset state.
-- Selected Kundli is visibly highlighted and confirmed before Share.
-- Share button now sends the selected Kundli ID through the existing messages API.
-- Shared Kundli Open action now opens the exact Kundli that was shared, not the user's latest Kundli.
-- No database schema change. Do NOT run supabase/setup.sql.
-- Apply this patch on top of V53/current project.
