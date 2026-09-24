@@ -17,6 +17,7 @@ const handlers = {
   "call-requests": require("../lib/api/call-requests"),
   "call-signaling": require("../lib/api/call-signaling"),
   "config": require("../lib/api/config"),
+  "turn-credentials": require("../lib/api/turn-credentials"),
   "horoscope": require("../lib/api/horoscope"),
   "kundli": require("../lib/api/kundli"),
   "login": require("../lib/api/login"),
