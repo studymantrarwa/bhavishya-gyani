@@ -26,7 +26,6 @@ const handlers = {
   "messages": require("../lib/api/messages"),
   "shared-kundli": require("../lib/api/shared-kundli"),
   "payments": require("../lib/api/payments"),
-  "pooja": require("../lib/api/pooja"),
   "chat-room": require("../lib/api/chat-room"),
   "my-kundlis": require("../lib/api/my-kundlis"),
   "numerology": require("../lib/api/numerology"),
@@ -39,7 +38,8 @@ const handlers = {
   "feedback": require("../lib/api/feedback"),
   "follow": require("../lib/api/follow"),
   "health": require("../lib/api/health"),
-  "notifications": require("../lib/api/notifications")
+  "notifications": require("../lib/api/notifications"),
+  "pooja": require("../lib/api/pooja")
 };
 
 module.exports = async (req, res) => {
