@@ -1,133 +1,667 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<script src="/auth-guard.js"></script><script>BG_AUTH.check("user");</script>
+<script src="/auth-guard.js"></script>
+<script>BG_AUTH.check("user");</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Bhavishya Gyani - Free Kundli</title>
+
 <link rel="stylesheet" href="/style.css">
+
 <style>
-body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,sans-serif}
-.wrap{max-width:720px;margin:auto;padding:16px}
-.card{background:#fff;border:1px solid #e2e7ef;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 4px 18px #0000000a}
-h1{margin-top:0}
-label{display:block;font-weight:700;margin:12px 0 6px}
-input,select{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccd3df;border-radius:10px;font-size:16px;background:#fff}
-button{border:0;border-radius:10px;padding:12px 16px;cursor:pointer;font-weight:700}
-.primary{width:100%;margin-top:16px}
-#suggestions{border:1px solid #d9dee8;border-radius:10px;overflow:hidden;margin-top:5px}
-.place-item{padding:11px;background:#fff;border-bottom:1px solid #eee;cursor:pointer}
-.place-item:last-child{border-bottom:0}
-.place-item:hover{background:#f3f6ff}
-.muted{color:#667085;font-size:13px}
-.selected{margin-top:8px;padding:9px;border-radius:9px;background:#eef7ee;color:#245b2a}
-.hidden{display:none}
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% 8%,rgba(255,193,7,.14),transparent 28%),
+    radial-gradient(circle at 50% 55%,rgba(255,193,7,.05),transparent 40%),
+    #050505;
+  color:#f5f5f5;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+/* Main */
+.page{
+  width:100%;
+  max-width:850px;
+  margin:auto;
+  padding:28px 16px 45px;
+}
+
+/* Branding */
+.brand{
+  text-align:center;
+  margin:8px auto 22px;
+}
+
+.brand-icon{
+  width:55px;
+  height:55px;
+  margin:0 auto 8px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  color:#ffc400;
+  text-shadow:0 0 16px rgba(255,196,0,.55);
+}
+
+.brand-name{
+  margin:0;
+  font-size:34px;
+  line-height:1.15;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.5px;
+}
+
+.brand-tagline{
+  margin:8px 0 0;
+  color:#999;
+  font-size:16px;
+}
+
+/* Card */
+.card{
+  width:100%;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30,30,30,.97),
+      rgba(14,14,14,.98)
+    );
+  border:1px solid #303030;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:
+    0 18px 60px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+/* Heading */
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0;
+  font-size:26px;
+  color:#fff;
+}
+
+.card-title span{
+  color:#ffc400;
+}
+
+.description{
+  margin:8px 0 22px;
+  color:#999;
+  line-height:1.55;
+  font-size:14px;
+}
+
+/* Form */
+label{
+  display:block;
+  margin:15px 0 7px;
+  color:#ddd;
+  font-weight:700;
+  font-size:14px;
+}
+
+input,
+select{
+  width:100%;
+  height:50px;
+  padding:0 14px;
+  border-radius:11px;
+  border:1px solid #363636;
+  outline:none;
+  background:#090909;
+  color:#fff;
+  font-size:16px;
+  transition:.2s;
+}
+
+input::placeholder{
+  color:#666;
+}
+
+input:focus,
+select:focus{
+  border-color:#ffc400;
+  box-shadow:0 0 0 3px rgba(255,196,0,.10);
+}
+
+select option{
+  background:#111;
+  color:#fff;
+}
+
+/* Suggestions */
+#suggestions{
+  margin-top:6px;
+  border:1px solid #303030;
+  border-radius:11px;
+  overflow:hidden;
+  background:#111;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+
+.place-item{
+  padding:12px 13px;
+  background:#111;
+  color:#eee;
+  border-bottom:1px solid #292929;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.place-item:last-child{
+  border-bottom:0;
+}
+
+.place-item:hover{
+  background:#242000;
+}
+
+.place-item b{
+  color:#fff;
+}
+
+.muted{
+  color:#777;
+  font-size:13px;
+}
+
+/* Selected place */
+.selected{
+  margin-top:9px;
+  padding:11px 12px;
+  border:1px solid rgba(255,196,0,.25);
+  border-radius:10px;
+  background:rgba(255,196,0,.07);
+  color:#e9c64c;
+  font-size:13px;
+  line-height:1.45;
+}
+
+.hidden{
+  display:none;
+}
+
+/* Button */
+.primary{
+  width:100%;
+  min-height:52px;
+  margin-top:22px;
+  border:0;
+  border-radius:12px;
+  background:#ffc400;
+  color:#111;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 7px 20px rgba(255,196,0,.18);
+  transition:.2s;
+}
+
+.primary:hover{
+  background:#ffd02a;
+  transform:translateY(-1px);
+}
+
+.primary:active{
+  transform:translateY(0);
+}
+
+.primary:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+/* Note */
+.note{
+  margin-top:15px;
+  padding:15px 16px;
+  border-radius:13px;
+  background:#111;
+  border:1px solid #292929;
+  color:#888;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.note b{
+  color:#d8d8d8;
+}
+
+/* Mobile */
+@media(max-width:600px){
+
+  .page{
+    padding:22px 12px 35px;
+  }
+
+  .brand{
+    margin-bottom:18px;
+  }
+
+  .brand-icon{
+    font-size:31px;
+  }
+
+  .brand-name{
+    font-size:29px;
+  }
+
+  .brand-tagline{
+    font-size:14px;
+  }
+
+  .card{
+    padding:19px 16px;
+    border-radius:21px;
+  }
+
+  .card-title{
+    font-size:23px;
+  }
+
+  input,
+  select{
+    height:49px;
+  }
+}
 </style>
 </head>
+
 <body>
-<main class="wrap">
-<div class="card">
-<h1 style="color: yellow;">🪐 Free Kundli</h1>
-<p class="muted">जन्म की सही जानकारी भरें। जन्म स्थान चुनने पर latitude, longitude और timezone अपने-आप भर जाएंगे।</p>
 
-<form id="kundliForm">
-<label for="name">नाम</label>
-<input id="name" name="name" required placeholder="अपना नाम">
+<main class="page">
 
-<label for="gender">लिंग</label>
-<select id="gender" name="gender">
-<option value="">चुनें</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option>
-</select>
+  <!-- SAME BRANDING STYLE AS LOGIN -->
+  <header class="brand">
+    <div class="brand-icon">☀</div>
+    <h1 class="brand-name">Bhavishya Gyani</h1>
+    <p class="brand-tagline">आपका ज्योतिषीय सफर यहीं से शुरू करें</p>
+  </header>
 
-<label for="dob">जन्म तारीख</label>
-<input id="dob" name="dob" type="date" required>
+  <!-- KUNDLI FORM -->
+  <section class="card">
 
-<label for="time">जन्म समय</label>
-<input id="time" name="time" type="time" required>
+    <h2 class="card-title">
+      <span>🪐</span>
+      Free Kundli
+    </h2>
 
-<label for="place">जन्म स्थान</label>
-<input id="place" name="place" autocomplete="off" required placeholder="शहर/गाँव खोजें">
-<div id="suggestions"></div>
-<div id="selected" class="selected hidden"></div>
+    <p class="description">
+      जन्म की सही जानकारी भरें। जन्म स्थान चुनने पर
+      latitude, longitude और timezone अपने-आप भर जाएंगे।
+    </p>
 
-<input id="latitude" name="latitude" type="hidden">
-<input id="longitude" name="longitude" type="hidden">
-<input id="timezone" name="timezone" type="hidden">
+    <form id="kundliForm">
 
-<button class="primary" type="submit">✨ Generate Free Kundli</button>
-</form>
-</div>
-<div class="card muted">
-<b>नोट:</b> Kundli calculation आपके चुने हुए birth place के coordinates के आधार पर होगी।
-</div>
+      <label for="name">नाम</label>
+      <input
+        id="name"
+        name="name"
+        required
+        placeholder="अपना नाम"
+      >
+
+      <label for="gender">लिंग</label>
+      <select id="gender" name="gender">
+        <option value="">चुनें</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="dob">जन्म तारीख</label>
+      <input
+        id="dob"
+        name="dob"
+        type="date"
+        required
+      >
+
+      <label for="time">जन्म समय</label>
+      <input
+        id="time"
+        name="time"
+        type="time"
+        required
+      >
+
+      <label for="place">जन्म स्थान</label>
+      <input
+        id="place"
+        name="place"
+        autocomplete="off"
+        required
+        placeholder="शहर / गाँव खोजें"
+      >
+
+      <div id="suggestions"></div>
+
+      <div id="selected" class="selected hidden"></div>
+
+      <input
+        id="latitude"
+        name="latitude"
+        type="hidden"
+      >
+
+      <input
+        id="longitude"
+        name="longitude"
+        type="hidden"
+      >
+
+      <input
+        id="timezone"
+        name="timezone"
+        type="hidden"
+      >
+
+      <button
+        class="primary"
+        type="submit"
+      >
+        ✨ Generate Free Kundli
+      </button>
+
+    </form>
+
+  </section>
+
+  <div class="note">
+    <b>नोट:</b>
+    Kundli calculation आपके चुने हुए birth place के
+    coordinates के आधार पर होगी।
+  </div>
+
 </main>
+
+
 <script>
-const form=document.getElementById("kundliForm");
-const place=document.getElementById("place");
-const suggestions=document.getElementById("suggestions");
-const selected=document.getElementById("selected");
-let timer=null;
 
-function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+const form = document.getElementById("kundliForm");
+const place = document.getElementById("place");
+const suggestions = document.getElementById("suggestions");
+const selected = document.getElementById("selected");
 
+let timer = null;
+
+
+/* Escape HTML */
+function esc(s){
+  return String(s || "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+}
+
+
+/* Search places */
 async function searchPlaces(q){
-  if(q.trim().length<2){suggestions.innerHTML="";return}
-  try{
-    const url="https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(q.trim())+"&count=8&language=en&format=json";
-    const r=await fetch(url); const j=await r.json();
-    const results=j.results||[];
-    suggestions.innerHTML=results.map((x,i)=>
-      `<div class="place-item" data-i="${i}"><b>${esc(x.name)}</b>${x.admin1?", "+esc(x.admin1):""}${x.country?", "+esc(x.country):""}<br><span class="muted">${Number(x.latitude).toFixed(5)}, ${Number(x.longitude).toFixed(5)}</span></div>`
-    ).join("");
-    suggestions.querySelectorAll(".place-item").forEach((el,i)=>{
-      el.onclick=()=>selectPlace(results[i]);
-    });
-  }catch(e){
-    suggestions.innerHTML='<div class="place-item">Place search temporarily unavailable. Please try again.</div>';
-  }
-}
-function selectPlace(x){
-  place.value=[x.name,x.admin1,x.country].filter(Boolean).join(", ");
-  document.getElementById("latitude").value=Number(x.latitude);
-  document.getElementById("longitude").value=Number(x.longitude);
-  document.getElementById("timezone").value=5.5;
-  if(x.timezone){
-    // India is normally +5.5; preserve provider value for other locations.
-    const m=String(x.timezone).match(/([+-])(\d{2}):?(\d{2})?/);
-    if(m) document.getElementById("timezone").value=(m[1]=="-"?-1:1)*(Number(m[2])+(Number(m[3]||0)/60));
-  }
-  selected.textContent=`स्थान चुना गया: ${place.value} · Lat ${Number(x.latitude).toFixed(5)} · Lng ${Number(x.longitude).toFixed(5)}`;
-  selected.classList.remove("hidden");
-  suggestions.innerHTML="";
-}
-place.addEventListener("input",()=>{
-  clearTimeout(timer); timer=setTimeout(()=>searchPlaces(place.value),350);
-});
-document.addEventListener("click",e=>{
-  if(!e.target.closest("#place") && !e.target.closest("#suggestions")) suggestions.innerHTML="";
-});
 
-form.addEventListener("submit",async e=>{
-  e.preventDefault();
-  if(!document.getElementById("latitude").value || !document.getElementById("longitude").value){
-    alert("कृपया जन्म स्थान की सूची में से कोई स्थान चुनें।");
+  if(q.trim().length < 2){
+    suggestions.innerHTML = "";
     return;
   }
-  const body=Object.fromEntries(new FormData(form).entries());
-  body.latitude=Number(body.latitude);
-  body.longitude=Number(body.longitude);
-  body.timezone=Number(body.timezone||5.5);
-  const btn=form.querySelector("button[type=submit]"); btn.disabled=true; btn.textContent="Calculating…";
+
   try{
-    const token=localStorage.getItem("bgToken_user");
-    const r=await fetch("/api/kundli",{method:"POST",headers:{"Content-Type":"application/json",...(token?{Authorization:"Bearer "+token}:{})},body:JSON.stringify(body)});
-    const j=await r.json();
-    if(!r.ok) throw new Error(j.error||"Kundli calculation failed");
-    localStorage.setItem("studyMantraLastKundli",JSON.stringify(j));
-    location.href="/kundli.html";
-  }catch(err){alert(err.message)}
-  finally{btn.disabled=false;btn.textContent="✨ Generate Free Kundli"}
+
+    const url =
+      "https://geocoding-api.open-meteo.com/v1/search" +
+      "?name=" + encodeURIComponent(q.trim()) +
+      "&count=8" +
+      "&language=en" +
+      "&format=json";
+
+    const r = await fetch(url);
+    const j = await r.json();
+
+    const results = j.results || [];
+
+    if(!results.length){
+      suggestions.innerHTML =
+        '<div class="place-item">कोई स्थान नहीं मिला।</div>';
+      return;
+    }
+
+    suggestions.innerHTML = results.map((x,i) =>
+
+      `<div class="place-item" data-i="${i}">
+        <b>${esc(x.name)}</b>
+        ${x.admin1 ? ", " + esc(x.admin1) : ""}
+        ${x.country ? ", " + esc(x.country) : ""}
+        <br>
+        <span class="muted">
+          ${Number(x.latitude).toFixed(5)},
+          ${Number(x.longitude).toFixed(5)}
+        </span>
+      </div>`
+
+    ).join("");
+
+    suggestions
+      .querySelectorAll(".place-item")
+      .forEach((el,i) => {
+
+        el.onclick = () => {
+          selectPlace(results[i]);
+        };
+
+      });
+
+  }catch(e){
+
+    suggestions.innerHTML =
+      '<div class="place-item">' +
+      'Place search temporarily unavailable. Please try again.' +
+      '</div>';
+
+  }
+}
+
+
+/* Select place */
+function selectPlace(x){
+
+  place.value = [
+    x.name,
+    x.admin1,
+    x.country
+  ].filter(Boolean).join(", ");
+
+  document.getElementById("latitude").value =
+    Number(x.latitude);
+
+  document.getElementById("longitude").value =
+    Number(x.longitude);
+
+  /*
+   * Default India timezone
+   */
+  document.getElementById("timezone").value = 5.5;
+
+  /*
+   * Preserve provider timezone where available
+   */
+  if(x.timezone){
+
+    const m = String(x.timezone)
+      .match(/([+-])(\d{2}):?(\d{2})?/);
+
+    if(m){
+
+      document.getElementById("timezone").value =
+        (m[1] === "-" ? -1 : 1) *
+        (
+          Number(m[2]) +
+          Number(m[3] || 0) / 60
+        );
+
+    }
+  }
+
+  selected.textContent =
+    `स्थान चुना गया: ${place.value} · ` +
+    `Lat ${Number(x.latitude).toFixed(5)} · ` +
+    `Lng ${Number(x.longitude).toFixed(5)}`;
+
+  selected.classList.remove("hidden");
+
+  suggestions.innerHTML = "";
+}
+
+
+/* Place typing */
+place.addEventListener("input", () => {
+
+  clearTimeout(timer);
+
+  /*
+   * Clear previously selected coordinates
+   * if user changes the place manually.
+   */
+  document.getElementById("latitude").value = "";
+  document.getElementById("longitude").value = "";
+  document.getElementById("timezone").value = "";
+
+  selected.classList.add("hidden");
+
+  timer = setTimeout(() => {
+    searchPlaces(place.value);
+  },350);
+
 });
+
+
+/* Close suggestions */
+document.addEventListener("click", e => {
+
+  if(
+    !e.target.closest("#place") &&
+    !e.target.closest("#suggestions")
+  ){
+    suggestions.innerHTML = "";
+  }
+
+});
+
+
+/* Generate Kundli */
+form.addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  if(
+    !document.getElementById("latitude").value ||
+    !document.getElementById("longitude").value
+  ){
+
+    alert(
+      "कृपया जन्म स्थान की सूची में से कोई स्थान चुनें।"
+    );
+
+    return;
+  }
+
+  const body =
+    Object.fromEntries(
+      new FormData(form).entries()
+    );
+
+  body.latitude = Number(body.latitude);
+  body.longitude = Number(body.longitude);
+  body.timezone = Number(body.timezone || 5.5);
+
+  const btn =
+    form.querySelector(
+      'button[type="submit"]'
+    );
+
+  btn.disabled = true;
+  btn.textContent = "Calculating…";
+
+  try{
+
+    const token =
+      localStorage.getItem("bgToken_user");
+
+    const r = await fetch(
+      "/api/kundli",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json",
+
+          ...(token
+            ? {
+                Authorization:
+                "Bearer " + token
+              }
+            : {})
+        },
+
+        body:JSON.stringify(body)
+      }
+    );
+
+    const j = await r.json();
+
+    if(!r.ok){
+      throw new Error(
+        j.error ||
+        "Kundli calculation failed"
+      );
+    }
+
+    localStorage.setItem(
+      "studyMantraLastKundli",
+      JSON.stringify(j)
+    );
+
+    location.href = "/kundli.html";
+
+  }catch(err){
+
+    alert(err.message);
+
+  }finally{
+
+    btn.disabled = false;
+    btn.textContent =
+      "✨ Generate Free Kundli";
+
+  }
+
+});
+
 </script>
-<script src="/astrologer-global-chat.js"></script></body>
+
+<script src="/astrologer-global-chat.js"></script>
+
+</body>
 </html>
