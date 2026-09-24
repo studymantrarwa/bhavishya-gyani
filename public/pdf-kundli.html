@@ -3,261 +3,243 @@
 <head>
 
 <script src="/auth-guard.js"></script>
-<script>BG_AUTH.check(["user","astrologer"]);</script>
+<script>BG_AUTH.check("user");</script>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Bhavishya Gyani Kundli Chart</title>
-
-<link rel="stylesheet" href="/style.css">
+<title>Bhavishya Gyani - Kundli PDF</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
-html,body{
-  margin:0;
-  min-height:100%;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  background:
-    radial-gradient(
-      circle at 50% 5%,
-      rgba(255,196,0,.13),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255,196,0,.04),
-      transparent 45%
-    ),
-    #050505;
-  color:#f5f5f5;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,
+  "Noto Sans Devanagari",Arial,sans-serif;
+  line-height:1.5;
 }
 
 .wrap{
-  max-width:1100px;
+  width:100%;
+  max-width:1000px;
   margin:auto;
-  padding:22px 16px 45px;
+  padding:16px;
 }
-
-/* ================= BRANDING ================= */
-
-.brand{
-  text-align:center;
-  margin:4px auto 22px;
-}
-
-.brand-icon{
-  width:58px;
-  height:58px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
-  color:#ffc400;
-  text-shadow:
-    0 0 12px rgba(255,196,0,.45),
-    0 0 25px rgba(255,196,0,.25);
-}
-
-.brand-name{
-  margin:6px 0 0;
-  font-size:34px;
-  line-height:1.15;
-  font-weight:800;
-  color:#fff;
-  letter-spacing:-.5px;
-}
-
-.brand-tagline{
-  margin:7px 0 0;
-  color:#999;
-  font-size:15px;
-}
-
-/* ================= TOP ================= */
 
 .top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
-  margin-bottom:12px;
+  background:#111;
+  color:#fff;
+  padding:16px 18px;
+  border-radius:16px;
+  margin-bottom:14px;
 }
 
-.top h1{
-  display:none;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.top button{
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#ffc400;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  flex:none;
+}
+
+.brand h1{
+  margin:0;
+  font-size:25px;
+}
+
+.brand-sub{
+  color:#d0d0d0;
+  font-size:12px;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
   border:0;
-  border-radius:11px;
-  padding:11px 16px;
+  border-radius:10px;
+  padding:11px 15px;
   cursor:pointer;
   font-weight:800;
+  font-size:14px;
+}
+
+.btn-print{
   background:#ffc400;
   color:#111;
 }
 
-.top button:hover{
-  background:#ffd329;
+.btn-back{
+  background:#2a2a2a;
+  color:#fff;
+  border:1px solid #555;
 }
 
-/* ================= CARD ================= */
+/* ---------------- Banner ---------------- */
+
+.contact-banner{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#111 0%,#211800 50%,#111 100%);
+  color:#fff;
+  border:1px solid #5b4900;
+  border-radius:16px;
+  padding:18px;
+  margin:14px 0;
+  box-shadow:0 5px 20px #00000018;
+}
+
+.contact-banner:before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  right:-80px;
+  top:-90px;
+  background:#ffc400;
+  opacity:.08;
+}
+
+.contact-banner-inner{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.banner-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.banner-icon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#ffc400;
+  color:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:25px;
+}
+
+.banner-title{
+  font-size:18px;
+  font-weight:900;
+  margin:0 0 3px;
+}
+
+.banner-text{
+  color:#d8d8d8;
+  font-size:13px;
+}
+
+.contact-btn{
+  background:#ffc400;
+  color:#111;
+  white-space:nowrap;
+}
+
+.contact-btn:hover{
+  background:#ffd84d;
+}
+
+/* ---------------- Cards ---------------- */
 
 .card{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(28,28,28,.98),
-      rgba(13,13,13,.99)
-    );
-  border:1px solid #303030;
-  border-radius:20px;
-  padding:18px;
-  margin:13px 0;
-
-  box-shadow:
-    0 15px 45px rgba(0,0,0,.38),
-    inset 0 1px 0 rgba(255,255,255,.025);
+  background:#fff;
+  border:1px solid #e1e6ee;
+  border-radius:16px;
+  padding:16px;
+  margin:14px 0;
+  box-shadow:0 4px 18px #0000000a;
+  break-inside:avoid;
 }
 
 .card h2{
-  color:#fff;
-  margin:0 0 13px;
-  font-size:21px;
+  margin:0 0 12px;
+  font-size:20px;
+}
+
+.card h3{
+  margin:12px 0 6px;
 }
 
 .section-title{
-  margin:0 0 12px;
-  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-/* ================= META ================= */
-
-#meta{
-  color:#ddd;
-  line-height:1.7;
+.muted{
+  color:#667085;
+  font-size:12px;
 }
 
-#meta b{
-  color:#ffc400;
-}
-
-#accuracy{
-  color:#aaa;
+.note{
+  font-size:12px;
+  color:#667085;
   line-height:1.6;
 }
 
-.warn{
-  padding:11px 12px;
-  border-radius:11px;
-  background:#302600;
-  border:1px solid #695400;
-  color:#ffd86a;
-}
-
-/* ================= DETAIL TABLE ================= */
-
-.detail-grid{
+.grid{
   display:grid;
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:10px;
 }
 
-.detail-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-  color:#ddd;
-}
-
-.detail-table td{
-  border-bottom:1px solid #292929;
-  padding:9px 6px;
-  vertical-align:top;
-}
-
-.detail-table td:first-child{
-  font-weight:700;
-  color:#aaa;
-  width:42%;
-}
-
-/* ================= NORTH INDIAN CHART ================= */
-
-.chart-shell{
+.detail-grid{
   display:grid;
-  grid-template-columns:
-    minmax(280px,620px) 1fr;
-  gap:16px;
-  align-items:start;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
 }
 
-.chart-shell .card{
-  margin:0;
+.item{
+  padding:10px;
+  border:1px solid #edf0f4;
+  border-radius:10px;
+  background:#fbfcfe;
 }
 
-.chart{
+.item b{
+  color:#475467;
+}
+
+.table-wrap{
   width:100%;
-  aspect-ratio:1;
-  border:2px solid #ffc400;
-  border-radius:9px;
-  position:relative;
-  background:#fff;
-  overflow:hidden;
-}
-
-.chart svg{
-  width:100%;
-  height:100%;
-  display:block;
-}
-
-.chart text{
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-}
-
-.cell{
-  font-size:4.8px;
-  font-weight:900;
-  fill:#111;
-}
-
-.planet{
-  font-size:3.05px;
-  font-weight:800;
-  fill:#8a1c1c;
-}
-
-.legend{
-  color:#888;
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* ================= TABLE ================= */
-
-.scroll{
   overflow:auto;
 }
 
@@ -265,42 +247,116 @@ body{
   width:100%;
   border-collapse:collapse;
   font-size:13px;
-  color:#ddd;
 }
 
-.table td,
-.table th{
-  border-bottom:1px solid #292929;
+.table th,
+.table td{
+  border-bottom:1px solid #e8ebef;
   padding:8px 7px;
   text-align:left;
-  white-space:nowrap;
+  vertical-align:top;
 }
 
 .table th{
-  color:#ffc400;
+  background:#f7f8fa;
   font-weight:800;
 }
 
-.table td{
-  color:#ddd;
+.detail-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
 }
 
-/* ================= DASHA ================= */
+.detail-table td{
+  border-bottom:1px solid #edf0f4;
+  padding:8px 6px;
+  vertical-align:top;
+}
+
+.detail-table td:first-child{
+  width:42%;
+  font-weight:800;
+  color:#475467;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#eef2ff;
+  margin:3px;
+  font-size:12px;
+}
+
+.warn{
+  padding:11px;
+  border-radius:10px;
+  background:#fff4d6;
+  color:#754d00;
+}
+
+.success{
+  padding:11px;
+  border-radius:10px;
+  background:#eefaf0;
+  color:#24612d;
+}
+
+/* ---------------- Charts ---------------- */
+
+.chart-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.chart-box{
+  border:1px solid #e1e6ee;
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+}
+
+.chart-box h3{
+  text-align:center;
+  margin:0 0 10px;
+}
+
+.chart{
+  width:min(500px,100%);
+  margin:10px auto;
+}
+
+.chart svg{
+  display:block;
+  width:100%;
+  height:auto;
+  border:1px solid #111;
+  background:#fff;
+}
+
+.chart-note{
+  font-size:11px;
+  color:#667085;
+  text-align:center;
+}
+
+/* ---------------- Dasha ---------------- */
 
 .dasha-tree details{
-  border:1px solid #333;
+  border:1px solid #e4e8ef;
   border-radius:12px;
   margin:8px 0;
-  background:#111;
+  background:#fff;
   overflow:hidden;
 }
 
 .dasha-tree summary{
   cursor:pointer;
   list-style:none;
-  padding:12px;
+  padding:11px 12px;
   font-weight:800;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -314,7 +370,6 @@ body{
 .dasha-tree summary:before{
   content:"▶";
   font-size:10px;
-  color:#ffc400;
   transition:transform .15s;
 }
 
@@ -323,26 +378,26 @@ body{
 }
 
 .dasha-md>summary{
-  color:#ffc400;
-  background:#211d08;
+  color:#2457c5;
+  background:#f5f7ff;
 }
 
 .dasha-ad{
-  margin:0 10px 8px;
+  margin:0 10px 8px!important;
 }
 
 .dasha-ad>summary{
-  color:#6ee28c;
-  background:#102116;
+  color:#217a3a;
+  background:#f1fbf3;
 }
 
 .dasha-pd{
-  margin:0 10px 8px;
+  margin:0 10px 8px!important;
 }
 
 .dasha-pd>summary{
-  color:#ffbd45;
-  background:#21170a;
+  color:#9a5b00;
+  background:#fff8ea;
   font-weight:700;
 }
 
@@ -352,64 +407,47 @@ body{
 
 .dasha-dates{
   font-size:12px;
-  color:#999;
+  color:#667085;
   font-weight:500;
 }
 
 .dasha-empty{
   padding:10px 12px;
-  color:#888;
+  color:#667085;
   font-size:13px;
 }
 
 .dasha-help{
   font-size:12px;
-  color:#888;
+  color:#667085;
   margin:0 0 10px;
-  line-height:1.5;
 }
 
-/* ================= BADGES ================= */
-
-.badge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:#211d08;
-  border:1px solid #493d12;
-  color:#ffd45c;
-  margin:3px;
-  font-size:12px;
-}
-
-/* ================= PHALA ================= */
+/* ---------------- Phala ---------------- */
 
 .phala{
   line-height:1.7;
-  color:#ddd;
 }
 
 .phala-summary{
-  padding:13px;
-  border:1px solid #493d12;
+  padding:12px;
+  border:1px solid #dfe5ec;
   border-radius:12px;
-  background:#181507;
+  background:#f8fafc;
   margin-bottom:10px;
-  color:#ffd45c;
 }
 
 .phala-item{
-  border:1px solid #292929;
+  border:1px solid #edf0f4;
   border-radius:12px;
-  padding:13px;
+  padding:12px;
   margin:9px 0;
-  background:#111;
+  background:#fbfcfe;
 }
 
 .phala-item h3{
   margin:0 0 6px;
   font-size:15px;
-  color:#ffc400;
 }
 
 .phala-text{
@@ -420,7 +458,7 @@ body{
   margin-top:10px;
   padding:9px 10px;
   border-radius:10px;
-  background:#181818;
+  background:#f7f8fa;
   font-size:12px;
 }
 
@@ -431,7 +469,7 @@ body{
 
 .phala-signal{
   font-size:11px;
-  color:#777;
+  color:#667085;
   margin-top:8px;
 }
 
@@ -439,1815 +477,1390 @@ body{
   margin-top:12px;
   padding:10px;
   border-radius:10px;
-  background:#211b08;
-  color:#c6a94d;
+  background:#fff8e8;
+  color:#6b4f00;
   font-size:12px;
   line-height:1.6;
 }
 
-/* ================= GRID ================= */
+/* ---------------- Footer ---------------- */
 
-.grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-  gap:12px;
+.footer{
+  text-align:center;
+  padding:18px 8px;
+  color:#667085;
+  font-size:11px;
 }
 
-/* ================= NOTE ================= */
-
-.note{
-  color:#888;
-  font-size:12px;
-  line-height:1.6;
+.footer a{
+  color:#9a7200;
+  font-weight:800;
 }
 
-/* ================= PRINT ================= */
+/* ---------------- Print ---------------- */
 
-.no-print{
-  display:block;
+@media print{
+
+  @page{
+    size:A4;
+    margin:10mm;
+  }
+
+  body{
+    background:#fff;
+    color:#111;
+    font-size:11px;
+  }
+
+  .wrap{
+    max-width:none;
+    padding:0;
+  }
+
+  .no-print{
+    display:none!important;
+  }
+
+  .top{
+    color:#111;
+    background:#fff;
+    border-radius:0;
+    border-bottom:2px solid #111;
+    padding:0 0 10px;
+  }
+
+  .brand-icon{
+    border:1px solid #111;
+  }
+
+  .brand-sub{
+    color:#555;
+  }
+
+  .card{
+    box-shadow:none;
+    border:1px solid #aaa;
+    border-radius:5px;
+    margin:8px 0;
+    padding:10px;
+    page-break-inside:avoid;
+  }
+
+  .contact-banner{
+    box-shadow:none;
+    border:1px solid #555;
+    border-radius:5px;
+    margin:10px 0;
+    padding:10px;
+    background:#fff!important;
+    color:#111!important;
+  }
+
+  .banner-text{
+    color:#444!important;
+  }
+
+  .banner-icon{
+    border:1px solid #111;
+  }
+
+  .contact-btn{
+    background:#fff!important;
+    color:#111!important;
+    border:1px solid #111;
+  }
+
+  .chart-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .chart-box{
+    padding:6px;
+    border:1px solid #999;
+  }
+
+  .table{
+    font-size:10px;
+  }
+
+  .table th,
+  .table td{
+    padding:5px;
+  }
+
+  .detail-table{
+    font-size:10px;
+  }
+
+  .detail-table td{
+    padding:5px;
+  }
+
+  a{
+    color:#111;
+    text-decoration:underline;
+  }
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:760px){
 
   .wrap{
-    padding:18px 10px 35px;
+    padding:10px;
   }
 
-  .brand-name{
-    font-size:29px;
-  }
-
-  .brand-tagline{
-    font-size:14px;
-  }
-
-  .chart-shell{
+  .grid,
+  .detail-grid,
+  .chart-grid{
     grid-template-columns:1fr;
   }
 
-  .chart{
-    max-width:96vw;
-    margin:auto;
+  .top{
+    align-items:flex-start;
   }
 
-  .grid{
-    grid-template-columns:1fr;
+  .actions{
+    width:100%;
   }
 
-  .detail-grid{
-    grid-template-columns:1fr;
+  .actions .btn{
+    flex:1;
   }
 
-  .card{
-    padding:15px;
-    border-radius:17px;
+  .contact-banner-inner{
+    align-items:flex-start;
   }
 
-  .card h2{
-    font-size:19px;
-  }
-
-  .top button{
+  .contact-btn{
     width:100%;
   }
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="wrap">
 
-<!-- ======================================================
-     BHAVISHYA GYANI BRANDING
-====================================================== -->
-
-<div class="brand">
-
-  <div class="brand-icon">☀</div>
-
-  <div class="brand-name">
-    Bhavishya Gyani
-  </div>
-
-  <div class="brand-tagline">
-    आपका ज्योतिषीय सफर यहीं से शुरू करें
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     TOP
-====================================================== -->
-
-<div class="top">
-
-  <h1>
-    Bhavishya Gyani Kundli
-  </h1>
-
-  <button
-    onclick="location.href='/kundli-form.html'"
-  >
-    ← New Kundli
-  </button>
-
-</div>
-
-
-<!-- ======================================================
-     META
-====================================================== -->
-
-<div
-  id="meta"
-  class="card"
->
-  Loading calculation…
-</div>
-
-
-<!-- ======================================================
-     ACCURACY
-====================================================== -->
-
-<div
-  id="accuracy"
-  class="card"
-></div>
-
-
-<!-- ======================================================
-     PERSON DETAILS
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    👤 व्यक्ति विवरण
-  </h2>
-
-  <div id="personDetails"></div>
-
-</div>
-
-
-<!-- ======================================================
-     PANCHANG
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    🕉️ जन्म पंचांग / अवकहड़ा विवरण
-  </h2>
-
-  <div id="panchangDetails"></div>
-
-</div>
-
-
-<!-- ======================================================
-     MAIN CHART DETAILS
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    🔭 जन्म कुंडली के मुख्य विवरण
-  </h2>
-
-  <div id="chartDetails"></div>
-
-</div>
-
-
-<!-- ======================================================
-     TIME & ASTRONOMICAL DETAILS
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    🌞 समय एवं खगोलीय विवरण
-  </h2>
-
-  <div id="timeDetails"></div>
-
-</div>
-
-
-<!-- ======================================================
-     FAVOURABLE / NUMEROLOGY
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    ⭐ अनुकूल बिन्दु / भाग्य विवरण
-  </h2>
-
-  <div id="numberDetails"></div>
-
-</div>
-
-
-<!-- ======================================================
-     GHATAK
-====================================================== -->
-
-<div class="card">
-
-  <h2 class="section-title">
-    ⚠️ घटक (अशुभ) — जन्म राशि आधारित
-  </h2>
-
-  <div id="ghatakDetails"></div>
-
-  <p class="note">
-    यह पारंपरिक घटक-चक्र की एक प्रकाशित तालिका पर आधारित है;
-    अलग परंपराओं में तालिका बदल सकती है।
-  </p>
-
-</div>
-
-
-<!-- ======================================================
-     D1 + D9 CHART
-     IMPORTANT: PHALA DESH KE UPAR
-====================================================== -->
-
-<div class="chart-shell">
-
-  <section class="card">
-
-    <h2>
-      🪐 D1 / Rashi / Lagna — North Indian
-    </h2>
-
-    <div id="d1"></div>
-
-    <p class="legend">
-      North Indian fixed-house layout.
-      केवल राशि संख्या दिखाई जाती है और ग्रह उसी house के
-      अंदर रखे जाते हैं।
-    </p>
-
-  </section>
-
-
-  <section class="card">
-
-    <h2>
-      🔱 D9 / Navamsa — North Indian
-    </h2>
-
-    <div id="d9"></div>
-
-    <p class="legend">
-      D9 में केवल राशि संख्या दिखाई जाती है।
-      Navamsa placement standard movable/fixed/dual
-      starting rule से है।
-    </p>
-
-  </section>
-
-</div>
-
-
-<!-- ======================================================
-     PLANETARY POSITIONS
-====================================================== -->
-
-<div class="card">
-
-  <h2>
-    🌌 Planetary Positions
-  </h2>
-
-  <div class="scroll">
-
-    <table class="table">
-
-      <thead>
-
-        <tr>
-          <th>Planet</th>
-          <th>Sign</th>
-          <th>House</th>
-          <th>Degree (Rashi)</th>
-          <th>Nakshatra</th>
-          <th>Pada</th>
-          <th>R</th>
-        </tr>
-
-      </thead>
-
-      <tbody id="planets"></tbody>
-
-    </table>
-
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     VIMSHOTTARI DASHA
-====================================================== -->
-
-<div class="card">
-
-  <h2>
-    🕉️ Vimshottari Dasha
-  </h2>
-
-  <div id="dasha"></div>
-
-</div>
-
-
-<!-- ======================================================
-     GOCHAR
-====================================================== -->
-
-<div class="card">
-
-  <h2>
-    🌍 Gochar / Transit
-  </h2>
-
-  <div id="transit"></div>
-
-</div>
-
-
-<!-- ======================================================
-     SADE SATI + ASHTAKAVARGA
-====================================================== -->
-
-<div class="grid">
-
-  <div class="card">
-
-    <h2>
-      🌑 साढ़ेसाती
-    </h2>
-
-    <div id="sadeSati"></div>
+  <!-- HEADER -->
+  <div class="top">
+
+    <div class="brand">
+      <div class="brand-icon">☀️</div>
+
+      <div>
+        <h1>Bhavishya Gyani</h1>
+        <div class="brand-sub">
+          Vedic Kundli Report • Swiss Ephemeris • Lahiri
+        </div>
+      </div>
+    </div>
+
+    <div class="actions no-print">
+      <button class="btn btn-print" onclick="window.print()">
+        🖨️ Print / Save PDF
+      </button>
+
+      <button class="btn btn-back" onclick="location.href='/kundli.html'">
+        ← Kundli
+      </button>
+    </div>
 
   </div>
 
 
-  <div class="card">
+  <!-- BANNER 1 -->
+  <div class="contact-banner">
 
-    <h2>
-      🔢 अष्टकवर्ग
-    </h2>
+    <div class="contact-banner-inner">
 
-    <div id="ashtakavarga"></div>
+      <div class="banner-left">
 
-  </div>
+        <div class="banner-icon">🔮</div>
 
-</div>
+        <div>
+          <div class="banner-title">
+            अपनी कुंडली के बारे में ज्योतिषी से सलाह लें
+          </div>
 
+          <div class="banner-text">
+            जन्म कुंडली को समझने के लिए हमारे उपलब्ध ज्योतिषियों से संपर्क करें।
+          </div>
+        </div>
 
-<!-- ======================================================
-     YOGAS + DOSHAS
-====================================================== -->
+      </div>
 
-<div class="grid">
+      <a
+        id="astroContactTop"
+        class="btn contact-btn"
+        href="/astrologers.html"
+      >
+        👨‍🦳 ज्योतिषी से संपर्क करें
+      </a>
 
-  <div class="card">
-
-    <h2>
-      ✨ Shubh Yog
-    </h2>
-
-    <div id="yogas"></div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>
-      ⚠️ Ashubh Yog / Dosha
-    </h2>
-
-    <div id="doshas"></div>
+    </div>
 
   </div>
 
-</div>
+
+  <div id="out">
+    Loading…
+  </div>
 
 
-<!-- ======================================================
-     PHALA DESH
-     NOW AFTER CHART + DASHA
-====================================================== -->
+  <!-- BANNER 2 -->
+  <div class="contact-banner">
 
-<div class="card">
+    <div class="contact-banner-inner">
 
-  <h2>
-    🔮 जन्म फलादेश
-  </h2>
+      <div class="banner-left">
 
-  <div
-    id="phala"
-    class="phala"
-  ></div>
+        <div class="banner-icon">🪐</div>
 
-</div>
+        <div>
+          <div class="banner-title">
+            Kundli तैयार है — अब ज्योतिषी से बात करें
+          </div>
+
+          <div class="banner-text">
+            अपनी कुंडली लेकर सीधे उपलब्ध ज्योतिषी की जानकारी देखें और संपर्क करें।
+          </div>
+        </div>
+
+      </div>
+
+      <a
+        id="astroContactBottom"
+        class="btn contact-btn"
+        href="/astrologers.html"
+      >
+        💬 Astrologer से संपर्क करें
+      </a>
+
+    </div>
+
+  </div>
 
 
-<!-- ======================================================
-     PDF
-====================================================== -->
+  <div class="footer">
+    <div>
+      <b>Bhavishya Gyani</b> — Vedic Kundli Report
+    </div>
 
-<div class="card no-print">
+    <div>
+      ज्योतिषीय गणना पारंपरिक वैदिक ज्योतिषीय पद्धति पर आधारित है।
+    </div>
 
-  <button
-    onclick="location.href='/pdf-kundli.html'"
-  >
-    🖨️ Kundli PDF / Print Report
-  </button>
-
-</div>
+    <div style="margin-top:6px">
+      <a href="/astrologers.html">
+        Astrologer से संपर्क करें
+      </a>
+    </div>
+  </div>
 
 </div>
 
 
 <script>
 
-/* ======================================================
-   LOAD DATA
-====================================================== */
+const ASTROLOGER_URL="/astrologers.html";
 
-const data =
-  JSON.parse(
-    localStorage.getItem(
-      "studyMantraLastKundli"
-    ) || "null"
-  );
+const d=JSON.parse(
+  localStorage.getItem("studyMantraLastKundli")||"null"
+);
 
-
-if(!data){
-
-  document.getElementById("meta").textContent =
-    "No Kundli data found. Please create a new Kundli.";
-
-  throw new Error("No data");
-
-}
+const e=v=>String(v??"—").replace(
+  /[&<>"']/g,
+  c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c])
+);
 
 
-/* ======================================================
-   CONSTANTS
-====================================================== */
+/* ---------------- Contact Links ---------------- */
 
-const S = [
-  "Mesha",
-  "Vrishabha",
-  "Mithuna",
-  "Karka",
-  "Simha",
-  "Kanya",
-  "Tula",
-  "Vrischika",
-  "Dhanu",
-  "Makara",
-  "Kumbha",
-  "Meena"
-];
+document.getElementById("astroContactTop").href=ASTROLOGER_URL;
+document.getElementById("astroContactBottom").href=ASTROLOGER_URL;
 
 
-const short = {
+/* ---------------- No Data ---------------- */
 
-  Sun:"Su",
-  Moon:"Mo",
-  Mars:"Ma",
-  Mercury:"Me",
-  Jupiter:"Ju",
-  Venus:"Ve",
-  Saturn:"Sa",
-  Rahu:"Ra",
-  Ketu:"Ke"
+if(!d){
 
-};
+  document.getElementById("out").innerHTML=`
 
+    <div class="card">
 
-const esc = v =>
-  String(v ?? "—")
-  .replace(
-    /[&<>"']/g,
-    c =>
-      ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[c])
-  );
+      <h2>Kundli data नहीं मिली</h2>
+
+      <p>
+        पहले Free Kundli calculate करें।
+      </p>
+
+      <button
+        class="btn btn-print no-print"
+        onclick="location.href='/kundli-form.html'"
+      >
+        🪐 New Kundli
+      </button>
+
+    </div>
+
+  `;
+
+}else{
 
 
-/* ======================================================
-   DATA REFERENCES
-====================================================== */
+/* ---------------- DATA ---------------- */
 
-const bd =
-  data.birthDetails || {};
+const bd=d.birthDetails||{};
+const p=bd.person||{};
+const pc=bd.panchangAtBirth||{};
+const bc=bd.birthChart||{};
+const td=bd.timeDetails||{};
+const astro=bd.astronomy||{};
+const num=bd.numerology||{};
+const fp=bd.favourablePoints||{};
+const gh=bd.ghatak||{};
 
-const p =
-  bd.person || {};
-
-const pc =
-  bd.panchangAtBirth || {};
-
-const bc =
-  bd.birthChart || {};
-
-const td =
-  bd.timeDetails || {};
-
-const astro =
-  bd.astronomy || {};
-
-const num =
-  bd.numerology || {};
+const av=d.advanced?.ashtakavarga||{};
+const ss=d.advanced?.sadeSati||{};
+const tr=d.advanced?.transits||{};
 
 
-/* ======================================================
-   META
-====================================================== */
+/* ---------------- Planet Table ---------------- */
 
-document.getElementById(
-  "meta"
-).innerHTML = `
+const planets=Object.entries(d.planets||{})
+.map(([k,v])=>`
 
-<b>
-  ${esc(
-    p.name ||
-    data.input?.name ||
-    "Kundli"
-  )}
-</b>
+<tr>
 
- ·
+<td>${e(k)}</td>
 
-${esc(
-  p.dob ||
-  data.input?.dob ||
-  ""
-)}
+<td>${e(v.signName)}</td>
 
-${esc(
-  p.time ||
-  data.input?.time ||
-  ""
-)}
+<td>${e(v.house)}</td>
 
- ·
-
-${esc(
-  p.place ||
-  data.input?.place ||
-  ""
-)}
+<td>
+<b>${Number(
+  v.degreeInSign ??
+  ((v.longitude||0)%30)
+).toFixed(4)}°</b>
 
 <br>
 
-लग्न:
+<small>${e(v.degreeDms||"")}</small>
 
-<b>
-${esc(
-  bc.lagnaHi ||
-  data.lagna?.signName
-)}
-</b>
+</td>
 
- ·
+<td>${e(v.nakshatra?.name)}</td>
 
-राशि:
+<td>${e(v.nakshatra?.pada)}</td>
 
-<b>
-${esc(
-  bc.rashiHi ||
-  "—"
-)}
-</b>
+<td>${v.retrograde?"हाँ":"नहीं"}</td>
 
- ·
+</tr>
 
-नक्षत्र:
+`)
+.join("");
 
-<b>
-${esc(
-  bc.nakshatraHi ||
-  "—"
-)}
-</b>
 
- ·
+/* ---------------- SAV ---------------- */
 
-अयनांश:
+const sav=(av?.sarva||[])
+.map((x,i)=>`
 
-${esc(
-  astro.ayanamsaName ||
-  data.ayanamsa
-)}
+<tr>
+<td>${i+1}</td>
+<td>${e(d.charts?.D1?.[i]?.signName||"")}</td>
+<td>${e(x)}</td>
+</tr>
+
+`)
+.join("");
+
+
+/* ---------------- Transit ---------------- */
+
+const transitRows=Object.entries(tr)
+.filter(([k])=>k!=="sadeSati")
+.map(([k,v])=>`
+
+<tr>
+<td>${e(k)}</td>
+<td>${e(v.signName)}</td>
+<td>${Number(v.longitude||0).toFixed(2)}°</td>
+<td>${v.retrograde?"हाँ":"नहीं"}</td>
+</tr>
+
+`)
+.join("");
+
+
+/* ---------------- Dasha ---------------- */
+
+const mdRows=(d.dasha?.mahadasha||[])
+.map(x=>`
+
+<tr>
+<td>${e(x.lord)}</td>
+<td>${e(x.start)}</td>
+<td>${e(x.end)}</td>
+</tr>
+
+`)
+.join("");
+
+
+/* ---------------- Yogas ---------------- */
+
+const yogas=(d.yogas||[]).length
+? d.yogas.map(x=>`
+
+<div class="badge">
+<b>${e(x.name)}</b>
+<br>
+<small>${e(x.basis)}</small>
+</div>
+
+`).join("")
+:`
+
+<p>
+No configured Shubh Yoga rule matched for this chart.
+</p>
+
+<small>
+${e(d.ruleSummary?.yogaRulesChecked||0)} yoga rules checked.
+</small>
 
 `;
 
 
-/* ======================================================
-   ACCURACY
-====================================================== */
+/* ---------------- Doshas ---------------- */
 
-document.getElementById(
-  "accuracy"
-).innerHTML =
-  data.engine?.productionRequired
+const doshas=(d.doshas||[]).length
+? d.doshas.map(x=>`
 
-  ?
+<div class="badge">
 
-  `<div class="warn">
-    <b>Development fallback active.</b>
-    This calculation is not production-accurate until
-    a local Swiss Ephemeris bridge is configured.
-  </div>`
+<b>${e(x.name)}</b>
 
-  :
+<br>
 
-  `<div>
-    <b style="color:#ffc400">
-      Local Swiss Ephemeris provider active.
-    </b>
+<small>
+${e(x.basis)}
+<br>
+${e(x.severity)}
+</small>
 
-    ${esc(
-      data.engine?.accuracyNote ||
-      ""
-    )}
-  </div>`;
+</div>
+
+`).join("")
+:`
+
+<p>
+No configured Ashubh Yoga/Dosha rule matched for this chart.
+</p>
+
+<small>
+${e(d.ruleSummary?.doshaRulesChecked||0)}
+dosha rules checked.
+</small>
+
+`;
 
 
-/* ======================================================
-   TABLE HELPER
-====================================================== */
+/* ---------------- PHALA ---------------- */
 
-function table(rows){
+const phalaPoints=d.phalaDesh?.points||[];
+
+const phalaHTML=`
+
+<div class="phala-summary">
+
+<b>
+${e(
+  d.phalaDesh?.summary ||
+  "जन्म कुंडली के आधार पर विस्तृत फलादेश"
+)}
+</b>
+
+</div>
+
+${
+phalaPoints.map(x=>{
+
+  if(typeof x==="string"){
+
+    return `
+    <div class="phala-item">
+      ${e(x)}
+    </div>
+    `;
+
+  }
+
+  const fs=(x.factors||[])
+  .map(f=>`<li>${e(f)}</li>`)
+  .join("");
 
   return `
 
-  <table class="detail-table">
-
-    <tbody>
-
-      ${rows.map(
-        r => `
-
-        <tr>
-
-          <td>
-            ${esc(r[0])}
-          </td>
-
-          <td>
-            ${esc(r[1])}
-          </td>
-
-        </tr>
-
-        `
-      ).join("")}
-
-    </tbody>
-
-  </table>
-
-  `;
-
-}
-
-
-/* ======================================================
-   PERSON DETAILS
-====================================================== */
-
-document.getElementById(
-  "personDetails"
-).innerHTML = table([
-
-  ["नाम",p.name],
-
-  ["लिंग",p.genderHi],
-
-  ["दिनांक",p.dob],
-
-  ["समय",p.time],
-
-  ["दिन",p.weekday],
-
-  ["जन्म स्थान",p.place],
-
-  [
-    "अक्षांश",
-    Number.isFinite(p.latitude)
-      ? p.latitude.toFixed(5)+"° N"
-      : "—"
-  ],
-
-  [
-    "रेखांश",
-    Number.isFinite(p.longitude)
-      ? p.longitude.toFixed(5)+"° E"
-      : "—"
-  ],
-
-  ["टाइम जोन",p.timezone]
-
-]);
-
-
-/* ======================================================
-   PANCHANG
-====================================================== */
-
-document.getElementById(
-  "panchangDetails"
-).innerHTML = table([
-
-  [
-    "तिथि",
-    `${pc.tithi?.name || "—"}
-     (${pc.tithi?.paksha || "—"})`
-  ],
-
-  [
-    "नक्षत्र",
-    `${pc.nakshatra?.nameHi ||
-      pc.nakshatra?.name ||
-      "—"}
-     · पद ${pc.nakshatra?.pada || "—"}`
-  ],
-
-  [
-    "नक्षत्र स्वामी",
-    pc.nakshatra?.lord
-  ],
-
-  ["नाड़ी",pc.nadi],
-
-  [
-    "पाया (नक्षत्र आधारित)",
-    pc.paya
-  ],
-
-  ["वर्ण",pc.varna],
-
-  ["योनि",pc.yoni],
-
-  ["गण",pc.gana],
-
-  ["वश्य",pc.vashya],
-
-  ["योग",pc.yoga?.name],
-
-  ["करण",pc.karana],
-
-  [
-    "दशा भोग्य",
-    `${bd.dashaBhogya?.lord || "—"}
-     ·
-     ${bd.dashaBhogya?.display || "—"}`
-  ]
-
-]);
-
-
-/* ======================================================
-   CHART DETAILS
-====================================================== */
-
-document.getElementById(
-  "chartDetails"
-).innerHTML = table([
-
-  [
-    "लग्न",
-    `${bc.lagnaHi || "—"}
-     (${bc.lagna || "—"})`
-  ],
-
-  [
-    "लग्न स्वामी",
-    bc.lagnaLord
-  ],
-
-  [
-    "राशि",
-    `${bc.rashiHi || "—"}
-     (${bc.rashi || "—"})`
-  ],
-
-  [
-    "राशि स्वामी",
-    bc.rashiLord
-  ],
-
-  [
-    "नक्षत्र-पद",
-    `${bc.nakshatraHi || "—"}
-     ${bc.pada || "—"}`
-  ],
-
-  [
-    "नक्षत्र स्वामी",
-    bc.nakshatraLord
-  ],
-
-  [
-    "सूर्य राशि (हिन्दू)",
-    astro.sunSignHinduHi ||
-    astro.sunSignHindu
-  ],
-
-  [
-    "सूर्य राशि (पाश्चात्य)",
-    astro.sunSignWestern
-  ]
-
-]);
-
-
-/* ======================================================
-   TIME DETAILS
-====================================================== */
-
-document.getElementById(
-  "timeDetails"
-).innerHTML = table([
-
-  ["इष्टकाल",td.ishtakaal],
-
-  [
-    "स्थानीय औसत समय",
-    td.localMeanTime
-  ],
-
-  [
-    "स्थानीय समय संशोधन",
-    td.localMeanTimeCorrection
-  ],
-
-  [
-    "समय समीकरण / कालिक संशोधन",
-    td.equationOfTime
-  ],
-
-  [
-    "जन्म समय GMT",
-    td.gmtBirthTime
-  ],
-
-  [
-    "जुलियन दिन",
-    td.julianDay
-  ],
-
-  [
-    "अयनांश",
-    `${astro.ayanamsa || "—"}°`
-  ],
-
-  [
-    "अयनांश नाम",
-    astro.ayanamsaName
-  ],
-
-  [
-    "अक्ष से झुकाव",
-    `${astro.obliquity || "—"}°`
-  ],
-
-  ["सूर्योदय",astro.sunrise],
-
-  ["सूर्यास्त",astro.sunset],
-
-  ["दिन अवधि",astro.dayDuration]
-
-]);
-
-
-/* ======================================================
-   NUMEROLOGY / FAVOURABLE
-====================================================== */
-
-const fp =
-  bd.favourablePoints || {};
-
-
-document.getElementById(
-  "numberDetails"
-).innerHTML = table([
-
-  ["जन्मांक",num.birthNumber],
-
-  ["भाग्यांक",num.lifePath],
-
-  [
-    "नामांक (Chaldean)",
-    num.nameNumberChaldean
-  ],
-
-  [
-    "नामांक (Pythagorean)",
-    num.nameNumberPythagorean
-  ],
-
-  [
-    "Soul Number",
-    num.soulNumber
-  ],
-
-  [
-    "Personality Number",
-    num.personalityNumber
-  ],
-
-  [
-    "Attitude Number",
-    num.attitudeNumber
-  ],
-
-  [
-    "Maturity Number",
-    num.maturityNumber
-  ],
-
-  [
-    "Personal Year",
-    num.personalYear
-  ],
-
-  [
-    "Personal Month",
-    num.personalMonth
-  ],
-
-  [
-    "Personal Day",
-    num.personalDay
-  ],
-
-  [
-    "शुभ अंक",
-    (
-      fp.goodNumbers ||
-      num.luckyNumbers ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "अशुभ अंक",
-    (
-      fp.evilNumbers ||
-      num.unluckyNumbers ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "शुभ वर्ष",
-    (
-      fp.goodYears ||
-      num.luckyYears ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "भाग्यशाली दिन",
-    (
-      fp.luckyDays ||
-      num.luckyDays ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "शुभ ग्रह",
-    (
-      fp.goodPlanets ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "अशुभ ग्रह",
-    (
-      fp.evilPlanets ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "मित्र राशियां",
-    (
-      fp.friendlySigns ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "शुभ लग्न",
-    (
-      fp.goodLagna ||
-      []
-    ).join(", ")
-  ],
-
-  [
-    "भाग्यशाली धातु",
-    fp.luckyMetal
-  ],
-
-  [
-    "भाग्यशाली रत्न",
-    fp.luckyStone
-  ],
-
-  [
-    "आधार",
-    fp.basis ||
-    num.note
-  ]
-
-]);
-
-
-/* ======================================================
-   GHATAK
-====================================================== */
-
-const gh =
-  bd.ghatak || {};
-
-
-document.getElementById(
-  "ghatakDetails"
-).innerHTML = table([
-
-  ["राशि",gh.moonRashi],
-
-  ["माह",gh.masa],
-
-  ["तिथि",gh.tithi],
-
-  ["दिन",gh.day],
-
-  ["नक्षत्र",gh.nakshatra],
-
-  ["प्रहर",gh.prahar],
-
-  ["लग्न",gh.lagna],
-
-  ["योग",gh.yoga],
-
-  ["करण",gh.karana]
-
-]);
-
-
-/* ======================================================
-   NORTH INDIAN CHART
-====================================================== */
-
-function chartSvg(ch){
-
-  /*
-   * Fixed North Indian house layout.
-   *
-   * House 1 = top diamond
-   * House 2 = upper-left
-   * House 3 = left-upper
-   * House 4 = left-middle
-   * House 5 = left-lower
-   * House 6 = lower-left
-   * House 7 = bottom
-   * House 8 = lower-right
-   * House 9 = right-lower
-   * House 10 = right-middle
-   * House 11 = right-upper
-   * House 12 = upper-right
-   */
-
-  const signPos = {
-
-    1:{x:50,y:25},
-
-    2:{x:25,y:10},
-
-    3:{x:10,y:25},
-
-    4:{x:25,y:50},
-
-    5:{x:10,y:75},
-
-    6:{x:25,y:90},
-
-    7:{x:50,y:75},
-
-    8:{x:75,y:90},
-
-    9:{x:90,y:75},
-
-    10:{x:75,y:50},
-
-    11:{x:90,y:25},
-
-    12:{x:75,y:10}
-
-  };
-
-
-  const planetPos = {
-
-    1:{x:50,y:34},
-
-    2:{x:25,y:16},
-
-    3:{x:16,y:25},
-
-    4:{x:34,y:50},
-
-    5:{x:16,y:75},
-
-    6:{x:25,y:84},
-
-    7:{x:50,y:66},
-
-    8:{x:75,y:84},
-
-    9:{x:84,y:75},
-
-    10:{x:66,y:50},
-
-    11:{x:84,y:25},
-
-    12:{x:75,y:16}
-
-  };
-
-
-  const clips = {
-
-    1:'50,0 75,25 50,50 25,25',
-
-    2:'0,0 50,0 25,25',
-
-    3:'0,0 25,25 0,50',
-
-    4:'0,50 25,25 50,50 25,75',
-
-    5:'0,50 25,75 0,100',
-
-    6:'0,100 25,75 50,100',
-
-    7:'50,100 75,75 50,50 25,75',
-
-    8:'50,100 75,75 100,100',
-
-    9:'100,100 75,75 100,50',
-
-    10:'100,50 75,25 50,50 75,75',
-
-    11:'100,0 100,50 75,25',
-
-    12:'50,0 100,0 75,25'
-
-  };
-
-
-  const escSvg = v =>
-    String(v ?? '')
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
-
-
-  const houses =
-    [...(ch || [])]
-      .sort(
-        (a,b) =>
-          Number(a.house) -
-          Number(b.house)
-      );
-
-
-  let svg = `
-
-  <svg
-    viewBox="0 0 100 100"
-    preserveAspectRatio="xMidYMid meet"
-    role="img"
-    aria-label="North Indian Kundli"
-    overflow="hidden"
-  >
-
-  <defs>
-
-  `;
-
-
-  for(
-    const h of Object.keys(clips)
-  ){
-
-    svg += `
-
-    <clipPath
-      id="fixedHouseClip${h}"
-    >
-
-      <polygon
-        points="${clips[h]}"
-      />
-
-    </clipPath>
-
-    `;
-
-  }
-
-
-  svg += `
-
-  </defs>
-
-  `;
-
-
-  /* OUTER BORDER */
-
-  svg += `
-
-  <rect
-    x="0.35"
-    y="0.35"
-    width="99.3"
-    height="99.3"
-    fill="none"
-    stroke="#111"
-    stroke-width="0.65"
-    vector-effect="non-scaling-stroke"
-  />
-
-  `;
-
-
-  /* NORTH INDIAN GRID */
-
-  const lines = [
-
-    [0,0,100,100],
-
-    [100,0,0,100],
-
-    [50,0,0,50],
-
-    [50,0,100,50],
-
-    [0,50,50,100],
-
-    [100,50,50,100]
-
-  ];
-
-
-  for(
-    const l of lines
-  ){
-
-    svg += `
-
-    <line
-      x1="${l[0]}"
-      y1="${l[1]}"
-      x2="${l[2]}"
-      y2="${l[3]}"
-      stroke="#111"
-      stroke-width="0.65"
-      vector-effect="non-scaling-stroke"
-    />
-
-    `;
-
-  }
-
-
-  /* HOUSES */
-
-  for(
-    const h of houses
-  ){
-
-    const house =
-      Number(h.house);
-
-    if(
-      !planetPos[house] ||
-      !signPos[house]
-    ){
-      continue;
+  <div class="phala-item">
+
+    <h3>
+      ${e(x.title||"फलादेश")}
+    </h3>
+
+    <div class="phala-text">
+      ${e(x.text||"")}
+    </div>
+
+    ${
+      fs
+      ?
+      `
+      <div class="phala-factors">
+
+        <b>ज्योतिषीय आधार:</b>
+
+        <ul>
+          ${fs}
+        </ul>
+
+      </div>
+      `
+      :""
     }
 
+    <div class="phala-signal">
+      ${e(x.signal||"")}
+    </div>
 
-    const sp =
-      signPos[house];
+  </div>
 
-    const pp =
-      planetPos[house];
+  `;
 
+}).join("")
+}
 
-    const planets =
-      (h.planets || [])
-      .map(
-        x =>
-          short[x] ||
-          x
-      );
+<div class="phala-note">
 
+<b>महत्वपूर्ण नोट:</b>
 
-    const clip =
-      `fixedHouseClip${house}`;
+${e(
+ d.phalaDesh?.note ||
+ "यह पारंपरिक ज्योतिषीय फलादेश है।"
+)}
 
+</div>
 
-    svg += `
-
-    <g
-      clip-path="url(#${clip})"
-    >
-
-    `;
+`;
 
 
-    /* RASHI NUMBER */
+/* ---------------- MAIN OUTPUT ---------------- */
 
-    svg += `
-
-    <text
-      x="${sp.x}"
-      y="${sp.y}"
-      text-anchor="middle"
-      dominant-baseline="middle"
-      class="cell"
-    >
-      ${escSvg(h.sign)}
-    </text>
-
-    `;
+document.getElementById("out").innerHTML=`
 
 
-    /* PLANETS */
+<!-- PERSON DETAILS -->
 
-    if(planets.length){
+<div class="card">
 
-      const count =
-        planets.length;
+  <div class="section-title">
 
+    <h2>
+      व्यक्ति विवरण
+    </h2>
 
-      const font =
-        count >= 6
-          ? 2.45
-          : count >= 4
-          ? 2.75
-          : 3.05;
+    <span class="muted">
+      Bhavishya Gyani Kundli
+    </span>
 
+  </div>
 
-      const step =
-        count >= 6
-          ? 3.0
-          : count >= 4
-          ? 3.45
-          : 4.0;
+  <div class="detail-grid">
 
+    <div class="item">
+      <b>नाम</b><br>
+      ${e(p.name||d.input?.name)}
+    </div>
 
-      const total =
-        (count - 1) *
-        step;
+    <div class="item">
+      <b>लिंग</b><br>
+      ${e(p.genderHi||p.gender)}
+    </div>
 
+    <div class="item">
+      <b>जन्म तारीख</b><br>
+      ${e(p.dob||d.input?.dob)}
+    </div>
 
-      let y =
-        pp.y -
-        total / 2;
+    <div class="item">
+      <b>जन्म समय</b><br>
+      ${e(p.time||d.input?.time)}
+    </div>
 
+    <div class="item">
+      <b>जन्म स्थान</b><br>
+      ${e(p.place||d.input?.place)}
+    </div>
 
-      for(
-        const planet
-        of planets
-      ){
+    <div class="item">
+      <b>समय क्षेत्र</b><br>
+      ${e(p.timezone||d.input?.timezone)}
+    </div>
 
-        svg += `
-
-        <text
-          x="${pp.x}"
-          y="${y}"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          class="planet"
-          style="font-size:${font}px"
-        >
-          ${escSvg(planet)}
-        </text>
-
-        `;
-
-        y += step;
-
+    <div class="item">
+      <b>अक्षांश</b><br>
+      ${
+        Number.isFinite(Number(p.latitude))
+        ? Number(p.latitude).toFixed(5)+"°"
+        : "—"
       }
-
-    }
-
-
-    svg += `
-
-    </g>
-
-    `;
-
-  }
-
-
-  svg += `
-  </svg>
-  `;
-
-
-  return svg;
-
-}
-
-
-/* ======================================================
-   RENDER D1 / D9
-====================================================== */
-
-function renderChart(
-  id,
-  ch
-){
-
-  document.getElementById(id)
-    .innerHTML =
-
-    `<div class="chart">
-      ${chartSvg(ch)}
-    </div>`;
-
-}
-
-
-renderChart(
-  "d1",
-  data.charts.D1
-);
-
-
-renderChart(
-  "d9",
-  data.charts.D9
-);
-
-
-/* ======================================================
-   PLANETARY POSITIONS
-====================================================== */
-
-const rows =
-  Object.values(
-    data.planets || {}
-  )
-  .map(
-    p => `
-
-    <tr>
-
-      <td>
-        ${esc(p.name)}
-      </td>
-
-      <td>
-        ${esc(p.signName)}
-      </td>
-
-      <td>
-        ${esc(p.house)}
-      </td>
-
-      <td>
-
-        <b>
-          ${Number(
-            p.degreeInSign ??
-            (p.longitude % 30)
-          ).toFixed(4)}°
-        </b>
-
-        <br>
-
-        <small>
-          ${esc(
-            p.degreeDms || ""
-          )}
-        </small>
-
-      </td>
-
-      <td>
-        ${esc(
-          p.nakshatra?.name
-        )}
-      </td>
-
-      <td>
-        ${esc(
-          p.nakshatra?.pada
-        )}
-      </td>
-
-      <td>
-        ${p.retrograde
-          ? "Yes"
-          : "No"}
-      </td>
-
-    </tr>
-
-    `
-  )
-  .join("");
-
-
-document.getElementById(
-  "planets"
-).innerHTML = rows;
-
-
-/* ======================================================
-   SHUBH YOG
-====================================================== */
-
-document.getElementById(
-  "yogas"
-).innerHTML =
-
-(data.yogas || []).length
-
-?
-
-data.yogas
-  .map(
-    x => `
-
-    <div class="badge">
-
-      ${esc(x.name)}
-
-      <br>
-
-      <small>
-        ${esc(x.basis)}
-      </small>
-
     </div>
 
-    `
-  )
-  .join("")
+    <div class="item">
+      <b>रेखांश</b><br>
+      ${
+        Number.isFinite(Number(p.longitude))
+        ? Number(p.longitude).toFixed(5)+"°"
+        : "—"
+      }
+    </div>
 
-:
+  </div>
 
-`
+</div>
 
-<p>
-  No configured Shubh Yoga rule matched
-  for this chart.
+
+<!-- PANCHANG -->
+
+<div class="card">
+
+<h2>
+जन्म पंचांग / अवकहड़ा विवरण
+</h2>
+
+<table class="detail-table">
+
+<tr>
+<td>वार</td>
+<td>${e(p.weekday)}</td>
+</tr>
+
+<tr>
+<td>तिथि</td>
+<td>
+${e(pc.tithi?.name)}
+ (${e(pc.tithi?.paksha)})
+</td>
+</tr>
+
+<tr>
+<td>नक्षत्र</td>
+<td>
+${e(pc.nakshatra?.nameHi||pc.nakshatra?.name)}
+ · पद ${e(pc.nakshatra?.pada)}
+</td>
+</tr>
+
+<tr>
+<td>नक्षत्र स्वामी</td>
+<td>${e(pc.nakshatra?.lord)}</td>
+</tr>
+
+<tr>
+<td>नाड़ी</td>
+<td>${e(pc.nadi)}</td>
+</tr>
+
+<tr>
+<td>पाया</td>
+<td>${e(pc.paya)}</td>
+</tr>
+
+<tr>
+<td>वर्ण</td>
+<td>${e(pc.varna)}</td>
+</tr>
+
+<tr>
+<td>योनि</td>
+<td>${e(pc.yoni)}</td>
+</tr>
+
+<tr>
+<td>गण</td>
+<td>${e(pc.gana)}</td>
+</tr>
+
+<tr>
+<td>वश्य</td>
+<td>${e(pc.vashya)}</td>
+</tr>
+
+<tr>
+<td>योग</td>
+<td>${e(pc.yoga?.name)}</td>
+</tr>
+
+<tr>
+<td>करण</td>
+<td>${e(pc.karana)}</td>
+</tr>
+
+<tr>
+<td>दशा भोग्य</td>
+<td>
+${e(bd.dashaBhogya?.lord)}
+ ·
+${e(bd.dashaBhogya?.display)}
+</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- MAIN CHART DETAILS -->
+
+<div class="card">
+
+<h2>
+जन्म कुंडली के मुख्य विवरण
+</h2>
+
+<table class="detail-table">
+
+<tr>
+<td>लग्न</td>
+<td>
+${e(bc.lagnaHi)} (${e(bc.lagna)})
+</td>
+</tr>
+
+<tr>
+<td>लग्न स्वामी</td>
+<td>${e(bc.lagnaLord)}</td>
+</tr>
+
+<tr>
+<td>चंद्र राशि</td>
+<td>
+${e(bc.rashiHi)} (${e(bc.rashi)})
+</td>
+</tr>
+
+<tr>
+<td>राशि स्वामी</td>
+<td>${e(bc.rashiLord)}</td>
+</tr>
+
+<tr>
+<td>नक्षत्र-पद</td>
+<td>
+${e(bc.nakshatraHi)}
+ ${e(bc.pada)}
+</td>
+</tr>
+
+<tr>
+<td>नक्षत्र स्वामी</td>
+<td>${e(bc.nakshatraLord)}</td>
+</tr>
+
+<tr>
+<td>सूर्य राशि</td>
+<td>
+${e(astro.sunSignHinduHi||astro.sunSignHindu)}
+</td>
+</tr>
+
+<tr>
+<td>सूर्य राशि (Western)</td>
+<td>${e(astro.sunSignWestern)}</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- TIME DETAILS -->
+
+<div class="card">
+
+<h2>
+समय एवं खगोलीय विवरण
+</h2>
+
+<table class="detail-table">
+
+<tr><td>इष्टकाल</td><td>${e(td.ishtakaal)}</td></tr>
+
+<tr><td>स्थानीय औसत समय</td><td>${e(td.localMeanTime)}</td></tr>
+
+<tr><td>स्थानीय समय संशोधन</td><td>${e(td.localMeanTimeCorrection)}</td></tr>
+
+<tr><td>समय समीकरण</td><td>${e(td.equationOfTime)}</td></tr>
+
+<tr><td>जन्म समय GMT</td><td>${e(td.gmtBirthTime)}</td></tr>
+
+<tr><td>जुलियन दिन</td><td>${e(td.julianDay)}</td></tr>
+
+<tr><td>अयनांश</td><td>${e(astro.ayanamsa)}°</td></tr>
+
+<tr><td>अयनांश नाम</td><td>${e(astro.ayanamsaName)}</td></tr>
+
+<tr><td>अक्ष से झुकाव</td><td>${e(astro.obliquity)}°</td></tr>
+
+<tr><td>सूर्योदय</td><td>${e(astro.sunrise)}</td></tr>
+
+<tr><td>सूर्यास्त</td><td>${e(astro.sunset)}</td></tr>
+
+<tr><td>दिन अवधि</td><td>${e(astro.dayDuration)}</td></tr>
+
+</table>
+
+</div>
+
+
+<!-- CHARTS BEFORE PHALA -->
+
+<div class="card">
+
+<h2>
+D1 / Rashi और D9 / Navamsa
+</h2>
+
+<div class="chart-grid">
+
+  <div class="chart-box">
+
+    <h3>
+      D1 / Rashi / Lagna
+    </h3>
+
+    <div id="d1"></div>
+
+    <div class="chart-note">
+      North Indian fixed-house layout
+    </div>
+
+  </div>
+
+
+  <div class="chart-box">
+
+    <h3>
+      D9 / Navamsa
+    </h3>
+
+    <div id="d9"></div>
+
+    <div class="chart-note">
+      North Indian Navamsa chart
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- PLANETS -->
+
+<div class="card">
+
+<h2>
+Planetary Positions
+</h2>
+
+<div class="table-wrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+<th>Planet</th>
+<th>Sign</th>
+<th>House</th>
+<th>Degree</th>
+<th>Nakshatra</th>
+<th>Pada</th>
+<th>R</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+${planets}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- DASHA BEFORE PHALA -->
+
+<div class="card">
+
+<h2>
+Vimshottari Dasha
+</h2>
+
+<div id="dasha"></div>
+
+</div>
+
+
+<!-- TRANSIT -->
+
+<div class="card">
+
+<h2>
+Gochar / Transit
+</h2>
+
+<div class="table-wrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+<th>ग्रह</th>
+<th>राशि</th>
+<th>Longitude</th>
+<th>वक्री</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+${transitRows}
+
+</tbody>
+
+</table>
+
+</div>
+
+<p class="note">
+Transit date:
+${e(d.advanced?.date||new Date().toISOString().slice(0,10))}
 </p>
 
-<small>
-  ${esc(
-    data.ruleSummary?.yogaRulesChecked ||
-    0
-  )}
-  yoga rules checked.
-</small>
+</div>
+
+
+<!-- SADE SATI -->
+
+<div class="card">
+
+<h2>
+साढ़ेसाती
+</h2>
+
+<div class="${
+  ss.active
+  ?"warn"
+  :"success"
+}">
+
+<b>
+
+${
+ ss.active
+ ? "साढ़ेसाती सक्रिय — "+e(ss.phase)
+ : "वर्तमान Saturn transit के अनुसार साढ़ेसाती सक्रिय नहीं है।"
+}
+
+</b>
+
+</div>
+
+<p class="note">
+
+जन्म चंद्र राशि:
+${e(ss.natalMoonSign)}
+
+<br>
+
+वर्तमान शनि राशि:
+${e(ss.saturnSign)}
+
+<br>
+
+4th से ढैय्या:
+${ss.dhaiya?.from4th?"हाँ":"नहीं"}
+
+ ·
+
+8th से ढैय्या:
+${ss.dhaiya?.from8th?"हाँ":"नहीं"}
+
+</p>
+
+</div>
+
+
+<!-- ASHTAKAVARGA -->
+
+<div class="card">
+
+<h2>
+अष्टकवर्ग
+</h2>
+
+<div class="table-wrap">
+
+<table class="table">
+
+<tr>
+<th>राशि क्रम</th>
+<th>राशि</th>
+<th>SAV बिंदु</th>
+</tr>
+
+${sav}
+
+</table>
+
+</div>
+
+<p class="note">
+
+Sarvashtakavarga कुल:
+<b>${e(av.total)}</b> बिंदु।
+
+Bhinnashtakavarga और SAV गणना उपलब्ध chart data के आधार पर प्रदर्शित की गई है।
+
+</p>
+
+</div>
+
+
+<!-- NUMEROLOGY -->
+
+<div class="card">
+
+<h2>
+अनुकूल बिन्दु / Numerology
+</h2>
+
+<table class="detail-table">
+
+<tr><td>जन्मांक</td><td>${e(num.birthNumber)}</td></tr>
+
+<tr><td>भाग्यांक</td><td>${e(num.lifePath)}</td></tr>
+
+<tr><td>नामांक (Chaldean)</td><td>${e(num.nameNumberChaldean)}</td></tr>
+
+<tr><td>नामांक (Pythagorean)</td><td>${e(num.nameNumberPythagorean)}</td></tr>
+
+<tr><td>Soul Number</td><td>${e(num.soulNumber)}</td></tr>
+
+<tr><td>Personality Number</td><td>${e(num.personalityNumber)}</td></tr>
+
+<tr><td>Attitude Number</td><td>${e(num.attitudeNumber)}</td></tr>
+
+<tr><td>Maturity Number</td><td>${e(num.maturityNumber)}</td></tr>
+
+<tr><td>Personal Year</td><td>${e(num.personalYear)}</td></tr>
+
+<tr><td>Personal Month</td><td>${e(num.personalMonth)}</td></tr>
+
+<tr><td>Personal Day</td><td>${e(num.personalDay)}</td></tr>
+
+<tr>
+<td>शुभ अंक</td>
+<td>${e((fp.goodNumbers||num.luckyNumbers||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>अशुभ अंक</td>
+<td>${e((fp.evilNumbers||num.unluckyNumbers||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>शुभ वर्ष</td>
+<td>${e((fp.goodYears||num.luckyYears||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>भाग्यशाली दिन</td>
+<td>${e((fp.luckyDays||num.luckyDays||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>शुभ ग्रह</td>
+<td>${e((fp.goodPlanets||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>अशुभ ग्रह</td>
+<td>${e((fp.evilPlanets||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>मित्र राशियां</td>
+<td>${e((fp.friendlySigns||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>शुभ लग्न</td>
+<td>${e((fp.goodLagna||[]).join(", "))}</td>
+</tr>
+
+<tr>
+<td>भाग्यशाली धातु</td>
+<td>${e(fp.luckyMetal)}</td>
+</tr>
+
+<tr>
+<td>भाग्यशाली रत्न</td>
+<td>${e(fp.luckyStone)}</td>
+</tr>
+
+<tr>
+<td>आधार</td>
+<td>${e(fp.basis||num.note)}</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- GHATAK -->
+
+<div class="card">
+
+<h2>
+घटक (अशुभ) — जन्म राशि आधारित
+</h2>
+
+<table class="detail-table">
+
+<tr><td>राशि</td><td>${e(gh.moonRashi)}</td></tr>
+
+<tr><td>माह</td><td>${e(gh.masa)}</td></tr>
+
+<tr><td>तिथि</td><td>${e(gh.tithi)}</td></tr>
+
+<tr><td>दिन</td><td>${e(gh.day)}</td></tr>
+
+<tr><td>नक्षत्र</td><td>${e(gh.nakshatra)}</td></tr>
+
+<tr><td>प्रहर</td><td>${e(gh.prahar)}</td></tr>
+
+<tr><td>लग्न</td><td>${e(gh.lagna)}</td></tr>
+
+<tr><td>योग</td><td>${e(gh.yoga)}</td></tr>
+
+<tr><td>करण</td><td>${e(gh.karana)}</td></tr>
+
+</table>
+
+<p class="note">
+यह पारंपरिक घटक-चक्र की प्रकाशित तालिका पर आधारित विवरण है।
+अलग परंपराओं में तालिका बदल सकती है।
+</p>
+
+</div>
+
+
+<!-- YOGA DOSHA -->
+
+<div class="grid">
+
+<div class="card">
+
+<h2>
+Shubh Yog
+</h2>
+
+${yogas}
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Ashubh Yog / Dosha
+</h2>
+
+${doshas}
+
+</div>
+
+</div>
+
+
+<!-- PHALA -->
+
+<div class="card">
+
+<h2>
+जन्म फलादेश
+</h2>
+
+<div class="phala">
+
+${phalaHTML}
+
+</div>
+
+</div>
+
+
+<!-- FINAL CONTACT -->
+
+<div class="card no-print">
+
+<h2>
+Astrologer से सलाह लें
+</h2>
+
+<p class="note">
+अगर आप अपनी Kundli के किसी विशेष योग, दशा, विवाह,
+करियर, शिक्षा, वित्त या अन्य विषय पर ज्योतिषीय सलाह चाहते हैं,
+तो उपलब्ध Astrologers की सूची देखें।
+</p>
+
+<a
+href="${ASTROLOGER_URL}"
+class="btn contact-btn"
+style="color:#111"
+>
+💬 Astrologer List खोलें
+</a>
+
+</div>
+
+
+<!-- DISCLAIMER -->
+
+<div class="card">
+
+<h2>
+महत्वपूर्ण सूचना
+</h2>
+
+<p class="note">
+
+यह रिपोर्ट पारंपरिक वैदिक ज्योतिषीय गणना और उपलब्ध
+Swiss Ephemeris/Lahiri data के आधार पर तैयार की गई है।
+
+इसे वैज्ञानिक या निश्चित भविष्यवाणी के रूप में न लें।
+
+ऊपर दिए गए
+<b>Print / Save PDF</b>
+button से browser के Print Dialog में
+<b>Save as PDF</b>
+चुनकर रिपोर्ट सेव की जा सकती है।
+
+PDF में मौजूद
+<b>Astrologer से संपर्क करें</b>
+links उपलब्ध होने पर clickable रहेंगे।
+
+</p>
+
+</div>
 
 `;
 
 
-/* ======================================================
-   DOSHAS
-====================================================== */
+/* ---------------- DASHBOARD DASHA TREE ---------------- */
 
-document.getElementById(
-  "doshas"
-).innerHTML =
-
-(data.doshas || []).length
-
-?
-
-data.doshas
-  .map(
-    x => `
-
-    <div class="badge">
-
-      ${esc(x.name)}
-
-      <br>
-
-      <small>
-        ${esc(x.basis)}
-        <br>
-        ${esc(x.severity)}
-      </small>
-
-    </div>
-
-    `
-  )
-  .join("")
-
-:
-
-`
-
-<p>
-  No configured Ashubh Yoga/Dosha rule
-  matched for this chart.
-</p>
-
-<small>
-  ${esc(
-    data.ruleSummary?.doshaRulesChecked ||
-    0
-  )}
-  dosha rules checked.
-</small>
-
-`;
-
-
-/* ======================================================
-   VIMSHOTTARI DASHA
-====================================================== */
-
-const m =
-  data.dasha?.mahadasha ||
-  [];
-
+const m=d.dasha?.mahadasha||[];
 
 function renderPD(pd){
 
   if(!pd?.length){
 
     return `
-
     <div class="dasha-empty">
-      इस अंतर्दशा के लिए प्रात्यंतर दशा
-      उपलब्ध नहीं है।
+      इस अंतर्दशा के लिए प्रत्यंतर दशा उपलब्ध नहीं है।
     </div>
-
     `;
 
   }
 
+  return pd.map(z=>`
 
-  return pd
-    .map(
-      z => `
+    <details class="dasha-pd">
 
-      <details
-        class="dasha-pd"
-      >
+      <summary>
 
-        <summary>
+        <span>
+          PD: ${e(z.lord||"—")}
+        </span>
 
-          <span>
-            PD:
-            ${esc(
-              z.lord ||
-              "—"
-            )}
-          </span>
+        <span class="dasha-dates">
+          ${e(z.start||"—")}
+          →
+          ${e(z.end||"—")}
+        </span>
 
-          <span
-            class="dasha-dates"
-          >
-            ${esc(
-              z.start ||
-              "—"
-            )}
+      </summary>
 
-            →
+    </details>
 
-            ${esc(
-              z.end ||
-              "—"
-            )}
-          </span>
-
-        </summary>
-
-      </details>
-
-      `
-    )
-    .join("");
+  `).join("");
 
 }
 
 
-function renderAD(
-  a,
-  mdLord
-){
+function renderAD(a,mdLord){
 
-  const pds =
+  const md=(d.dasha?.mahadasha||[])
+    .find(x=>x.lord===mdLord);
 
-    (
-      data.dasha
-        ?.mahadasha || []
-    )
-    .find(
-      x =>
-        x.lord === mdLord
-    )
-    ?.pratyantardasha ||
-    [];
+  const pds=md?.pratyantardasha||[];
 
-
-  const adPds =
-    pds.filter(
-      z =>
-        z.antardasha ===
-        a.lord &&
-
-        z.start >=
-        a.start &&
-
-        z.end <=
-        a.end
-    );
-
+  const adPds=pds.filter(z=>
+    z.antardasha===a.lord &&
+    z.start>=a.start &&
+    z.end<=a.end
+  );
 
   return `
 
-  <details
-    class="dasha-ad"
-  >
+  <details class="dasha-ad">
 
     <summary>
 
       <span>
-        AD:
-        ${esc(
-          a.lord ||
-          "—"
-        )}
+        AD: ${e(a.lord||"—")}
       </span>
 
-      <span
-        class="dasha-dates"
-      >
-        ${esc(
-          a.start ||
-          "—"
-        )}
-
+      <span class="dasha-dates">
+        ${e(a.start||"—")}
         →
-
-        ${esc(
-          a.end ||
-          "—"
-        )}
+        ${e(a.end||"—")}
       </span>
 
     </summary>
 
-    <div
-      class="dasha-body"
-    >
+    <div class="dasha-body">
 
       ${renderPD(adPds)}
 
@@ -2262,80 +1875,37 @@ function renderAD(
 
 function renderMD(x){
 
-  const ads =
-    x.antardasha ||
-    [];
-
+  const ads=x.antardasha||[];
 
   return `
 
-  <details
-    class="dasha-md"
-  >
+  <details class="dasha-md">
 
     <summary>
 
       <span>
-
-        MD:
-        ${esc(
-          x.lord ||
-          "—"
-        )}
-
+        MD: ${e(x.lord||"—")}
       </span>
 
-      <span
-        class="dasha-dates"
-      >
-
-        ${esc(
-          x.start ||
-          "—"
-        )}
-
+      <span class="dasha-dates">
+        ${e(x.start||"—")}
         →
-
-        ${esc(
-          x.end ||
-          "—"
-        )}
-
+        ${e(x.end||"—")}
       </span>
 
     </summary>
 
-
-    <div
-      class="dasha-body"
-    >
+    <div class="dasha-body">
 
       ${
         ads.length
-
         ?
-
-        ads
-          .map(
-            a =>
-              renderAD(
-                a,
-                x.lord
-              )
-          )
-          .join("")
-
+        ads.map(a=>renderAD(a,x.lord)).join("")
         :
-
         `
-
-        <div
-          class="dasha-empty"
-        >
-          इस महादशा के लिए
-          अंतर्दशा उपलब्ध नहीं है।
+        <div class="dasha-empty">
+          इस महादशा के लिए अंतर्दशा उपलब्ध नहीं है।
         </div>
-
         `
       }
 
@@ -2348,440 +1918,295 @@ function renderMD(x){
 }
 
 
-document.getElementById(
-  "dasha"
-).innerHTML = `
+document.getElementById("dasha").innerHTML=`
 
-<div
-  class="dasha-tree"
->
+<div class="dasha-tree">
 
-  <p
-    class="dasha-help"
-  >
+<p class="dasha-help">
 
-    किसी
-    <b>महादशा</b>
-    पर टैप करें →
-    उसकी
-    <b>अंतर्दशा</b>
-    खुलेगी।
+किसी <b>महादशा</b> पर टैप करें →
+उसकी <b>अंतर्दशा</b> खुलेगी।
+फिर किसी <b>अंतर्दशा</b> पर टैप करें →
+उसकी <b>प्रत्यंतर दशाएं</b> दिखाई देंगी।
 
-    फिर किसी
-    <b>अंतर्दशा</b>
-    पर टैप करें →
-    उसकी
-    <b>प्रत्यंतर दशाएं</b>
-    दिखाई देंगी।
+</p>
 
-  </p>
-
-  ${m.map(renderMD).join("")}
+${m.map(renderMD).join("")}
 
 </div>
 
 `;
 
 
-/* ======================================================
-   TRANSIT / SADE SATI / ASHTAKAVARGA
-====================================================== */
+/* ---------------- CHART ---------------- */
 
-function renderAdvanced(){
+function chartSvg(ch){
 
-  const a =
-    data.advanced ||
-    {};
+  const signPos={
 
-  const t =
-    a.transits ||
-    {};
+    1:{x:50,y:25},
+    2:{x:25,y:10},
+    3:{x:10,y:25},
+    4:{x:25,y:50},
+    5:{x:10,y:75},
+    6:{x:25,y:90},
+    7:{x:50,y:75},
+    8:{x:75,y:90},
+    9:{x:90,y:75},
+    10:{x:75,y:50},
+    11:{x:90,y:25},
+    12:{x:75,y:10}
 
-
-  /* TRANSIT */
-
-  document.getElementById(
-    "transit"
-  ).innerHTML = `
-
-  <div class="grid">
-
-    ${
-      Object.entries(t)
-
-      .filter(
-        ([k]) =>
-          k !== "sadeSati"
-      )
-
-      .map(
-        ([k,v]) => `
-
-        <div class="badge">
-
-          <b>
-            ${esc(k)}
-          </b>
-
-          <br>
-
-          ${esc(
-            v.signName
-          )}
-
-          ·
-
-          ${Number(
-            v.longitude || 0
-          ).toFixed(2)}°
-
-          ${
-            v.retrograde
-              ? "· वक्री"
-              : ""
-          }
-
-        </div>
-
-        `
-      )
-
-      .join("")
-    }
-
-  </div>
+  };
 
 
-  <p class="note">
+  const planetPos={
 
-    Transit date:
-    ${esc(
-      a.date ||
-      new Date()
-        .toISOString()
-        .slice(0,10)
-    )}
+    1:{x:50,y:34},
+    2:{x:25,y:16},
+    3:{x:16,y:25},
+    4:{x:34,y:50},
+    5:{x:16,y:75},
+    6:{x:25,y:84},
+    7:{x:50,y:66},
+    8:{x:75,y:84},
+    9:{x:84,y:75},
+    10:{x:66,y:50},
+    11:{x:84,y:25},
+    12:{x:75,y:16}
 
-    .
+  };
 
-    गोचर के लिए वही
-    sidereal/Lahiri Swiss Ephemeris
-    provider उपयोग हुआ है।
 
-  </p>
+  const clips={
+
+    1:"50,0 75,25 50,50 25,25",
+    2:"0,0 50,0 25,25",
+    3:"0,0 25,25 0,50",
+    4:"0,50 25,25 50,50 25,75",
+    5:"0,50 25,75 0,100",
+    6:"0,100 25,75 50,100",
+    7:"50,100 75,75 50,50 25,75",
+    8:"50,100 75,75 100,100",
+    9:"100,100 75,75 100,50",
+    10:"100,50 75,25 50,50 75,75",
+    11:"100,0 100,50 75,25",
+    12:"50,0 100,0 75,25"
+
+  };
+
+
+  const short={
+
+    Sun:"Su",
+    Moon:"Mo",
+    Mars:"Ma",
+    Mercury:"Me",
+    Jupiter:"Ju",
+    Venus:"Ve",
+    Saturn:"Sa",
+    Rahu:"Ra",
+    Ketu:"Ke"
+
+  };
+
+
+  const escSvg=v=>String(v??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;");
+
+
+  const houses=[...(ch||[])]
+    .sort((a,b)=>Number(a.house)-Number(b.house));
+
+
+  let svg=`
+
+  <svg
+    viewBox="0 0 100 100"
+    preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+  >
+
+  <defs>
+  `;
+
+
+  for(const h of Object.keys(clips)){
+
+    svg+=`
+
+    <clipPath id="pdfHouseClip${h}">
+
+      <polygon points="${clips[h]}"/>
+
+    </clipPath>
+
+    `;
+
+  }
+
+
+  svg+=`
+
+  </defs>
+
+  <rect
+    x="0.35"
+    y="0.35"
+    width="99.3"
+    height="99.3"
+    fill="white"
+    stroke="#111"
+    stroke-width="0.65"
+  />
 
   `;
 
 
-  /* SADE SATI */
+  const lines=[
 
-  const ss =
-    a.sadeSati ||
-    {};
+    [0,0,100,100],
+    [100,0,0,100],
+    [50,0,0,50],
+    [50,0,100,50],
+    [0,50,50,100],
+    [100,50,50,100]
 
+  ];
 
-  document.getElementById(
-    "sadeSati"
-  ).innerHTML = `
 
-  <b>
+  for(const l of lines){
 
-    ${
-      ss.active
+    svg+=`
 
-      ?
+    <line
+      x1="${l[0]}"
+      y1="${l[1]}"
+      x2="${l[2]}"
+      y2="${l[3]}"
+      stroke="#111"
+      stroke-width="0.65"
+    />
 
-      "साढ़ेसाती सक्रिय — " +
-      esc(
-        ss.phase
-      )
+    `;
 
-      :
+  }
 
-      "वर्तमान Saturn transit के अनुसार " +
-      "साढ़ेसाती सक्रिय नहीं है।"
-    }
 
-  </b>
+  for(const h of houses){
 
+    const house=Number(h.house);
 
-  <p class="note">
+    if(!planetPos[house]||!signPos[house])continue;
 
-    जन्म चंद्र राशि:
-    ${esc(
-      ss.natalMoonSign
-    )}
+    const sp=signPos[house];
+    const pp=planetPos[house];
 
-    ·
+    const planets=(h.planets||[])
+      .map(x=>short[x]||x);
 
-    वर्तमान शनि राशि:
-    ${esc(
-      ss.saturnSign
-    )}
+    svg+=`
 
-    <br>
+    <g clip-path="url(#pdfHouseClip${house})">
 
-    4th से ढैय्या:
-    ${
-      ss.dhaiya?.from4th
-        ? "हाँ"
-        : "नहीं"
-    }
+      <text
+        x="${sp.x}"
+        y="${sp.y}"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-size="4.8"
+        font-weight="900"
+        fill="#111"
+      >
+        ${escSvg(h.sign)}
+      </text>
 
-    ·
+    `;
 
-    8th से ढैय्या:
-    ${
-      ss.dhaiya?.from8th
-        ? "हाँ"
-        : "नहीं"
-    }
 
-  </p>
+    if(planets.length){
 
-  `;
+      const count=planets.length;
 
+      const font=
+        count>=6
+        ?2.45
+        :count>=4
+        ?2.75
+        :3.05;
 
-  /* ASHTAKAVARGA */
+      const step=
+        count>=6
+        ?3
+        :count>=4
+        ?3.45
+        :4;
 
-  const av =
-    a.ashtakavarga ||
-    {};
+      const total=(count-1)*step;
 
+      let y=pp.y-total/2;
 
-  const rows =
-    (av.sarva || [])
-      .map(
-        (v,i) => `
 
-        <tr>
+      for(const planet of planets){
 
-          <td>
-            ${i+1}
-          </td>
+        svg+=`
 
-          <td>
-            ${esc(
-              data.charts
-                ?.D1?.[i]
-                ?.signName ||
-              ""
-            )}
-          </td>
-
-          <td>
-            ${v}
-          </td>
-
-        </tr>
-
-        `
-      )
-      .join("");
-
-
-  document.getElementById(
-    "ashtakavarga"
-  ).innerHTML = `
-
-  <div class="scroll">
-
-    <table class="table">
-
-      <tr>
-
-        <th>
-          राशि
-        </th>
-
-        <th>
-          Sign
-        </th>
-
-        <th>
-          SAV
-        </th>
-
-      </tr>
-
-      ${rows}
-
-    </table>
-
-  </div>
-
-
-  <p class="note">
-
-    कुल SAV:
-    ${esc(av.total)}
-    / 337.
-
-    Bhinnashtakavarga में classical
-    fixed totals की जाँच की जाती है।
-
-  </p>
-
-  `;
-
-}
-
-
-renderAdvanced();
-
-
-/* ======================================================
-   PHALA DESH
-====================================================== */
-
-document.getElementById(
-  "phala"
-).innerHTML = `
-
-<div
-  class="phala-summary"
->
-
-  <b>
-    ${esc(
-      data.phalaDesh?.summary ||
-      "—"
-    )}
-  </b>
-
-</div>
-
-
-${
-  (
-    data.phalaDesh?.points ||
-    []
-  )
-
-  .map(
-    x => {
-
-      if(
-        typeof x ===
-        "string"
-      ){
-
-        return `
-
-        <div
-          class="phala-item"
+        <text
+          x="${pp.x}"
+          y="${y}"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          font-size="${font}"
+          font-weight="800"
+          fill="#8a1c1c"
         >
-
-          ${esc(x)}
-
-        </div>
+          ${escSvg(planet)}
+        </text>
 
         `;
 
+        y+=step;
+
       }
 
-
-      const fs =
-        (
-          x.factors ||
-          []
-        )
-        .map(
-          f =>
-            `<li>${esc(f)}</li>`
-        )
-        .join("");
-
-
-      return `
-
-      <div
-        class="phala-item"
-      >
-
-        <h3>
-          ${esc(
-            x.title ||
-            "फलादेश"
-          )}
-        </h3>
-
-
-        <div
-          class="phala-text"
-        >
-          ${esc(
-            x.text ||
-            ""
-          )}
-        </div>
-
-
-        ${
-          fs
-
-          ?
-
-          `
-
-          <div
-            class="phala-factors"
-          >
-
-            <b>
-              ज्योतिषीय आधार:
-            </b>
-
-            <ul>
-              ${fs}
-            </ul>
-
-          </div>
-
-          `
-
-          :
-
-          ""
-        }
-
-
-        <div
-          class="phala-signal"
-        >
-          ${esc(
-            x.signal ||
-            ""
-          )}
-        </div>
-
-      </div>
-
-      `;
-
     }
-  )
 
-  .join("")
+    svg+=`</g>`;
+
+  }
+
+
+  return svg+"</svg>";
+
 }
 
 
-<div
-  class="phala-note"
->
+document.getElementById("d1").innerHTML=`
 
-  <b>
-    महत्वपूर्ण नोट:
-  </b>
+<div class="chart">
 
-  ${esc(
-    data.phalaDesh?.note ||
-    ""
-  )}
+${chartSvg(d.charts?.D1)}
 
 </div>
 
 `;
+
+
+document.getElementById("d9").innerHTML=`
+
+<div class="chart">
+
+${chartSvg(d.charts?.D9)}
+
+</div>
+
+`;
+
+}
 
 </script>
 
