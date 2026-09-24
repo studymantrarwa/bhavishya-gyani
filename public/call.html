@@ -105,4 +105,4 @@ function cleanup(){clearInterval(pollTimer);clearInterval(signalTimer);clearInte
 $('#mute').onclick=()=>{if(!local)return;muted=!muted;local.getAudioTracks().forEach(t=>t.enabled=!muted);$('#mute').textContent=muted?'🔇':'🎙';setStatus(muted?'Microphone muted':'Microphone active')};
 $('#startAudio').onclick=enableAudio;$('#end').onclick=endCall;
 (async()=>{try{if(!cid)throw Error('Missing conversation_id');const t=await window.SM_SUPABASE.getAccessToken();if(!t)throw Error('Login required');me=await window.SM_SUPABASE.getCurrentUser();if(!me?.user)throw Error('Login required');const c=await getConv();if(c.status==='call_accepted')await startMedia();else{setStatus('Waiting for call acceptance…');pollTimer=setInterval(pollCallState,800);await pollCallState()}}catch(e){setStatus(e.message||String(e))}})();
-</script></body></html>
+</script><script src="/astrologer-global-chat.js"></script></body></html>
