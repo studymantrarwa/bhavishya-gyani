@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+
+<title>अंक शास्त्र - Bhavishya Gyani</title>
+
+<link rel="stylesheet" href="/more-pages.css">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body{
+  font-family:system-ui,-apple-system,"Noto Sans Devanagari",Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,193,7,.16),transparent 32%),
+    radial-gradient(circle at 10% 30%,rgba(255,193,7,.06),transparent 28%),
+    #050505;
+}
+
+/* Main */
+.page{
+  width:100%;
+  min-height:100vh;
+  padding:18px 14px 35px;
+}
+
+.container{
+  width:100%;
+  max-width:760px;
+  margin:auto;
+}
+
+/* Branding */
+.brand{
+  text-align:center;
+  padding:14px 10px 20px;
+}
+
+.brand-icon{
+  width:62px;
+  height:62px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  color:#ffc400;
+  background:
+    radial-gradient(circle,#332900 0%,#171300 55%,#090909 100%);
+  border:1px solid rgba(255,196,0,.35);
+  box-shadow:
+    0 0 25px rgba(255,193,7,.15),
+    inset 0 0 18px rgba(255,193,7,.08);
+}
+
+.brand h1{
+  margin:0;
+  font-size:30px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.brand p{
+  margin:7px 0 0;
+  color:#9d9d9d;
+  font-size:14px;
+}
+
+/* Navigation */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.nav-btn{
+  text-decoration:none;
+  color:#ddd;
+  background:#191919;
+  border:1px solid #303030;
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.nav-btn:hover{
+  border-color:#ffc400;
+  color:#ffc400;
+}
+
+/* Main Card */
+.card{
+  background:
+    linear-gradient(145deg,#151515,#101010);
+  border:1px solid #303030;
+  border-radius:20px;
+  padding:22px;
+  margin:14px 0;
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 8px;
+  color:#ffc400;
+  font-size:22px;
+  font-weight:800;
+}
+
+.card-subtitle{
+  margin:0 0 20px;
+  color:#9c9c9c;
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* Fields */
+.field{
+  margin:16px 0;
+}
+
+.field label{
+  display:block;
+  color:#e8e8e8;
+  font-size:14px;
+  font-weight:700;
+  margin:0 0 7px;
+}
+
+.field input{
+  width:100%;
+  height:52px;
+  border-radius:11px;
+  border:1px solid #353535;
+  outline:none;
+  background:#080808;
+  color:#fff;
+  padding:0 14px;
+  font-size:16px;
+  transition:.2s;
+}
+
+.field input::placeholder{
+  color:#666;
+}
+
+.field input:focus{
+  border-color:#ffc400;
+  box-shadow:0 0 0 3px rgba(255,196,0,.08);
+}
+
+/* Button */
+.btn-gold{
+  width:100%;
+  height:54px;
+  margin-top:7px;
+  border:0;
+  border-radius:11px;
+  background:linear-gradient(180deg,#ffc800,#ffbd00);
+  color:#111;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(255,193,7,.14);
+  transition:.2s;
+}
+
+.btn-gold:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.04);
+}
+
+.btn-gold:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* Result */
+.result{
+  min-height:80px;
+}
+
+.result-empty{
+  text-align:center;
+  padding:25px 12px;
+  color:#777;
+}
+
+.result-title{
+  color:#ffc400;
+  font-size:20px;
+  margin:0 0 15px;
+}
+
+.result-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.result-item{
+  background:#0a0a0a;
+  border:1px solid #292929;
+  border-radius:13px;
+  padding:14px;
+}
+
+.result-label{
+  display:block;
+  color:#858585;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.result-value{
+  display:block;
+  color:#fff;
+  font-size:20px;
+  font-weight:800;
+}
+
+.result-value.gold{
+  color:#ffc400;
+}
+
+/* Information */
+.info{
+  color:#a0a0a0;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.info b{
+  color:#ddd;
+}
+
+/* Footer branding */
+.footer-brand{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  padding:18px 0 5px;
+}
+
+.footer-brand strong{
+  color:#ffc400;
+}
+
+/* Mobile */
+@media(max-width:560px){
+  .page{
+    padding:10px 10px 25px;
+  }
+
+  .brand{
+    padding-top:12px;
+  }
+
+  .brand h1{
+    font-size:27px;
+  }
+
+  .brand-icon{
+    width:56px;
+    height:56px;
+    font-size:28px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:18px;
+  }
+
+  .result-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .result-value{
+    font-size:18px;
+  }
+}
+
+@media(max-width:380px){
+  .result-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+<div class="container">
+
+  <!-- BRANDING -->
+  <section class="brand">
+    <div class="brand-icon">☀</div>
+    <h1>Bhavishya Gyani</h1>
+    <p>आपका ज्योतिषीय सफर यहीं से शुरू करें</p>
+  </section>
+
+  <!-- TOP NAVIGATION -->
+  <div class="topbar">
+    <a class="nav-btn" href="javascript:history.back()">← वापस</a>
+    <a class="nav-btn" href="/">होम</a>
+  </div>
+
+  <!-- MAIN NUMEROLOGY CARD -->
+  <section class="card">
+
+    <h2 class="card-title">
+      🔢 अंक शास्त्र
+    </h2>
+
+    <p class="card-subtitle">
+      जन्म तारीख और नाम के आधार पर अपना अंक शास्त्र देखें।
+      जन्मांक, भाग्यांक, नामांक और Personal Year की गणना प्राप्त करें।
+    </p>
+
+    <div class="field">
+      <label for="n">नाम</label>
+      <input
+        id="n"
+        type="text"
+        autocomplete="name"
+        placeholder="अपना नाम दर्ज करें">
+    </div>
+
+    <div class="field">
+      <label for="d">जन्म तारीख</label>
+      <input
+        id="d"
+        type="date">
+    </div>
+
+    <button
+      class="btn-gold"
+      id="go"
+      type="button">
+      ✨ अंक शास्त्र की गणना करें
+    </button>
+
+  </section>
+
+  <!-- RESULT -->
+  <section class="card">
+
+    <div id="out" class="result">
+
+      <div class="result-empty">
+        जन्म विवरण भरकर
+        <br>
+        <span style="color:#ffc400">
+          अंक शास्त्र की गणना करें।
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- INFORMATION -->
+  <section class="card">
+
+    <h2 class="card-title" style="font-size:18px">
+      ℹ️ अंक शास्त्र के बारे में
+    </h2>
+
+    <div class="info">
+      <p>
+        <b>जन्मांक</b> जन्म तारीख के आधार पर प्राप्त मुख्य अंक है।
+      </p>
+
+      <p>
+        <b>भाग्यांक</b> पूरी जन्म तारीख के अंकों से निकाला जाता है।
+      </p>
+
+      <p>
+        <b>नामांक</b> दिए गए नाम के अक्षरों के आधार पर गणना किया जाता है।
+      </p>
+
+      <p>
+        <b>Personal Year</b> वर्तमान वर्ष के लिए numerology calculation
+        को दर्शाता है।
+      </p>
+    </div>
+
+  </section>
+
+  <div class="footer-brand">
+    © <strong>Bhavishya Gyani</strong> • Vedic Astrology & Numerology
+  </div>
+
+</div>
+
+</main>
+
+
+<script>
+const esc = s =>
+  String(s ?? '')
+  .replace(/[&<>"']/g, c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c]));
+
+const nameInput = document.getElementById('n');
+const dobInput = document.getElementById('d');
+const button = document.getElementById('go');
+const output = document.getElementById('out');
+
+
+button.addEventListener('click', async () => {
+
+  const name = nameInput.value.trim();
+  const dob = dobInput.value;
+
+  if(!dob){
+    output.innerHTML = `
+      <div class="result-empty" style="color:#ffb300">
+        कृपया जन्म तारीख चुनें।
+      </div>
+    `;
+    dobInput.focus();
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = '⏳ गणना हो रही है…';
+
+  output.innerHTML = `
+    <div class="result-empty">
+      <div style="font-size:25px;margin-bottom:8px">
+        🔢
+      </div>
+      अंक शास्त्र की गणना की जा रही है…
+    </div>
+  `;
+
+  try{
+
+    const response = await fetch('/api/numerology', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        name:name,
+        dob:dob,
+        year:new Date().getFullYear()
+      })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(
+        data.error || 'Calculation failed'
+      );
+    }
+
+    output.innerHTML = `
+
+      <h3 class="result-title">
+        ✨ अंक शास्त्र परिणाम
+      </h3>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+          <span class="result-label">
+            नाम
+          </span>
+          <span class="result-value">
+            ${esc(name || '—')}
+          </span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">
+            जन्म तारीख
+          </span>
+          <span class="result-value">
+            ${esc(dob)}
+          </span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">
+            जन्मांक
+          </span>
+          <span class="result-value gold">
+            ${esc(data.birthNumber)}
+          </span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">
+            भाग्यांक
+          </span>
+          <span class="result-value gold">
+            ${esc(data.lifePath)}
+          </span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">
+            नामांक
+          </span>
+          <span class="result-value gold">
+            ${esc(
+              data.nameNumberChaldean ||
+              data.nameNumberPythagorean ||
+              '—'
+            )}
+          </span>
+        </div>
+
+        <div class="result-item">
+          <span class="result-label">
+            Personal Year
+          </span>
+          <span class="result-value gold">
+            ${esc(data.personalYear)}
+          </span>
+        </div>
+
+      </div>
+
+      <div style="
+        margin-top:15px;
+        padding:12px;
+        border-radius:11px;
+        background:#0a0a0a;
+        border:1px solid #292929;
+        color:#888;
+        font-size:12px;
+        line-height:1.6;
+      ">
+        यह परिणाम उपलब्ध numerology calculation के आधार पर
+        तैयार किया गया है।
+      </div>
+    `;
+
+  }catch(error){
+
+    output.innerHTML = `
+      <div class="result-empty" style="color:#ff7777">
+        ❌ ${esc(error.message)}
+      </div>
+    `;
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = '✨ अंक शास्त्र की गणना करें';
+
+  }
+
+});
+</script>
+
+</body>
+</html>
