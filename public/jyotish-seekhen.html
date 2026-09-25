@@ -1,29 +1,857 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050505"><title>ज्योतिष सीखें - Bhavishya Gyani</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+
+<title>ज्योतिष सीखें - Bhavishya Gyani</title>
+
 <link rel="stylesheet" href="/more-pages.css">
+
 <style>
-.learning-list{display:grid;gap:14px;margin-top:18px}.lesson{background:rgba(15,25,45,.88);border:1px solid #26395a;border-radius:16px;padding:18px;box-shadow:0 10px 30px #0003}.lesson h2{margin:0 0 7px}.lesson p{color:#9eacc3;line-height:1.6;margin:0 0 13px}.lesson-actions{display:flex;gap:9px;flex-wrap:wrap}.lesson-actions a{display:inline-flex;align-items:center;gap:6px;text-decoration:none}.empty-learning{text-align:center;padding:28px;color:#8e9bb0;background:rgba(15,25,45,.65);border:1px dashed #33496e;border-radius:16px}.badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:99px;background:#192d4d;color:#a9c8ff;margin-bottom:8px}
+.learning-list{
+  display:grid;
+  gap:14px;
+  margin-top:18px;
+}
+
+.lesson{
+  background:rgba(15,25,45,.88);
+  border:1px solid #26395a;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 10px 30px #0003;
+}
+
+.lesson h2{
+  margin:0 0 7px;
+}
+
+.lesson p{
+  color:#9eacc3;
+  line-height:1.6;
+  margin:0 0 13px;
+}
+
+.lesson-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.lesson-actions button{
+  cursor:pointer;
+}
+
+.empty-learning{
+  text-align:center;
+  padding:28px;
+  color:#8e9bb0;
+  background:rgba(15,25,45,.65);
+  border:1px dashed #33496e;
+  border-radius:16px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:99px;
+  background:#192d4d;
+  color:#a9c8ff;
+  margin-bottom:8px;
+}
+
+/* Video / PDF modal */
+.learning-modal{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  background:rgba(0,0,0,.88);
+  backdrop-filter:blur(5px);
+}
+
+.learning-modal.show{
+  display:flex;
+}
+
+.learning-modal-box{
+  width:min(1000px,100%);
+  max-height:94vh;
+  background:#07111f;
+  border:1px solid #29476e;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 20px 80px #000;
+  display:flex;
+  flex-direction:column;
+}
+
+.learning-modal-head{
+  min-height:58px;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid #203752;
+  background:#0a1728;
+}
+
+.learning-modal-title{
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.learning-close{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  border:1px solid #38506e;
+  border-radius:10px;
+  background:#111f32;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.video-frame-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+}
+
+.video-frame-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.pdf-frame-wrap{
+  height:78vh;
+  min-height:400px;
+  background:#111;
+}
+
+.pdf-frame-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+}
+
+.modal-fallback{
+  padding:25px;
+  text-align:center;
+  color:#b7c4d8;
+}
+
+.modal-fallback a{
+  color:#80aaff;
+}
+
+@media(max-width:600px){
+  .lesson{
+    padding:15px;
+  }
+
+  .learning-modal{
+    padding:7px;
+  }
+
+  .learning-modal-box{
+    border-radius:13px;
+  }
+
+  .pdf-frame-wrap{
+    height:78vh;
+  }
+
+  .learning-modal-title{
+    font-size:13px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main class="wrap">
-<header class="top"><a class="back" href="javascript:history.back()">‹</a><div class="title">ज्योतिष सीखें</div><a class="home" href="/">होम</a></header>
-<section class="hero"><h1>ज्योतिष सीखें</h1><p>Admin द्वारा जोड़े गए वीडियो और PDF पाठ यहाँ अपने-आप दिखाई देंगे।</p></section>
+
+<header class="top">
+  <a class="back" href="javascript:history.back()">‹</a>
+
+  <div class="title">ज्योतिष सीखें</div>
+
+  <a class="home" href="/">होम</a>
+</header>
+
+
+<section class="hero">
+  <h1>ज्योतिष सीखें</h1>
+
+  <p>
+    Admin द्वारा जोड़े गए वीडियो और PDF पाठ यहाँ अपने-आप दिखाई देंगे।
+  </p>
+</section>
+
+
 <div class="grid">
-<article class="card"><div class="icon">☀</div><h2>ग्रह</h2><p class="muted">सूर्य से शनि तक ग्रहों के पारंपरिक कारक और संकेत.</p></article>
-<article class="card"><div class="icon">♈</div><h2>राशियां</h2><p class="muted">12 राशियों, तत्व, स्वभाव और भाव संबंधों का अध्ययन.</p></article>
-<article class="card"><div class="icon">🏠</div><h2>भाव</h2><p class="muted">12 भावों और जीवन के क्षेत्रों को समझें.</p></article>
-<article class="card"><div class="icon">✦</div><h2>नक्षत्र</h2><p class="muted">नक्षत्र और पाद की मूल अवधारणा समझें.</p></article>
+
+  <article class="card">
+    <div class="icon">☀</div>
+    <h2>ग्रह</h2>
+    <p class="muted">
+      सूर्य से शनि तक ग्रहों के पारंपरिक कारक और संकेत।
+    </p>
+  </article>
+
+  <article class="card">
+    <div class="icon">♈</div>
+    <h2>राशियां</h2>
+    <p class="muted">
+      12 राशियों, तत्व, स्वभाव और भाव संबंधों का अध्ययन।
+    </p>
+  </article>
+
+  <article class="card">
+    <div class="icon">🏠</div>
+    <h2>भाव</h2>
+    <p class="muted">
+      12 भावों और जीवन के क्षेत्रों को समझें।
+    </p>
+  </article>
+
+  <article class="card">
+    <div class="icon">✦</div>
+    <h2>नक्षत्र</h2>
+    <p class="muted">
+      नक्षत्र और पाद की मूल अवधारणा समझें।
+    </p>
+  </article>
+
 </div>
-<section class="learning-list" id="learning"><div class="empty-learning">ज्योतिष सीखने की सामग्री लोड हो रही है…</div></section>
-<section class="card full" style="margin-top:14px"><div class="icon">📚</div><h2>प्रैक्टिस</h2><p class="muted">अभ्यास के लिए अपनी कुंडली बनाकर ग्रह स्थिति और दशा देखें.</p><a class="btn gold" href="/kundli-form.html">अभ्यास के लिए कुंडली</a></section>
+
+
+<section
+  class="learning-list"
+  id="learning">
+
+  <div class="empty-learning">
+    ज्योतिष सीखने की सामग्री लोड हो रही है…
+  </div>
+
+</section>
+
+
+<section
+  class="card full"
+  style="margin-top:14px">
+
+  <div class="icon">📚</div>
+
+  <h2>प्रैक्टिस</h2>
+
+  <p class="muted">
+    अभ्यास के लिए अपनी कुंडली बनाकर ग्रह स्थिति और दशा देखें।
+  </p>
+
+  <a
+    class="btn gold"
+    href="/kundli-form.html">
+
+    अभ्यास के लिए कुंडली
+
+  </a>
+
+</section>
+
 </main>
+
+
+<!-- =========================
+     VIDEO / PDF MODAL
+========================= -->
+
+<div
+  id="learningModal"
+  class="learning-modal">
+
+  <div class="learning-modal-box">
+
+    <div class="learning-modal-head">
+
+      <div
+        id="modalTitle"
+        class="learning-modal-title">
+
+        ज्योतिष सीखें
+
+      </div>
+
+      <button
+        id="modalClose"
+        class="learning-close"
+        type="button"
+        aria-label="Close">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <!-- Video -->
+
+    <div
+      id="videoArea"
+      class="video-frame-wrap"
+      style="display:none">
+
+      <iframe
+        id="videoFrame"
+        src=""
+        title="Jyotish Learning Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+
+    </div>
+
+
+    <!-- PDF -->
+
+    <div
+      id="pdfArea"
+      class="pdf-frame-wrap"
+      style="display:none">
+
+      <iframe
+        id="pdfFrame"
+        src=""
+        title="Jyotish Learning PDF">
+      </iframe>
+
+    </div>
+
+
+    <div
+      id="modalFallback"
+      class="modal-fallback"
+      style="display:none">
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-async function loadLearning(){const box=document.getElementById('learning');try{const r=await fetch('/api/jyotish');const j=await r.json();if(!r.ok)throw Error(j.error||'Content load failed');const cs=(j.courses||[]).filter(x=>x.published!==false).sort((a,b)=>(Number(a.order)||0)-(Number(b.order)||0));if(!cs.length){box.innerHTML='<div class="empty-learning">अभी कोई नया पाठ उपलब्ध नहीं है। Admin जैसे ही वीडियो या PDF जोड़ेंगे, वह यहाँ दिखाई देगा।</div>';return}box.innerHTML=cs.map((c,i)=>`<article class="lesson"><span class="badge">पाठ ${i+1}</span><h2>${esc(c.title)}</h2>${c.description?`<p>${esc(c.description)}</p>`:''}<div class="lesson-actions">${c.video_url?`<a class="btn gold" href="${esc(c.video_url)}" target="_blank" rel="noopener noreferrer">▶ वीडियो देखें</a>`:''}${c.pdf_url?`<a class="btn" href="${esc(c.pdf_url)}" target="_blank" rel="noopener noreferrer">📄 ${esc(c.pdf_name||'PDF पढ़ें')}</a>`:''}</div></article>`).join('')}catch(e){box.innerHTML='<div class="empty-learning">सामग्री अभी लोड नहीं हो सकी। थोड़ी देर बाद फिर प्रयास करें।</div>'}}
+
+/* ==========================================
+   BASIC HTML ESCAPE
+========================================== */
+
+const esc = s =>
+  String(s ?? '')
+    .replace(/[&<>"']/g, m => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[m]));
+
+
+/* ==========================================
+   YOUTUBE URL → EMBED URL
+========================================== */
+
+function youtubeEmbedUrl(url){
+
+  if(!url) return null;
+
+  try{
+
+    const value = String(url).trim();
+
+    let videoId = null;
+
+    /*
+      youtube.com/watch?v=VIDEO_ID
+    */
+
+    const watch = value.match(
+      /(?:youtube\.com\/watch\?[^#]*v=)([A-Za-z0-9_-]{6,})/i
+    );
+
+    if(watch){
+      videoId = watch[1];
+    }
+
+
+    /*
+      youtu.be/VIDEO_ID
+    */
+
+    if(!videoId){
+
+      const short = value.match(
+        /youtu\.be\/([A-Za-z0-9_-]{6,})/i
+      );
+
+      if(short){
+        videoId = short[1];
+      }
+
+    }
+
+
+    /*
+      youtube.com/shorts/VIDEO_ID
+    */
+
+    if(!videoId){
+
+      const shorts = value.match(
+        /youtube\.com\/shorts\/([A-Za-z0-9_-]{6,})/i
+      );
+
+      if(shorts){
+        videoId = shorts[1];
+      }
+
+    }
+
+
+    /*
+      youtube.com/embed/VIDEO_ID
+    */
+
+    if(!videoId){
+
+      const embed = value.match(
+        /youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/i
+      );
+
+      if(embed){
+        videoId = embed[1];
+      }
+
+    }
+
+
+    if(!videoId) return null;
+
+
+    return 'https://www.youtube.com/embed/' +
+      encodeURIComponent(videoId) +
+      '?autoplay=1&rel=0';
+
+  }catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+/* ==========================================
+   MODAL ELEMENTS
+========================================== */
+
+const modal =
+  document.getElementById('learningModal');
+
+const modalTitle =
+  document.getElementById('modalTitle');
+
+const videoArea =
+  document.getElementById('videoArea');
+
+const videoFrame =
+  document.getElementById('videoFrame');
+
+const pdfArea =
+  document.getElementById('pdfArea');
+
+const pdfFrame =
+  document.getElementById('pdfFrame');
+
+const modalFallback =
+  document.getElementById('modalFallback');
+
+const modalClose =
+  document.getElementById('modalClose');
+
+
+/* ==========================================
+   CLOSE MODAL
+========================================== */
+
+function closeLearningModal(){
+
+  modal.classList.remove('show');
+
+  videoFrame.src = '';
+
+  pdfFrame.src = '';
+
+  videoArea.style.display = 'none';
+
+  pdfArea.style.display = 'none';
+
+  modalFallback.style.display = 'none';
+
+}
+
+
+/* ==========================================
+   OPEN VIDEO
+========================================== */
+
+function openVideo(url,title){
+
+  const embedUrl =
+    youtubeEmbedUrl(url);
+
+  if(!embedUrl){
+
+    modalTitle.textContent =
+      title || 'वीडियो';
+
+    videoArea.style.display =
+      'none';
+
+    pdfArea.style.display =
+      'none';
+
+    modalFallback.innerHTML = `
+      <p>
+        यह YouTube link सही format में नहीं है।
+      </p>
+      <p>
+        कृपया Admin Panel में YouTube का सामान्य video link डालें।
+      </p>
+    `;
+
+    modalFallback.style.display =
+      'block';
+
+    modal.classList.add('show');
+
+    return;
+
+  }
+
+
+  modalTitle.textContent =
+    title || 'वीडियो देखें';
+
+  pdfArea.style.display =
+    'none';
+
+  pdfFrame.src = '';
+
+  modalFallback.style.display =
+    'none';
+
+  videoArea.style.display =
+    'block';
+
+  videoFrame.src =
+    embedUrl;
+
+  modal.classList.add('show');
+
+}
+
+
+/* ==========================================
+   OPEN PDF
+========================================== */
+
+function openPdf(url,title){
+
+  if(!url) return;
+
+
+  modalTitle.textContent =
+    title || 'PDF';
+
+  videoArea.style.display =
+    'none';
+
+  videoFrame.src =
+    '';
+
+  modalFallback.style.display =
+    'none';
+
+  pdfArea.style.display =
+    'block';
+
+  pdfFrame.src =
+    url;
+
+  modal.classList.add('show');
+
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+modalClose.addEventListener(
+  'click',
+  closeLearningModal
+);
+
+
+/* ==========================================
+   CLICK OUTSIDE MODAL
+========================================== */
+
+modal.addEventListener(
+  'click',
+  e => {
+
+    if(e.target === modal){
+
+      closeLearningModal();
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   ESC KEY
+========================================== */
+
+document.addEventListener(
+  'keydown',
+  e => {
+
+    if(e.key === 'Escape'){
+
+      closeLearningModal();
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   LOAD DYNAMIC CONTENT
+========================================== */
+
+async function loadLearning(){
+
+  const box =
+    document.getElementById('learning');
+
+
+  try{
+
+    const response =
+      await fetch('/api/jyotish');
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        'Content load failed'
+      );
+
+    }
+
+
+    const courses =
+      (data.courses || [])
+        .filter(
+          x => x.published !== false
+        )
+        .sort(
+          (a,b) =>
+            (Number(a.order)||0) -
+            (Number(b.order)||0)
+        );
+
+
+    if(!courses.length){
+
+      box.innerHTML = `
+        <div class="empty-learning">
+
+          अभी कोई नया पाठ उपलब्ध नहीं है।
+
+          <br><br>
+
+          Admin जैसे ही वीडियो या PDF जोड़ेंगे,
+          वह यहाँ दिखाई देगा।
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      courses.map((course,index) => {
+
+        const safeTitle =
+          esc(course.title);
+
+
+        const safeDescription =
+          course.description
+            ? `<p>${esc(course.description)}</p>`
+            : '';
+
+
+        let buttons = '';
+
+
+        /*
+          VIDEO BUTTON
+        */
+
+        if(course.video_url){
+
+          buttons += `
+
+            <button
+              type="button"
+              class="btn gold"
+              onclick='openVideo(
+                ${JSON.stringify(course.video_url)},
+                ${JSON.stringify(course.title || "वीडियो")}
+              )'>
+
+              ▶ वीडियो देखें
+
+            </button>
+
+          `;
+
+        }
+
+
+        /*
+          PDF BUTTON
+        */
+
+        if(course.pdf_url){
+
+          buttons += `
+
+            <button
+              type="button"
+              class="btn"
+              onclick='openPdf(
+                ${JSON.stringify(course.pdf_url)},
+                ${JSON.stringify(course.pdf_name || course.title || "PDF")}
+              )'>
+
+              📄 ${esc(course.pdf_name || 'PDF पढ़ें')}
+
+            </button>
+
+          `;
+
+        }
+
+
+        return `
+
+          <article class="lesson">
+
+            <span class="badge">
+              पाठ ${index + 1}
+            </span>
+
+
+            <h2>
+              ${safeTitle}
+            </h2>
+
+
+            ${safeDescription}
+
+
+            <div class="lesson-actions">
+
+              ${buttons}
+
+            </div>
+
+          </article>
+
+        `;
+
+      }).join('');
+
+
+  }catch(error){
+
+    console.error(
+      'Jyotish learning error:',
+      error
+    );
+
+
+    box.innerHTML = `
+
+      <div class="empty-learning">
+
+        सामग्री अभी लोड नहीं हो सकी।
+
+        <br><br>
+
+        थोड़ी देर बाद फिर प्रयास करें।
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
 loadLearning();
+
 </script>
-</body></html>
+
+</body>
+</html>
