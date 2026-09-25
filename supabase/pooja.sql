@@ -15,15 +15,18 @@ create table if not exists public.poojas(
 
 create table if not exists public.pooja_bookings(
  id uuid primary key default gen_random_uuid(),
- pooja_id uuid not null references public.poojas(id) on delete restrict,
  user_id uuid not null references public.user_accounts(id) on delete cascade,
  astrologer_id uuid not null references public.astrologer_accounts(id) on delete cascade,
- pooja_name text not null,
- price numeric(12,2) not null default 0,
- booking_date date not null,
- booking_time time not null,
- note text,
- status text not null default 'pending' check(status in ('pending','accepted','rejected','completed','cancelled')),
+ pooja_id uuid not null references public.poojas(id) on delete restrict,
+ user_name text not null default '',
+ phone text not null default '',
+ preferred_date date not null,
+ preferred_time time not null,
+ notes text not null default '',
+ amount numeric(12,2) not null default 0 check(amount>=0),
+ status text not null default 'pending' check(status in ('pending','confirmed','rejected','completed','cancelled')),
+ astrologer_note text not null default '',
+ admin_note text not null default '',
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now()
 );
