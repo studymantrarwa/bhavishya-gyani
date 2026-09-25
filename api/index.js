@@ -27,6 +27,8 @@ const handlers = {
   "messages": require("../lib/api/messages"),
   "shared-kundli": require("../lib/api/shared-kundli"),
   "payments": require("../lib/api/payments"),
+  "wallet": require("../lib/api/wallet"),
+  "payment-gateway": require("../lib/api/payment-gateway"),
   "chat-room": require("../lib/api/chat-room"),
   "my-kundlis": require("../lib/api/my-kundlis"),
   "numerology": require("../lib/api/numerology"),

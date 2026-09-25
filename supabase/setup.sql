@@ -29,6 +29,9 @@ drop table if exists public.admin_profiles cascade;
 drop table if exists public.user_accounts cascade;
 drop table if exists public.astrologer_accounts cascade;
 drop table if exists public.admin_accounts cascade;
+drop table if exists public.wallet_transactions cascade;
+drop table if exists public.wallets cascade;
+drop table if exists public.payouts cascade;
 drop table if exists public.system_settings cascade;
 
 -- Old Supabase Auth accounts are not used by V25, so remove old test users too.
@@ -102,7 +105,7 @@ create table public.astrologers(
  id uuid primary key references public.astrologer_accounts(id) on delete cascade,
  full_name text not null default '', avatar_url text, bio text default '', education text default '',
  experience_years integer not null default 0, expertise text[] not null default '{}', languages text[] not null default '{}',
- fee numeric(12,2) not null default 0, discount numeric(5,2) not null default 0,
+ fee numeric(12,2) not null default 0, fee_per_minute numeric(12,2) not null default 0, discount numeric(5,2) not null default 0,
  online boolean not null default false, last_seen timestamptz, verified boolean not null default false,
  approved_at timestamptz, call_enabled boolean not null default false, chat_enabled boolean not null default true,
  video_enabled boolean not null default false, boosted boolean not null default false,
@@ -136,7 +139,7 @@ create table public.conversations(
  status text not null default 'requested', channel text not null default 'chat', requested_at timestamptz not null default now(),
  astrologer_accepted_at timestamptz, user_confirm_deadline timestamptz, user_confirmed_at timestamptz,
  accepted_at timestamptz, closed_at timestamptz, missed_by text, astrologer_response_seconds integer,
- user_confirm_response_seconds integer, last_message_at timestamptz, fee_snapshot numeric(12,2) default 0,
+ user_confirm_response_seconds integer, billed_seconds integer not null default 0, billed_amount numeric(12,2) not null default 0, last_message_at timestamptz, fee_snapshot numeric(12,2) default 0,
  discount_snapshot numeric(5,2) default 0, retention_until timestamptz, created_at timestamptz not null default now()
 );
 
@@ -171,14 +174,27 @@ create table public.payments(
  astrologer_id uuid references public.astrologer_accounts(id) on delete set null,
  conversation_id uuid references public.conversations(id) on delete set null,
  amount numeric(12,2) not null default 0, currency text not null default 'INR', method text not null default 'manual',
- reference text, proof_url text, status text not null default 'pending' check(status in ('pending','approved','rejected','refunded')),
+ reference text, proof_url text, gateway text, gateway_order_id text, gateway_payment_id text, purpose text not null default 'general', status text not null default 'pending' check(status in ('pending','approved','rejected','refunded')),
  admin_note text, approved_by uuid references public.admin_accounts(id) on delete set null, approved_at timestamptz,
  created_at timestamptz not null default now(), updated_at timestamptz not null default now()
 );
 
 create table public.astrologer_earnings(
  id uuid primary key default gen_random_uuid(), astrologer_id uuid not null references public.astrologer_accounts(id) on delete cascade,
- amount numeric(12,2) not null default 0, category text not null default 'service', earned_at timestamptz not null default now()
+ amount numeric(12,2) not null default 0, gross_amount numeric(12,2) not null default 0, commission_amount numeric(12,2) not null default 0, net_amount numeric(12,2) not null default 0, category text not null default 'service', earned_at timestamptz not null default now(), paid_out boolean not null default false, payout_id uuid, conversation_id uuid references public.conversations(id) on delete set null
+);
+
+create table public.wallets(
+ id uuid primary key default gen_random_uuid(), user_id uuid not null unique references public.user_accounts(id) on delete cascade,
+ balance numeric(12,2) not null default 0, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+);
+create table public.wallet_transactions(
+ id uuid primary key default gen_random_uuid(), user_id uuid not null references public.user_accounts(id) on delete cascade,
+ amount numeric(12,2) not null, type text not null check(type in ('credit','debit')), source text not null default 'manual', payment_id uuid references public.payments(id) on delete set null, description text not null default '', created_at timestamptz not null default now()
+);
+create table public.payouts(
+ id uuid primary key default gen_random_uuid(), astrologer_id uuid not null references public.astrologer_accounts(id) on delete cascade,
+ period_start date not null, period_end date not null, gross_amount numeric(12,2) not null default 0, commission_amount numeric(12,2) not null default 0, net_amount numeric(12,2) not null default 0, payout_date date, status text not null default 'pending' check(status in ('pending','processing','paid','held')), reference text, admin_note text, paid_at timestamptz, created_at timestamptz not null default now(), unique(astrologer_id,period_start,period_end)
 );
 create table public.astrologer_performance_daily(
  id uuid primary key default gen_random_uuid(), astrologer_id uuid not null references public.astrologer_accounts(id) on delete cascade,
@@ -226,7 +242,7 @@ from public.admin_accounts a join public.admin_profiles p on p.id=a.id;
 
 -- Server uses service-role access; browser access remains blocked by RLS.
 DO $$ DECLARE t text; BEGIN
-  FOR t IN SELECT unnest(ARRAY['user_accounts','user_profiles','astrologer_accounts','astrologers','astrologer_applications','admin_accounts','admin_profiles','kundalis','conversations','messages','reviews','astrologer_follows','notifications','payments','astrologer_earnings','astrologer_performance_daily','astrologer_leaves','support_tickets','app_feedback','platform_settings','admin_audit_logs','system_settings'])
+  FOR t IN SELECT unnest(ARRAY['user_accounts','user_profiles','astrologer_accounts','astrologers','astrologer_applications','admin_accounts','admin_profiles','kundalis','conversations','messages','reviews','astrologer_follows','notifications','payments','astrologer_earnings','wallets','wallet_transactions','payouts','astrologer_performance_daily','astrologer_leaves','support_tickets','app_feedback','platform_settings','admin_audit_logs','system_settings'])
   LOOP EXECUTE format('alter table public.%I enable row level security',t); END LOOP;
 END $$;
 
@@ -244,3 +260,10 @@ create index idx_apps_status on public.astrologer_applications(status,created_at
 create index idx_conv_user on public.conversations(user_id,status,created_at desc);
 create index idx_conv_astro on public.conversations(astrologer_id,status,created_at desc);
 create index idx_messages_conv on public.messages(conversation_id,created_at);
+create index idx_wallet_tx_user on public.wallet_transactions(user_id,created_at desc);
+create index idx_earnings_astro_day on public.astrologer_earnings(astrologer_id,earned_at desc);
+create index idx_payouts_astro_period on public.payouts(astrologer_id,period_start,period_end);
+
+
+-- Payment/commission defaults
+insert into public.platform_settings(key,value) values('payment_settings','{"commission_percent":20,"payout_start_day":1,"payout_end_day":10}'::jsonb) on conflict(key) do nothing;
