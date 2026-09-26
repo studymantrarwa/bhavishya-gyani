@@ -60,20 +60,11 @@
       const x=await api('/api/astrologer-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,conversationId:id})});
       markSeen(id);
       if(action==='accept'){
-        // Accepting an astrologer request moves it to astrologer_accepted.
-        // The user must confirm within the configured window before the paid chat starts.
         current=null; hide();
-        const layer=document.getElementById('bgAstroRequestLayer');
-        if(layer){layer.style.display='flex';const st=document.getElementById('bgReqStatus');if(st)st.textContent='✓ Request accepted. User confirmation का इंतज़ार है…';
-          document.getElementById('bgReqName').textContent=saved.user?.full_name||'User';
-          document.getElementById('bgReqMeta').textContent='Accepted · waiting for user confirmation';
-          document.getElementById('bgReqTimer').textContent='02:00';
-          document.getElementById('bgReqBirth').textContent='User confirmation का इंतज़ार है…';
-          document.getElementById('bgReqKundli').innerHTML='';
-          document.getElementById('bgReqAccept').style.display='none';document.getElementById('bgReqReject').style.display='none';
-          setTimeout(()=>{if(layer)layer.style.display='none';document.getElementById('bgReqAccept').style.display='';document.getElementById('bgReqReject').style.display='';poll()},1800);
-        }
         try{if(typeof window.loadRequests==='function')window.loadRequests()}catch(_){ }
+        try{if(typeof window.loadChats==='function')window.loadChats()}catch(_){ }
+        // Accept is the start signal: take the astrologer straight into the active chat.
+        location.href='/chat.html?conversation_id='+encodeURIComponent(id);
       }else{
         hide();
         try{if(typeof window.loadRequests==='function')window.loadRequests()}catch(_){ }
