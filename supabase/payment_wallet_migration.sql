@@ -20,6 +20,8 @@ alter table public.payments add column if not exists purpose text not null defau
 alter table public.astrologer_earnings add column if not exists gross_amount numeric(12,2) not null default 0;
 alter table public.astrologer_earnings add column if not exists commission_amount numeric(12,2) not null default 0;
 alter table public.astrologer_earnings add column if not exists net_amount numeric(12,2) not null default 0;
+alter table public.astrologer_earnings add column if not exists paid_amount numeric(12,2) not null default 0;
+alter table public.astrologer_earnings add column if not exists paid_minutes numeric(12,2) not null default 0;
 alter table public.astrologer_earnings add column if not exists paid_out boolean not null default false;
 alter table public.astrologer_earnings add column if not exists payout_id uuid;
 update public.astrologers set fee_per_minute=fee where fee_per_minute=0 and fee>0;
