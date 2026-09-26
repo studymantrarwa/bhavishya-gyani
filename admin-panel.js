@@ -1,1 +1,0 @@
-BG_AUTH.check("admin");
