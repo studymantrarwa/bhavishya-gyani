@@ -1,0 +1,108 @@
+<!doctype html><html lang="hi"><head>
+<script src="/auth-guard.js"></script><script>BG_AUTH.check(["user","astrologer"]);</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Voice Call — Bhavishya Gyani</title><script src="/supabase-client.js"></script>
+<style>body{margin:0;background:#0d0f12;color:#fff;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}.wrap{max-width:520px;margin:auto;min-height:100vh;display:grid;place-items:center;padding:20px}.card{width:100%;background:#1b1e23;border:1px solid #353a42;border-radius:22px;padding:24px;text-align:center;box-shadow:0 20px 70px #0008}.avatar{width:104px;height:104px;border-radius:50%;object-fit:cover;background:#343941;display:grid;place-items:center;margin:0 auto 14px;font-size:34px;font-weight:900;border:3px solid #ffc400}.name{font-size:23px;font-weight:900}.state{color:#b5bcc6;margin:8px 0 22px}.btn{border:0;border-radius:50%;width:64px;height:64px;margin:6px;background:#ffc400;color:#111;font-size:22px;font-weight:900;cursor:pointer}.red{background:#ff414c;color:#fff}.dark{background:#343940;color:#fff}.status{margin-top:14px;padding:10px;border-radius:10px;background:#14161a;color:#aeb6c0;font-size:12px;min-height:18px}.hidden{display:none}.wait{font-size:13px;color:#ffc400}.tiny{font-size:10px;color:#737b86;margin-top:8px;word-break:break-word}.notice{font-size:11px;color:#8e97a3;margin-top:10px;line-height:1.45}</style></head><body><div class="wrap"><div class="card"><div id="av" class="avatar">☎</div><div id="name" class="name">Voice Call</div><div id="state" class="state">Preparing call…</div><div id="wait" class="wait"></div><audio id="remote" autoplay playsinline></audio><div><button id="startAudio" class="btn dark hidden">🔊</button><button id="mute" class="btn dark hidden">🎙</button><button id="end" class="btn red">✕</button></div><div id="status" class="status">Direct voice connection preparing…</div><div id="diag" class="tiny"></div><div class="notice">Direct peer-to-peer voice mode • Cloudflare/TURN की जरूरत नहीं।</div></div></div>
+<script>
+'use strict';
+const cid=new URLSearchParams(location.search).get('conversation_id');
+let me=null,conv=null,pc=null,local=null,muted=false,pollTimer=null,signalTimer=null,statsTimer=null,seen=new Set(),remoteReady=false,pendingIce=[],iceServers=[],isRestarting=false,restartCount=0,lastState='new',remoteAudioEl=null,starting=false;
+let makingOffer=false,ignoreOffer=false,isSettingRemoteAnswerPending=false,remoteDescriptionSet=false;
+const politeRole=()=>me?.user?.role==='astrologer';
+const $=s=>document.querySelector(s);
+async function api(url,opt={}){const t=await window.SM_SUPABASE.getAccessToken();if(!t)throw Error('Login required');opt.headers={...(opt.headers||{}),Authorization:'Bearer '+t};const r=await fetch(url,opt);const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'Request failed');return j}
+function setStatus(t){$('#status').textContent=t}
+function diag(t){$('#diag').textContent=t||''}
+function setOther(c){const other=me?.user?.role==='astrologer'?c.user:c.astrologer;$('#name').textContent=other?.full_name||'Voice Call';if(other?.avatar_url){const img=document.createElement('img');img.id='av';img.className='avatar';img.src=other.avatar_url;img.alt='';$('#av').replaceWith(img)}}
+async function getConv(){const x=await api('/api/chat?conversation_id='+encodeURIComponent(cid));conv=x.conversation;setOther(conv);return conv}
+const DIRECT_STUNS=[
+ 'stun:stun.l.google.com:19302',
+ 'stun:stun1.l.google.com:19302',
+ 'stun:stun2.l.google.com:19302',
+ 'stun:stun3.l.google.com:19302',
+ 'stun:stun4.l.google.com:19302'
+];
+async function loadIce(){
+ try{
+  const x=await api('/api/turn-credentials');
+  iceServers=(x.iceServers||[]).filter(s=>Array.isArray(s.urls)?s.urls.every(u=>!String(u).startsWith('turn:')&&!String(u).startsWith('turns:')):!String(s.urls||'').startsWith('turn:')&&!String(s.urls||'').startsWith('turns:'));
+ }catch(e){iceServers=[]}
+ if(!iceServers.length)iceServers=DIRECT_STUNS.map(urls=>({urls}));
+ diag('Direct P2P mode • '+iceServers.length+' STUN servers ready');
+}
+async function ensurePeer(){
+ if(pc)return;
+ await loadIce();
+ pc=new RTCPeerConnection({iceServers,iceCandidatePoolSize:10,bundlePolicy:'max-bundle',rtcpMuxPolicy:'require',sdpSemantics:'unified-plan'});
+ pc.onicecandidate=e=>{if(e.candidate)sendSignal({type:'ice',payload:{candidate:e.candidate}}).catch(()=>{})};
+ pc.onicecandidateerror=e=>{diag('ICE '+(e.errorCode||'error')+' '+(e.errorText||''))};
+ pc.ontrack=e=>{
+  const stream=e.streams?.[0]||new MediaStream([e.track]);
+  remoteAudioEl=$('#remote');remoteAudioEl.srcObject=stream;remoteAudioEl.muted=false;remoteAudioEl.volume=1;
+  $('#startAudio').classList.remove('hidden');$('#state').textContent='Connected';setStatus('Voice connected — audio starting…');enableAudio();startStats();
+ };
+ pc.onnegotiationneeded=async()=>{await negotiate(false)};
+ pc.oniceconnectionstatechange=()=>{
+  const s=pc.iceConnectionState;lastState=s;
+  if(s==='checking')setStatus('Connecting voice directly…');
+  if(s==='connected'||s==='completed'){setStatus('Voice connection established');$('#state').textContent='Connected';startStats();restartCount=0}
+  if(s==='disconnected'){setStatus('Network changed — trying to reconnect…');scheduleRestart()}
+  if(s==='failed'){setStatus('Direct voice path failed — retrying…');scheduleRestart()}
+ };
+ pc.onconnectionstatechange=()=>{const s=pc.connectionState;if(s==='connected'){$('#state').textContent='Connected';setStatus('Voice call connected');startStats()}else if(s==='disconnected'){setStatus('Voice temporarily disconnected — reconnecting…');scheduleRestart()}else if(s==='failed'){setStatus('Voice connection failed — retrying…');scheduleRestart()}else if(s==='closed')setStatus('Call ended')};
+ pc.onicegatheringstatechange=()=>{if(pc.iceGatheringState==='complete')diag('Direct P2P ICE candidates gathered')};
+ if(!navigator.mediaDevices?.getUserMedia)throw Error('This browser does not support microphone calling');
+ local=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,channelCount:1},video:false});
+ local.getAudioTracks().forEach(t=>{try{t.contentHint='speech'}catch(e){}pc.addTrack(t,local)});
+ $('#mute').classList.remove('hidden');
+}
+async function sendSignal(signal){await api('/api/call-signaling',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({conversationId:cid,signal})})}
+async function negotiate(iceRestart=false){
+ if(!pc||makingOffer)return;
+ try{
+  makingOffer=true;
+  const offer=await pc.createOffer(iceRestart?{iceRestart:true}:{offerToReceiveAudio:true});
+  if(pc.signalingState!=='stable'&&!iceRestart)return;
+  await pc.setLocalDescription(offer);
+  await sendSignal({type:'offer',payload:{offer:pc.localDescription}});
+  setStatus(iceRestart?'Reconnecting voice directly…':'Calling… connecting voice');
+ }catch(e){setStatus('Voice negotiation error: '+(e.message||e))}finally{makingOffer=false}
+}
+function scheduleRestart(){
+ if(!pc||politeRole()||isRestarting||restartCount>=4)return;
+ restartCount++;
+ setTimeout(async()=>{if(!pc||!['connected','checking','disconnected','failed'].includes(pc.iceConnectionState))return;isRestarting=true;try{await negotiate(true)}finally{isRestarting=false}},Math.min(4000,700*restartCount));
+}
+async function applyIce(c){try{if(!c)return;if(remoteDescriptionSet)await pc.addIceCandidate(c);else pendingIce.push(c)}catch(e){if(!ignoreOffer)diag('ICE candidate error: '+(e.message||e))}}
+async function flushIce(){if(!remoteDescriptionSet)return;const q=pendingIce.splice(0);for(const c of q){try{await pc.addIceCandidate(c)}catch(e){}}}
+async function handleSignal(s){
+ const type=s.signal?.type;
+ if(type==='offer'){
+  const offer=s.signal.payload.offer;
+  const offerCollision=makingOffer||pc.signalingState!=='stable'||isSettingRemoteAnswerPending;
+  ignoreOffer=!politeRole()&&offerCollision;
+  if(ignoreOffer)return;
+  try{
+   if(offerCollision)await pc.setLocalDescription({type:'rollback'});
+   isSettingRemoteAnswerPending=true;
+   await pc.setRemoteDescription(offer);
+   isSettingRemoteAnswerPending=false;remoteDescriptionSet=true;await flushIce();
+   const answer=await pc.createAnswer();await pc.setLocalDescription(answer);
+   await sendSignal({type:'answer',payload:{answer:pc.localDescription}});
+   setStatus('Voice connection negotiating…');
+  }catch(e){isSettingRemoteAnswerPending=false;setStatus('Voice offer error: '+(e.message||e))}
+ }else if(type==='answer'&&me.user.role==='user'){
+  try{isSettingRemoteAnswerPending=true;await pc.setRemoteDescription(s.signal.payload.answer);isSettingRemoteAnswerPending=false;remoteDescriptionSet=true;await flushIce();setStatus('Voice connection negotiating…')}catch(e){isSettingRemoteAnswerPending=false}
+ }else if(type==='ice')await applyIce(s.signal.payload.candidate);
+}
+async function signalPoll(){if(!pc)return;try{const x=await api('/api/call-signaling?conversation_id='+encodeURIComponent(cid));for(const s of x.signals||[]){if(seen.has(s.id)||s.sender_id===me.user.id)continue;seen.add(s.id);await handleSignal(s)}}catch(e){}}
+function startSignalPolling(){if(signalTimer)return;signalTimer=setInterval(signalPoll,300);signalPoll()}
+async function startMedia(){if(starting)return;starting=true;try{setStatus('Requesting microphone permission…');await ensurePeer();startSignalPolling();setStatus('Voice ready — connecting directly…');if(me.user.role==='user')setTimeout(()=>negotiate(false),150)}catch(e){setStatus('Microphone/call error: '+e.message);diag(e.name?e.name+': '+e.message:e.message)}finally{starting=false}}
+async function enableAudio(){try{const a=remoteAudioEl||$('#remote');a.muted=false;a.volume=1;await a.play();$('#startAudio').classList.add('hidden');setStatus('Voice call connected — audio active')}catch(e){$('#startAudio').classList.remove('hidden');setStatus('Tap 🔊 once to enable call audio')}}
+async function startStats(){if(statsTimer||!pc)return;statsTimer=setInterval(async()=>{try{if(!pc||pc.connectionState==='closed')return;const st=await pc.getStats();let inBytes=0,outBytes=0,inPackets=0,outPackets=0;st.forEach(r=>{if(r.type==='inbound-rtp'&&r.kind==='audio'){inBytes+=Number(r.bytesReceived||0);inPackets+=Number(r.packetsReceived||0)}if(r.type==='outbound-rtp'&&r.kind==='audio'){outBytes+=Number(r.bytesSent||0);outPackets+=Number(r.packetsSent||0)}});if(inBytes>0||outBytes>0)diag('Direct voice audio • ↑ '+Math.round(outBytes/1024)+' KB / '+outPackets+' pkts • ↓ '+Math.round(inBytes/1024)+' KB / '+inPackets+' pkts');else if(pc.connectionState==='connected')diag('Connected, waiting for audio packets…')}catch(e){}},2000)}
+async function pollCallState(){try{const c=await getConv();if(['call_rejected','missed','closed'].includes(c.status)){setStatus(c.status==='call_rejected'?'Call rejected':'Call ended');$('#state').textContent='Call closed';clearInterval(pollTimer);setTimeout(()=>location.href='/chat.html?conversation_id='+encodeURIComponent(cid),700);return}if(c.status==='call_accepted'&&!pc){$('#state').textContent='Voice call';$('#wait').textContent='';await startMedia()}}catch(e){setStatus(e.message)}}
+async function endCall(){try{await api('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'close',conversationId:cid})})}catch(e){}try{await api('/api/call-signaling?conversation_id='+encodeURIComponent(cid),{method:'DELETE'})}catch(e){}cleanup()}
+function cleanup(){clearInterval(pollTimer);clearInterval(signalTimer);clearInterval(statsTimer);if(local)local.getTracks().forEach(t=>t.stop());if(pc)pc.close();location.href='/chat.html?conversation_id='+encodeURIComponent(cid)}
+$('#mute').onclick=()=>{if(!local)return;muted=!muted;local.getAudioTracks().forEach(t=>t.enabled=!muted);$('#mute').textContent=muted?'🔇':'🎙';setStatus(muted?'Microphone muted':'Microphone active')};
+$('#startAudio').onclick=enableAudio;$('#end').onclick=endCall;
+(async()=>{try{if(!cid)throw Error('Missing conversation_id');const t=await window.SM_SUPABASE.getAccessToken();if(!t)throw Error('Login required');me=await window.SM_SUPABASE.getCurrentUser();if(!me?.user)throw Error('Login required');const c=await getConv();if(c.status==='call_accepted')await startMedia();else{setStatus('Waiting for call acceptance…');pollTimer=setInterval(pollCallState,800);await pollCallState()}}catch(e){setStatus(e.message||String(e))}})();
+</script><script src="/user-global-chat.js"></script><script src="/astrologer-global-chat.js"></script></body></html>
