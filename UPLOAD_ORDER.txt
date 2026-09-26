@@ -1,0 +1,7 @@
+BHAVISHYA GYANI FINAL REPLACEMENT
+
+1. Is ZIP ko poora replace karke Vercel/GitHub par deploy karein.
+2. Supabase SQL Editor me sirf: supabase/RUN_THIS_SQL_ONLY.sql ko ek baar run karein.
+3. Purana setup.sql existing production database par run na karein; usme destructive DROP statements hain.
+4. Vercel me existing environment variables same rakhein. Razorpay secret chat me share na karein.
+5. Deploy ke baad test: login -> wallet recharge -> free minutes -> chat countdown -> commission -> astrologer earning -> admin wallet credit -> pooja.
