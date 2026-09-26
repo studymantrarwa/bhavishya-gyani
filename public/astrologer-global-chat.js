@@ -50,8 +50,42 @@
   async function show(c){current=c;ensureUI();const box=document.getElementById('bgAstroRequestLayer');box.style.display='flex';document.getElementById('bgAstroBell').style.display='none';document.getElementById('bgReqName').textContent=c.user?.full_name||'New User';document.getElementById('bgReqMeta').textContent='Chat request · '+(c.channel||'chat');document.getElementById('bgReqStatus').textContent='';const birth=document.getElementById('bgReqBirth'),kb=document.getElementById('bgReqKundli');birth.textContent='जन्म विवरण लोड हो रहा है…';kb.innerHTML='';try{const x=await api('/api/chat?conversation_id='+encodeURIComponent(c.id));const i=x.prechat||{};birth.innerHTML=i.name?('नाम: '+esc(i.name)+'<br>जन्म तारीख: '+esc(i.dob||'—')+'<br>जन्म समय: '+esc(i.birth_time||'—')+'<br>जन्म स्थान: '+esc(i.place||'—')):'जन्म विवरण उपलब्ध नहीं';if(i.kundali_id){kb.innerHTML='<button class="bg-req-kundli" id="bgReqOpenKundli">📜 Open Kundli</button>';document.getElementById('bgReqOpenKundli').onclick=()=>location.href='/shared-kundli.html?conversation_id='+encodeURIComponent(c.id)}}catch(e){birth.textContent='जन्म विवरण उपलब्ध नहीं';}updateTimer();}
   function hide(){current=null;const l=document.getElementById('bgAstroRequestLayer');if(l)l.style.display='none';const b=document.getElementById('bgAstroBell');if(b)b.style.display='none';}
   function updateTimer(){if(!current)return;const end=new Date(new Date(current.requested_at||current.created_at).getTime()+120000).getTime();const sec=Math.max(0,Math.ceil((end-Date.now())/1000));const el=document.getElementById('bgReqTimer');if(el)el.textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');if(sec<=0){hide();poll();}}
-  async function respond(action){if(!current)return;const id=current.id;const saved=current;const btns=[document.getElementById('bgReqAccept'),document.getElementById('bgReqReject')];btns.forEach(b=>b.disabled=true);hide();try{const x=await api('/api/astrologer-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,conversationId:id})});markSeen(id);if(action==='accept'){const cid=x?.conversation?.id||id;location.href='/chat.html?conversation_id='+encodeURIComponent(cid)}else poll()}catch(e){show(saved);document.getElementById('bgReqStatus').textContent=e.message;btns.forEach(b=>b.disabled=false);setTimeout(poll,1000)}}
-  async function poll(){if(!isAstro())return;cleanupSeen();try{const x=await api('/api/astrologer-requests');const rows=(x.requests||[]).filter(c=>c.status==='requested');rows.sort((a,b)=>new Date(a.requested_at||a.created_at)-new Date(b.requested_at||b.created_at));const c=rows.find(r=>new Date(r.requested_at||r.created_at).getTime()+120000>Date.now());if(!c){if(!current) {const bell=document.getElementById('bgAstroBell');if(bell)bell.style.display='none'}return}if(current?.id===c.id){updateTimer();return}show(c);if(!seen()[c.id]){markSeen(c.id);notifySound();browserNotify(c)} }catch(e){/* transient errors are silent */}}
+  async function respond(action){
+    if(!current)return;
+    const id=current.id, saved={...current};
+    const accept=document.getElementById('bgReqAccept'), reject=document.getElementById('bgReqReject');
+    [accept,reject].forEach(b=>{if(b){b.disabled=true;b.style.opacity='.65'}});
+    const status=document.getElementById('bgReqStatus'); if(status)status.textContent=action==='accept'?'Accepting request…':'Rejecting request…';
+    try{
+      const x=await api('/api/astrologer-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,conversationId:id})});
+      markSeen(id);
+      if(action==='accept'){
+        // Accepting an astrologer request moves it to astrologer_accepted.
+        // The user must confirm within the configured window before the paid chat starts.
+        current=null; hide();
+        const layer=document.getElementById('bgAstroRequestLayer');
+        if(layer){layer.style.display='flex';const st=document.getElementById('bgReqStatus');if(st)st.textContent='✓ Request accepted. User confirmation का इंतज़ार है…';
+          document.getElementById('bgReqName').textContent=saved.user?.full_name||'User';
+          document.getElementById('bgReqMeta').textContent='Accepted · waiting for user confirmation';
+          document.getElementById('bgReqTimer').textContent='02:00';
+          document.getElementById('bgReqBirth').textContent='User confirmation का इंतज़ार है…';
+          document.getElementById('bgReqKundli').innerHTML='';
+          document.getElementById('bgReqAccept').style.display='none';document.getElementById('bgReqReject').style.display='none';
+          setTimeout(()=>{if(layer)layer.style.display='none';document.getElementById('bgReqAccept').style.display='';document.getElementById('bgReqReject').style.display='';poll()},1800);
+        }
+        try{if(typeof window.loadRequests==='function')window.loadRequests()}catch(_){ }
+      }else{
+        hide();
+        try{if(typeof window.loadRequests==='function')window.loadRequests()}catch(_){ }
+        setTimeout(poll,250);
+      }
+    }catch(e){
+      show(saved);
+      const st=document.getElementById('bgReqStatus');if(st)st.textContent=e.message||'Request action failed';
+      [accept,reject].forEach(b=>{if(b){b.disabled=false;b.style.opacity='1'}});
+    }
+  }
+  async function poll(){if(!isAstro())return;cleanupSeen();try{const x=await api('/api/astrologer-requests');const rows=(x.requests||[]).filter(c=>c.status==='requested');rows.sort((a,b)=>new Date(a.requested_at||a.created_at)-new Date(b.requested_at||b.created_at));const c=rows.find(r=>new Date(r.requested_at||r.created_at).getTime()+120000>Date.now());if(!c){if(!current) {const bell=document.getElementById('bgAstroBell');if(bell)bell.style.display='none'}return}if(current?.id===c.id){updateTimer();return}show(c);if(!seen()[c.id]){notifySound();browserNotify(c)} }catch(e){/* transient errors are silent */}}
   function start(){if(!isAstro())return;ensureUI();poll();clearInterval(timer);timer=setInterval(()=>{if(isAstro()){updateTimer();poll()}else hide()},2000);try{const bc=new BroadcastChannel('bg-astro-chat-requests');bc.onmessage=e=>{if(e.data?.type==='chat-request'&&isAstro())poll()};window.__bgAstroBC=bc}catch(e){}
     window.addEventListener('storage',e=>{if(e.key==='bgAstroChatRequest'&&isAstro())poll()});
   }
